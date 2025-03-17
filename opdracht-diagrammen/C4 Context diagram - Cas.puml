@@ -1,0 +1,23 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(Traveler, "Reiziger", "Plant en beheert zijn eigen reis")
+Person(TravelAgent, "Reisagent (Support)", "Biedt ondersteuning bij reisplanning")
+
+System(Triptop, "Triptop Applicatie", "Online platform voor reisplanning")
+
+System_Ext(TravelServices, "Externe Reisservices", "Accommodatie, vervoer en activiteiten boeken")
+System_Ext(GoogleMaps, "Google Maps", "Routeplanning")
+System_Ext(Payments, "Payment Providers", "Betalingsverwerking")
+System_Ext(IdentityProviders, "Identity Providers", "Authenticatie via Google, Microsoft, Airbnb")
+
+Rel(Traveler, Triptop, "Plant en beheert reis")
+Rel(TravelAgent, Triptop, "Biedt ondersteuning")
+
+Rel(Triptop, TravelServices, "Boekt accommodaties, vervoer en activiteiten")
+Rel(Triptop, GoogleMaps, "Routeplanning")
+Rel(Triptop, Payments, "Verwerkt betalingen")
+Rel(Triptop, IdentityProviders, "Authenticeert gebruikers")
+
+@enduml
