@@ -1,0 +1,25 @@
+graph TD
+%% Define system (TripTop)
+    subgraph "TripTop System"
+        TripTop["TripTop Web Application \n (Manages trip bookings & user interactions)"]
+    end
+
+%% Users
+    Traveler["Traveler
+    ( Plans, books & modifies trips)"] -->|Plans, books, changes travel plans| TripTop
+    TravelAgent["Travel Agent
+    (Supports travelers with bookings)"] -->|Supports travelers| TripTop
+
+%% External systems
+Booking["Booking.com / Airbnb
+   (Handles accommodation bookings)"] -->|Books accommodations| TripTop
+   Transport["NS / Deutsche Bahn / KLM
+ (Provides transportation options)"] -->|Books transport| TripTop
+   CarRent["Sixt / Hertz
+    (Car rental services)"] -->|Books car rental| TripTop
+   Activities["Tripadvisor / GetYourGuide
+    (Offers activities and experiences)"] -->|Books activities| TripTop
+   Food["Takeaway / Eet.nu
+    (Food delivery and restaurant bookings)"] -->|Orders food| TripTop
+IdProvider["Google / Microsoft / Airbnb login
+(Handles authentication and user login)"] -->|Login authentication| TripTop
