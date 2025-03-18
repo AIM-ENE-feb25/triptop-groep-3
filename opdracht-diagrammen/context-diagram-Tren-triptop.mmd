@@ -8,18 +8,18 @@ graph TD
     Traveler["Traveler
     ( Plans, books & modifies trips)"] -->|Plans, books, changes travel plans| TripTop
     TravelAgent["Travel Agent
-    (Supports travelers with bookings)"] -->|Supports travelers| TripTop
+    (Supports travelers with bookings)"] -->|Supports travelers when asked upon via| TripTop
 
 %% External systems
-Booking["Booking.com / Airbnb
-   (Handles accommodation bookings)"] -->|Books accommodations| TripTop
-   Transport["NS / Deutsche Bahn / KLM
- (Provides transportation options)"] -->|Books transport| TripTop
-   CarRent["Sixt / Hertz
-    (Car rental services)"] -->|Books car rental| TripTop
-   Activities["Tripadvisor / GetYourGuide
-    (Offers activities and experiences)"] -->|Books activities| TripTop
-   Food["Takeaway / Eet.nu
-    (Food delivery and restaurant bookings)"] -->|Orders food| TripTop
-IdProvider["Google / Microsoft / Airbnb login
-(Handles authentication and user login)"] -->|Login authentication| TripTop
+TripTop -->|Books accommodations| Booking["Booking.com / Airbnb API
+(Handles accommodation bookings)"]
+TripTop -->|Books transport| Transport["NS / Deutsche Bahn / KLM API
+(Provides transportation options)"]
+TripTop  -->|Books car rental| CarRent["Sixt / Hertz API
+(Car rental services)"]
+TripTop -->|Books activities| Activities["Tripadvisor / GetYourGuide API
+(Offers activities and experiences)"]
+ TripTop -->|Orders food| Food["Takeaway / Eet.nu API
+(Food delivery and restaurant bookings)"]
+ TripTop-->|Login authentication| IdProvider["Google / Microsoft / Airbnb login Provider
+(Handles authentication and user login)"]
