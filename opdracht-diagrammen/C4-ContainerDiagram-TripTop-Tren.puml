@@ -1,0 +1,51 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' Define Users
+Person(Traveler, "Traveler", "Books & manages trips")
+Person(TravelAgent, "Travel Agent", "Supports travelers with bookings")
+
+' Define System
+System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
+    Container(WebApp, "Web Application", "React", "Manages trip bookings & user interactions")
+
+
+
+' Define Containers
+Container(GatewayAPI, "GatewayAPI", "Node.js", "handles API requests")
+Container(Backend, "Backend", "SpringBoot", "Handles business logic")
+
+}
+' Define External Systems
+System_Ext(Booking, "Booking.com / Airbnb API", "Handles accommodation bookings")
+System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Provides transportation options")
+System_Ext(CarRent, "Sixt / Hertz API", "Car rental services")
+System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Offers activities and experiences")
+System_Ext(Food, "Takeaway / Eet.nu API", "Food delivery and restaurant bookings")
+System_Ext(IdProvider, "Google / Microsoft / Airbnb login Provider", "Handles authentication and user login")
+
+' Relationships
+Traveler -> WebApp : "Books, manages trips"
+TravelAgent -> WebApp : "Supports travelers with bookings"
+WebApp -> GatewayAPI : "Handles API requests"
+WebApp -> Backend : "Handles business logic"
+GatewayAPI -> Booking : "Books accommodations"
+GatewayAPI -> Transport : "Books transport"
+GatewayAPI -> CarRent : "Books car rental"
+GatewayAPI -> Activities : "Books activities"
+GatewayAPI -> Food : "Orders food"
+WebApp -> IdProvider : "Login authentication"
+
+' Positioning
+Traveler -[hidden]-> TripTop
+TravelAgent -[hidden]-> TripTop
+
+TripTop -[hidden]-> GatewayAPI
+GatewayAPI -[hidden]-> Booking
+GatewayAPI -[hidden]-> Transport
+GatewayAPI -[hidden]-> CarRent
+GatewayAPI -[hidden]-> Activities
+GatewayAPI -[hidden]-> Food
+GatewayAPI -[hidden]-> IdProvider
+
+
+@enduml
