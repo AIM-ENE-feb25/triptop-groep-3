@@ -1,25 +1,23 @@
 @startuml
-
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+LAYOUT_TOP_DOWN()
 
 Person(Traveler, "Reiziger", "Plannen en boeken van een reis")
 
 System_Boundary(s1, "Triptop Applicatie") {
-
     Container(Frontend, "Webapplicatie", "?", "De front-end applicatie waarmee de reiziger zijn reis kan plannen")
     Container(Backend, "Backend", "?", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
-    ContainerDb(Database, "Database", "?", "Slaat reisgegevens op zoals boekingen en gebruikersinformatie")
     Container(ApiGateway, "API Gateway", "?", "Behandelt alle API-verzoeken")
 }
 
-System_Ext(IdentityProvider, "Identity Provider", "Regelt authenticaie")
-System_Ext(NS, "NS", "Regelt vervoer")
+System_Ext(IdentityProvider, "Identity Provider", "Regelt authenticatie")
 
 Rel(Traveler, Frontend, "Interactie met de webapplicatie")
-Rel(Frontend, IdentityProvider, "Authenticate via Google")
-Rel(Frontend, Backend, "Verstuurt gegevens naar")
-Rel(Backend, Database, "Leest/schrijft reisgegevens")
+Rel(Frontend, Backend, "Stuurt inloggegevens door")
+Rel(Backend, IdentityProvider, Stuurt inloggegevens door")
+Rel(IdentityProvider, Frontend, "Stuurt authenticatietoken terug")
+
 Rel(Backend, ApiGateway, "Raadt reisopties aan en boekt via API")
-Rel(Backend, NS, "Reisopties opvragen")
 
 @enduml
