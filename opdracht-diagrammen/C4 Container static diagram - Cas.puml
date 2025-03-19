@@ -1,0 +1,36 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(Traveler, "Reiziger", "Plant en beheert zijn eigen reis")
+Person(TravelAgent, "Reisagent (Support)", "Biedt ondersteuning bij reisplanning")
+
+System_Boundary(Triptop, "Triptop Applicatie") {
+    Container(WebApp, "Triptop Webapp", "React/Vue/Angular", "Biedt een gebruikersinterface om reizen te plannen")
+    Container(Backend, "Triptop Backend", "Spring Boot / Node.js", "Behandelt logica en API-aanroepen")
+    ContainerDb(Database, "Triptop Database", "MongoDB / PostgreSQL", "Slaat reisgegevens en gebruikersgegevens op")
+
+    Container(IdentityService, "Identity Service", "OAuth2 / OpenID Connect", "Beheert authenticatie en autorisatie")
+    Container(PaymentService, "Betalingsservice", "Stripe / Mollie", "Verwerkt betalingen voor reizen")
+    Container(BookingService, "Boekingsservice", "Microservice", "Verzorgt boekingen bij externe aanbieders")
+    Container(RoutingService, "Routeplanner", "Google Maps API", "Berekening en optimalisatie van reisroutes")
+}
+
+System_Ext(ExternalBooking, "Externe Reisservices", "Booking.com, Airbnb, NS, KLM")
+System_Ext(ExternalPayments, "Payment Providers", "Mollie, Stripe, PayPal")
+System_Ext(ExternalIdentity, "Identity Providers", "Google, Microsoft, Airbnb")
+
+Rel(Traveler, WebApp, "Plant en beheert reis via")
+Rel(TravelAgent, WebApp, "Biedt ondersteuning via")
+
+Rel(WebApp, Backend, "Maakt API-aanroepen naar")
+Rel(Backend, Database, "Leest en schrijft gegevens naar")
+Rel(Backend, IdentityService, "Verifieert gebruikers via")
+Rel(Backend, PaymentService, "Verwerkt betalingen via")
+Rel(Backend, BookingService, "Boekt accommodaties, vervoer en activiteiten via")
+Rel(Backend, RoutingService, "Haalt reisroutes op via")
+
+Rel(BookingService, ExternalBooking, "Maakt boekingen bij")
+Rel(PaymentService, ExternalPayments, "Verwerkt betalingen via")
+Rel(IdentityService, ExternalIdentity, "Authenticeert gebruikers via")
+
+@enduml
