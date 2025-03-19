@@ -1,0 +1,23 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+LAYOUT_TOP_DOWN()
+
+
+Person(Traveler, Traveler, "books & manages trips")
+System_Boundary(TripTop, "TripTop") {
+Container(WebApp, "Web Application", "?", "Manages trip bookings & user interactions")
+}
+'Define external systems
+System_Ext(EasyAuthenticator, "EasyAuthenticator", "Handles authentication and user login")
+
+
+Rel(Traveler, WebApp, "submits credentials to")
+Rel(WebApp, EasyAuthenticator, "sends credentials to")
+Rel(EasyAuthenticator, EasyAuthenticator, "Validates credentials")
+Rel(EasyAuthenticator, WebApp, "returns authentication token to")
+Rel(WebApp, EasyAuthenticator, "checks token access")
+Rel(EasyAuthenticator, WebApp, "returns user permissions to ")
+Rel(WebApp, Traveler, "returns access to")
+
+@enduml
