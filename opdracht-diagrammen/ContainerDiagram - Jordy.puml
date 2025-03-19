@@ -6,15 +6,14 @@ Person(TravelAgent, "Travel Agent", "Supports travelers with bookings")
 
 ' Define System
 System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
-    Container(WebApp, "Web Application", "React", "Manages trip bookings & user interactions")
-
-
 
 ' Define Containers
-Container(GatewayAPI, "GatewayAPI", "Node.js", "handles API requests")
-Container(Backend, "Backend", "SpringBoot", "Handles business logic")
-
+Container(WebApp, "Web Application", "?", "Manages trip bookings & user interactions")
+Container(GatewayAPI, "GatewayAPI", "?", "handles API requests")
+Container(Backend, "Backend", "?", "Handles business logic")
+ContainerDb(Database, "Database", ?, "Stores user and travel data")
 }
+
 ' Define External Systems
 System_Ext(Booking, "Booking.com / Airbnb API", "Handles accommodation bookings")
 System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Provides transportation options")
@@ -33,12 +32,12 @@ Backend -> Transport : "Books transport"
 Backend -> CarRent : "Books car rental"
 Backend -> Activities : "Books activities"
 Backend -> Food : "Orders food"
+Backend -> Database : "Reads/Writes"
 WebApp -> IdProvider : "Login authentication"
 
 ' Positioning
 Traveler -[hidden]-> TripTop
 TravelAgent -[hidden]-> TripTop
-
 TripTop -[hidden]-> GatewayAPI
 GatewayAPI -[hidden]-> Booking
 GatewayAPI -[hidden]-> Transport
