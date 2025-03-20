@@ -14,7 +14,7 @@ System_Ext(IdentityProvider, "Identity Provider", "Regelt authenticatie")
 
 Rel(Traveler, Frontend, "Interactie met de webapplicatie")
 Rel(Frontend, Backend, "Stuurt inloggegevens door")
-Rel(Backend, IdentityProvider, Stuurt inloggegevens door)
+Rel(Backend, IdentityProvider, Stuurt emailadres door)
 Rel(IdentityProvider, Backend, "Stuurt authenticatietoken terug")
 Rel(Backend, Backend, Controleer of token geldig is)
 Rel(Backend, Frontend, Stuurt token door)
