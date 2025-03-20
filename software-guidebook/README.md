@@ -55,6 +55,14 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
+| Class::attribuut                                                                                      | Is input voor API+Endpoint | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+| ----------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------- | :-------------------------------: | :-------------------------------------: |
+| Trip::eindDatum                                                                                       | Booking /search (POST)     |                                 |                 x                 |                                         |
+| Excursie::datum                                                                                       |                            | TripAdvisor /search             |                                   |                    x                    |
+| Reiziger::telefoonNummer                                                                              |                            |                                 |                 x                 |                    x                    |
+| **BOVENSTE 3 RIJEN ZIJN VOORBEELD EN DIENEN NOG VERWIJDERD TE WORDEN, maar gebruik het als template** |                            |                                 |                                   |                                         |
+| TriptopGebruiker::email                                                                               | Easy Authenticator (POST)  |                                 |                 x                 |                    x                    |
+
 ## 4. Quality Attributes
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
