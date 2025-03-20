@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "6e8a6407e646b54f",
+    "id": "4673c37958d78f7a",
     "type": "split",
     "children": [
       {
-        "id": "3f018f88e1cbe375",
+        "id": "43700b8779a24910",
         "type": "tabs",
         "children": [
           {
-            "id": "bdf9afa42745656c",
+            "id": "be93e9a5af4064fb",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -27,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "642ef91be7beb7e8",
+    "id": "a02120a16bdbfc67",
     "type": "split",
     "children": [
       {
-        "id": "230e470fb7f78fae",
+        "id": "137b645e50899800",
         "type": "tabs",
         "children": [
           {
-            "id": "3e5327c6f2bf9128",
+            "id": "1a2c750e453f249d",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -48,7 +48,7 @@
             }
           },
           {
-            "id": "2d71162f3c7cb15b",
+            "id": "3b38fb1e75255cf3",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -65,7 +65,7 @@
             }
           },
           {
-            "id": "acd230a3c7468c80",
+            "id": "89f4390e2c4b4f64",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -81,15 +81,15 @@
     "width": 300
   },
   "right": {
-    "id": "35d9883d97137e06",
+    "id": "6587001bbfbdd4a0",
     "type": "split",
     "children": [
       {
-        "id": "89180387030845d7",
+        "id": "e6abb7642ce0d374",
         "type": "tabs",
         "children": [
           {
-            "id": "d6a450b068b0c50b",
+            "id": "9ef610604f9a6ddb",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -108,7 +108,7 @@
             }
           },
           {
-            "id": "3adfa97e0f20d2ad",
+            "id": "0936e0b9c4d8bb8b",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -122,7 +122,7 @@
             }
           },
           {
-            "id": "81b96ba2605908c4",
+            "id": "3c10c27ac2d20dc1",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -137,7 +137,7 @@
             }
           },
           {
-            "id": "c3ab324a436b33ee",
+            "id": "7944edd0cb51df41",
             "type": "leaf",
             "state": {
               "type": "outline",
@@ -168,9 +168,6 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3e5327c6f2bf9128",
-  "lastOpenFiles": [
-    "Untitled",
-    "huiswerkAPIS.md"
-  ]
+  "active": "be93e9a5af4064fb",
+  "lastOpenFiles": []
 }

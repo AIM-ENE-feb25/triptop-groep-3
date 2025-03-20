@@ -6,18 +6,19 @@ LAYOUT_TOP_DOWN()
 Person(Traveler, "Reiziger", "Plannen en boeken van een reis")
 
 System_Boundary(s1, "Triptop Applicatie") {
-    Container(Frontend, "Webapplicatie", "?", "De front-end applicatie waarmee de reiziger zijn reis kan plannen")
+    Container(Frontend, "Webapplicatie", "?", "De front-end applicatie waarmee de reiziger kan inloggen")
     Container(Backend, "Backend", "?", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
-    Container(ApiGateway, "API Gateway", "?", "Behandelt alle API-verzoeken")
 }
 
 System_Ext(IdentityProvider, "Identity Provider", "Regelt authenticatie")
 
 Rel(Traveler, Frontend, "Interactie met de webapplicatie")
 Rel(Frontend, Backend, "Stuurt inloggegevens door")
-Rel(Backend, IdentityProvider, Stuurt inloggegevens door")
-Rel(IdentityProvider, Frontend, "Stuurt authenticatietoken terug")
+Rel(Backend, IdentityProvider, Stuurt inloggegevens door)
+Rel(IdentityProvider, Backend, "Stuurt authenticatietoken terug")
+Rel(Backend, Backend, Controleer of token geldig is)
+Rel(Backend, Frontend, Stuurt token door)
+Rel(Frontend, Frontend, Slaat token op)
 
-Rel(Backend, ApiGateway, "Raadt reisopties aan en boekt via API")
 
 @enduml
