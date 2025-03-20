@@ -90,6 +90,17 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
+#### Statisch C4 container diagram:
+![img.png](img.png)
+
+#### Dynamisch C4 diagram 'inloggen':
+
+> Moet nog over beslist worden.
+
+#### Dynamisch C4 diagram 'reis boeken':
+
+![img_1.png](img_1.png)
+
 ###     7.2. Components
 
 > [!IMPORTANT]
