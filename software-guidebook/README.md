@@ -56,15 +56,17 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
-| Class::attribuut                                                                                      | Is input voor API+Endpoint | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
-|-------------------------------------------------------------------------------------------------------|---------------------------| ------------------------------- | :-------------------------------: | :-------------------------------------: |
-| Trip::eindDatum                                                                                       | Booking /search (POST)    |                                 |                 x                 |                                         |
-| Excursie::datum                                                                                       |                           | TripAdvisor /search             |                                   |                    x                    |
-| Reiziger::telefoonNummer                                                                              |                           |                                 |                 x                 |                    x                    |
-| **BOVENSTE 3 RIJEN ZIJN VOORBEELD EN DIENEN NOG VERWIJDERD TE WORDEN, maar gebruik het als template** |                           |                                 |                                   |                                         |
-| TriptopGebruiker::email                                                                               | Easy Authenticator (POST) |                                 |                 x                 |                    x                    |
+
+| Class::attribuut                                                                        | Is input voor API+Endpoint | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie  |
+| --------------------------------------------------------------------------------------- | -------------------------- |---------------------------------| :-------------------------------: |:----------------------------------------:|
 | Trip                                                                                                  | JSON Saver (POST)         |                                 |                 x                 |                    x                    |
-| TriptopGebruiker::email                                                                               | Easy Authenticator (POST) |                                 |                 x                 |                    x                    |
+| TriptopGebruiker::email                                                                 | Easy Authenticator (POST)  |                                 |                 x                 |                    x                     |
+| TriptopGebruiker::email                                                                 | Easy Authenticator (POST)  |                                 |                 x                 |                    x                     |
+| TriptopGebruiker::email                                                                 | Easy Authenticator (POST)  |                                 |                 x                 |                    x                     |
+| TriptopGebruiker::email | Sending an email <br/> /send-email (POST) |                                 | x |                    x                     |
+| Email::content | Sending an email <br/> /send-email (POST) | x                               | |                                          |
+| Email::subject | Sending an email <br/> /send-email (POST) | x                               | |                                          |
+
 ## 4. Quality Attributes
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
@@ -89,18 +91,13 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.1. Containers
 
-> [!IMPORTANT]
-> Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
-
 #### Statisch C4 container diagram:
 ![img.png](img.png)
 
 #### Dynamisch C4 diagram 'inloggen':
-![img_2.png](img_2.png)    
-> Moet nog over beslist worden.
+![img_4.png](img_4.png)
 
 #### Dynamisch C4 diagram 'reis boeken':
-
 ![img_1.png](img_1.png)
 
 ###     7.2. Components
