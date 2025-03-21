@@ -2,24 +2,25 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title System Context Diagram for TripTop
+title Systeemcontextdiagram voor TripTop
 SHOW_PERSON_PORTRAIT()
-' Define Users (at the top)
-Person(Traveler, "Traveler", "Plans, books & modifies trips")
-Person(TravelAgent, "Travel Agent", "Supports travelers with bookings")
 
-' Define System (center)
-System(TripTop, "TripTop Web Application", "Manages trip bookings & user interactions")
+' Gebruikers (boven)
+Person(Traveler, "Reiziger", "Plant, boekt en wijzigt reizen")
+Person(TravelAgent, "Reisagent", "Ondersteunt reizigers bij boekingen")
 
-' Define External Systems (bottom)
-System_Ext(Booking, "Booking.com / Airbnb API", "Handles accommodation bookings")
-System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Provides transportation options")
-System_Ext(CarRent, "Sixt / Hertz API", "Car rental services")
-System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Offers activities and experiences")
-System_Ext(Food, "Takeaway / Eet.nu API", "Food delivery and restaurant bookings")
-System_Ext(IdProvider, "Google / Microsoft / Airbnb login Provider", "Handles authentication and user login")
+' Systeem (midden)
+System(TripTop, "TripTop Webapplicatie", "Beheert reisboekingen en gebruikersinteracties")
 
-' Positioning
+' Externe systemen (onder)
+System_Ext(Booking, "Booking.com / Airbnb API", "Regelt accommodaties")
+System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Biedt transportopties")
+System_Ext(CarRent, "Sixt / Hertz API", "Autoverhuur")
+System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Activiteiten en bezienswaardigheden")
+System_Ext(Food, "Takeaway / Eet.nu API", "Eten bestellen en restaurantreserveringen")
+System_Ext(IdProvider, "Google / Microsoft / Airbnb loginprovider", "Authenticatie en gebruikerslogin")
+
+' Positionering
 Traveler -[hidden]-> TripTop
 TravelAgent -[hidden]-> TripTop
 TripTop -[hidden]-> Booking
@@ -29,15 +30,15 @@ TripTop -[hidden]-> Activities
 TripTop -[hidden]-> Food
 TripTop -[hidden]-> IdProvider
 
-' Relationships
-Traveler -> TripTop : "Plans, books, changes travel plans"
-TravelAgent -> TripTop : "Supports travelers when asked"
+' Relaties
+Traveler -> TripTop : "Plant, boekt en wijzigt reizen"
+TravelAgent -> TripTop : "Ondersteunt reizigers op verzoek"
 
-TripTop -down-> Booking : "Books accommodations"
-TripTop -down-> Transport : "Books transport"
-TripTop -down-> CarRent : "Books car rental"
-TripTop -down-> Activities : "Books activities"
-TripTop -down-> Food : "Orders food"
-TripTop -down-> IdProvider : "Login authentication"
+TripTop -down-> Booking : "Boekt accommodaties"
+TripTop -down-> Transport : "Boekt vervoer"
+TripTop -down-> CarRent : "Boekt huurauto's"
+TripTop -down-> Activities : "Boekt activiteiten"
+TripTop -down-> Food : "Bestelt eten"
+TripTop -down-> IdProvider : "Login en authenticatie"
 
 @enduml
