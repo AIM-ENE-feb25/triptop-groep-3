@@ -94,7 +94,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 ![img.png](img.png)
 
 #### Dynamisch C4 diagram 'inloggen':
-
+![img_2.png](img_2.png)    
 > Moet nog over beslist worden.
 
 #### Dynamisch C4 diagram 'reis boeken':
