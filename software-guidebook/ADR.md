@@ -10,8 +10,8 @@ We willen erachter komen welke database we gaan gebruiken voor het project TripT
 | --- | --- | --- | --- | --- | --- | --- |
 | snelheid | + | ++ | - | ++ | + | - |
 | leercurve | + | — | — | + | — | ++ |
-| functionaliteit | 0 | + | ++ | - | + | ++ |
-| schaalbaarheid | + | ++ | ++ | - | + | - |
+| functionaliteit | ++ | + | ++ | - | + | ++ |
+| schaalbaarheid | + | ++ | - | - | + | - |
 | ervaring | 0 | 0 | 0 | — | — | ++ |
 
 ## Decision
