@@ -97,7 +97,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 ![img_4.png](img_4.png)
 
 #### Dynamisch C4 diagram 'reis boeken':
-![img_1.png](img_1.png)
+![img_5.png](img_5.png)
 
 ###     7.2. Components
 
