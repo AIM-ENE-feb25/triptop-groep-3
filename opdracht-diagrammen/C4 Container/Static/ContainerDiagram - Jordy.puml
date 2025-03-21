@@ -1,41 +1,41 @@
 @startuml C4_Elements
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-' Define Users
-Person(Traveler, "Traveler", "Books & manages trips")
-Person(TravelAgent, "Travel Agent", "Supports travelers with bookings")
+' Definieer Gebruikers
+Person(Traveler, "Reiziger", "Boekt en beheert reizen")
+Person(TravelAgent, "Reisbureau", "Ondersteunt reizigers met boekingen")
 
-' Define System
+' Definieer Systeem
 System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
 
-' Define Containers
-Container(WebApp, "Web Application", "?", "Manages trip bookings & user interactions")
-Container(GatewayAPI, "GatewayAPI", "?", "handles API requests")
-Container(Backend, "Backend", "?", "Handles business logic")
-ContainerDb(Database, "Database", ?, "Stores user and travel data")
+' Definieer Containers
+Container(WebApp, "Webapplicatie", "?", "Beheert reisboekingen en gebruikersinteracties")
+Container(GatewayAPI, "GatewayAPI", "?", "Verwerkt API-aanvragen")
+Container(Backend, "Backend", "?", "Verwerkt bedrijfslogica")
+ContainerDb(Database, "Database", "?", "Bewaart gebruikers- en reisdata")
 }
 
-' Define External Systems
-System_Ext(Booking, "Booking.com / Airbnb API", "Handles accommodation bookings")
-System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Provides transportation options")
-System_Ext(CarRent, "Sixt / Hertz API", "Car rental services")
-System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Offers activities and experiences")
-System_Ext(Food, "Takeaway / Eet.nu API", "Food delivery and restaurant bookings")
-System_Ext(IdProvider, "Google / Microsoft / Airbnb login Provider", "Handles authentication and user login")
+' Definieer Externe Systemen
+System_Ext(Booking, "Booking.com / Airbnb API", "Beheert accommodatieboekingen")
+System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Biedt transportopties")
+System_Ext(CarRent, "Sixt / Hertz API", "Auto verhuurdiensten")
+System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Biedt activiteiten en ervaringen")
+System_Ext(Food, "Takeaway / Eet.nu API", "Eten bezorgen en restaurantboekingen")
+System_Ext(IdProvider, "Google / Microsoft / Airbnb login Provider", "Beheert authenticatie en inloggen van gebruikers")
 
-' Relationships
-Traveler -> WebApp : "Books, manages trips"
-TravelAgent -> WebApp : "Supports travelers with bookings"
-WebApp -> GatewayAPI : "Handles API requests"
-GatewayAPI -> Backend : "Sends API requests"
-Backend -> Booking : "Books accommodations"
-Backend -> Transport : "Books transport"
-Backend -> CarRent : "Books car rental"
-Backend -> Activities : "Books activities"
-Backend -> Food : "Orders food"
-Backend -> Database : "Reads/Writes"
-WebApp -> IdProvider : "Login authentication"
+' Relaties
+Traveler -> WebApp : "Boekt en beheert reizen"
+TravelAgent -> WebApp : "Ondersteunt reizigers met boekingen"
+WebApp -> GatewayAPI : "Verwerkt API-aanvragen"
+GatewayAPI -> Backend : "Stuurt API-aanvragen"
+Backend -> Booking : "Boekt accommodaties"
+Backend -> Transport : "Boekt transport"
+Backend -> CarRent : "Boekt huurauto"
+Backend -> Activities : "Boekt activiteiten"
+Backend -> Food : "Bestelt eten"
+Backend -> Database : "Leest/Schrijft"
+WebApp -> IdProvider : "Inloggen en authenticatie"
 
-' Positioning
+' Positionering
 Traveler -[hidden]-> TripTop
 TravelAgent -[hidden]-> TripTop
 TripTop -[hidden]-> GatewayAPI
@@ -45,6 +45,5 @@ GatewayAPI -[hidden]-> CarRent
 GatewayAPI -[hidden]-> Activities
 GatewayAPI -[hidden]-> Food
 GatewayAPI -[hidden]-> IdProvider
-
 
 @enduml
