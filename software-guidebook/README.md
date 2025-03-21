@@ -63,7 +63,8 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 | Reiziger::telefoonNummer                                                                              |                            |                                 |                 x                 |                    x                    |
 | **BOVENSTE 3 RIJEN ZIJN VOORBEELD EN DIENEN NOG VERWIJDERD TE WORDEN, maar gebruik het als template** |                            |                                 |                                   |                                         |
 | TriptopGebruiker::email                                                                               | Easy Authenticator (POST)  |                                 |                 x                 |                    x                    |
-
+| TriptopGebruiker::email                                                                               | Easy Authenticator (POST)  |                                 |                 x                 |                    x                    |
+| TriptopGebruiker::email                                                                               | Easy Authenticator (POST)  |                                 |                 x                 |                    x                    |
 ## 4. Quality Attributes
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
