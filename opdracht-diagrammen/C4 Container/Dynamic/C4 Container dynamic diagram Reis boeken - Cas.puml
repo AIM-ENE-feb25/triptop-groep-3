@@ -12,13 +12,15 @@ System_Boundary(s1, "Triptop Applicatie") {
     Container(ApiGateway, "API Gateway", "?", "Behandelt alle API-verzoeken")
 }
 
-System_Ext(NS, "NS", "Regelt vervoer")
+System_Ext(NS, "NS/Deutsche Bahn/KLM API", "Levert vervoersopties")
 
 Rel(Traveler, Frontend, "Interactie met de webapplicatie")
-Rel(Frontend, Backend, "Verstuurt gegevens naar")
+Rel(Frontend, ApiGateway, "Verstuurt gegevens naar")
+Rel(ApiGateway, Backend, Stuurt gegevens naar)
 Rel(Backend, Backend, Controleert of gebruiker bevoegd is om te boeken)
 Rel(Backend, NS, "Reisopties opvragen")
-Rel(Backend, ApiGateway, "Raadt reisopties aan en boekt via API")
 Rel(Backend, Database, "Leest/schrijft reisgegevens")
+Rel(Backend, ApiGateway, Stuurt reisgegevens naar)
+Rel(ApiGateway, Frontend, Stuurt reisgegevens naar)
 
 @enduml
