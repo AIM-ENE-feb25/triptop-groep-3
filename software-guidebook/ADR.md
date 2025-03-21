@@ -13,8 +13,11 @@ We willen erachter komen welke database we gaan gebruiken voor het project TripT
 | functionaliteit | ++ | + | ++ | - | + | ++ |
 | schaalbaarheid | + | ++ | ++ | - | + | - |
 | ervaring | 0 | 0 | 0 | — | — | ++ |
-| eindscore | 5+ | 3+ | 1+ | 1- | -2 | 4+ |
 
 ## Decision
 
+Omdat ervaring & functionaliteit zwaar meeweegt, is bij ons de overweging gekomen tussen SQL & MongoDB.
+
 ## Consequences
+
+MongoDB:
