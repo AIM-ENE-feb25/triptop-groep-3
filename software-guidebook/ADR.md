@@ -24,7 +24,7 @@ zonder de applicatie ingrijpend aan te passen.
 ## Decision
 
 Omdat functionaliteit en leercurve zwaar meewegen, en ervaring, 
-schaalbaarheid & snelheid minder meeweegt, is bij ons de overweging gekomen tussen MySQL,MongoDB & Couchbase.
+schaalbaarheid & snelheid minder meeweegt, is bij ons de overweging gekomen tussen MySQL, MongoDB & Couchbase.
 De keuze is gevallen op Couchbase, omdat deze de meeste voordelen heeft. 
 Als we kijken naar de tabel, en alle zwaarwegende plussen en minnen op- en aftellen, 
 dan komen wij tot de conclusie dat Couchbase het hoogst scoort.
