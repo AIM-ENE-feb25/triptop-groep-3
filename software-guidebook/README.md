@@ -10,6 +10,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ## 2. Context
 
 > [!IMPORTANT]
+![img_3.png](img_3.png)
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
 Toelichting op de context van de software inclusief System Context Diagram:
