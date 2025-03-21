@@ -1,0 +1,27 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Containerdiagram voor TripTop
+
+SHOW_PERSON_PORTRAIT()
+Person(T, "Reiziger", "Plant, boekt en beheert zijn reizen")
+
+System_Boundary(s1, "TripTop"){
+    Container(WA, "Webapplicatie", "?",  "Biedt gebruikers een interface voor het plannen en boeken van reizen")
+    Container(BE, "Backend", "?", "Verwerkt boekingen, gebruikersgegevens en communicatie met externe systemen")
+    ContainerDb(DB, "Database", "?", "Bevat reisgegevens, boekingen en gebruikersinformatie")
+    Container(APIGW, "API Gateway", "?", "Regelt alle inkomende en uitgaande API-verzoeken")
+}
+
+System_Ext(NS, "NS", "Externe vervoersdienst voor treinreizen")
+System_Ext(BS, "Betaalsysteem????", "Externe dienst voor betalingsverwerking")
+
+Rel(T, WA, "Gebruikt de webapplicatie voor reizen")
+Rel(WA, BE, "Stuurt en ontvangt boekingsgegevens")
+Rel(BE, DB, "Leest en schrijft reis- en gebruikersgegevens")
+Rel(BE, APIGW, "Stuurt API-verzoeken naar externe systemen")
+Rel(APIGW, NS, "Haalt reisinformatie op en boekt tickets")
+Rel(APIGW, BS, "Verwerkt betalingen voor boekingen")
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Container Diagram for TripTop
+
+SHOW_PERSON_PORTRAIT()
+Person(Traveler, "Traveler", "Plans, books & modifies trips")
+Person(TravelAgent, "Travel Agent", "Supports travelers with bookings")
+
+System(WA, "TripTop Web Application", "Manages trip bookings & user interactions")
+System(BE, "Backend", "Manages trip bookings & user interactions")
+
+
+
+@enduml
