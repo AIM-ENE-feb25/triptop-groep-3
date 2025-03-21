@@ -111,12 +111,17 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 8. Architectural Decision Records
 
+> Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
+
+### 8.1. ADR-001 Database
+
 ## Status
 Under discussion
+
 ## Context
 
-Voor TripTop, een Reisplanningsapplicatie in constructie, moeten we een database kiezen die schaalbaar en flexibel is, 
-gezien de verschillende bouwstenen en de integratie met externe services. 
+Voor TripTop, een Reisplanningsapplicatie in constructie, moeten we een database kiezen die schaalbaar en flexibel is,
+gezien de verschillende bouwstenen en de integratie met externe services.
 De database moet in staat zijn om dynamisch gegevens op te slaan,
 zoals reisopties en gebruikersinformatie, en deze efficiënt beheren.
 De keuze moet ook de integratie van diverse APIs en het omgaan met veranderende datastructuren ondersteunen,
@@ -146,38 +151,6 @@ Het gebruiken van Couchbase geeft TripTop de mogelijkheid om flink op te schalen
 Je krijgt documentbased data, waardoor het datamodel enorm flexibel is.
 Het wordt dus makkelijk gemaakt om snel data toe te voegen, of bestaande structuren aan te passen wanneer nodig.
 Ook is Couchbase makkelijker te leren
-
-> Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
-
-### 8.1. ADR-001 TITLE
-
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
-
-#### Context 
-
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
-
-#### Considered Options
-
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
-
-#### Decision
-
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
-
-#### Status 
-
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
-
-#### Consequences 
-
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
 
 ### 8.2. ADR-002 TITLE
 
