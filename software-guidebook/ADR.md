@@ -1,5 +1,5 @@
 ## Status
-
+Under discussion
 ## Context
 
 We willen erachter komen welke database we gaan gebruiken voor het project TripTop
