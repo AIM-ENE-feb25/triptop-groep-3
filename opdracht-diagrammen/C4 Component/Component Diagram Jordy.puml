@@ -1,18 +1,18 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-Container(WebApp, "Web Application", Javascript and React, Biedt alle TripTop-functionaliteit aan gebruikers via hun browser)
+Container(WebApp, Web Application, Javascript and React, Biedt alle TripTop-functionaliteit aan gebruikers via hun browser)
 Component(SignIn, Sign In Controller, Spring MVC Rest Controller, Staat gebruikers toe in te loggen)
-component "TripTopService" as Service
-component "UserRepository\n(Beheert gebruikersgegevens)" as UserRepo
-component "TravelPlansRepository\n(Beheert reisplannen)" as PlansRepo
-database "Database\n(Opgeslagen gebruiker- en reisdata)" as DB
-component "E-mail Component\n(Beheert e-mail communicatie)" as Email
-component "TravelMethods Component\n(Biedt transportopties)" as TravelMethods
-component "DiningOptions Component\n(Beheert eetgelegenheden)" as DiningOptions
-component "Hotel Component\n(Beheert accommodatieboekingen)" as Hotel
-component "CarRental Component\n(Auto verhuurdiensten)" as CarRental
-component "TravelGuide Component\n(Biedt activiteiten en ervaringen)" as TravelGuide
+Component(Service, TripTopService)
+Component(UserRepo, UserRepository, Spring Repository, Beheert gebruikersgegevens)
+Component(PlansRepo, TravelPlansRepository, Spring Repository, Beheert reisplannen)
+ComponentDb(DB, Database, Opgeslagen gebruiker- en reisdata)
+Component(Email, E-mail Component, Verzorgt e-mail communicatie)
+Component(TravelMethods, TravelMethods Component, Biedt transportopties aan)
+Component(DiningOptions, DiningOptions Component, Biedt eetgelegenheden aan)
+Component(Hotel, Hotel Component, Biedt accommodatieboekingen aan)
+Component(CarRental, CarRental Component, Biedt Auto verhuurdiensten aan)
+Component(TravelGuide, TravelGuide Component, Biedt activiteiten en ervaringen aan)
 
 Component_Ext(BookingAPI, "Booking.com / Airbnb API", ? ,"Beheert accommodatieboekingen")
 Component_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", ? ,"Biedt transportopties")
