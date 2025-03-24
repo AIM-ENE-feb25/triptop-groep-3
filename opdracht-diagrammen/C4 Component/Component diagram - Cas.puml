@@ -1,6 +1,10 @@
 @startuml C4_Components
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
+Container(Frontend, "Frontend", "JavaScript/React", "Single Page Application die de gebruikersinterface levert")
+
+
+
 ' Definieer Backend Componenten
 System_Boundary(Backend, "TripTop Backend") {
     Component(BookingController, "BookingController", "Spring Boot REST Controller", "Behandelt boekingsaanvragen")
@@ -14,7 +18,6 @@ System_Boundary(Backend, "TripTop Backend") {
     ComponentDb(Database, "TripTop Database", "PostgreSQL", "Bewaart gebruikers- en reisgegevens")
 }
 
-' Definieer Externe Systemen
 System_Ext(BookingAPI, "Booking.com / Airbnb API", "Beheert accommodatieboekingen")
 System_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", "Biedt transportopties")
 System_Ext(CarRentAPI, "Sixt / Hertz API", "Auto verhuurdiensten")
@@ -23,18 +26,20 @@ System_Ext(FoodAPI, "Takeaway / Eet.nu API", "Eten bezorgen en restaurantboeking
 System_Ext(IdProviderAPI, "Google / Microsoft / Airbnb login Provider", "Beheert authenticatie en inloggen van gebruikers")
 
 ' Relaties
-BookingController -> BookingService : "Verwerkt boeking aanvragen"
-BookingService -> BookingRepository : "Ophalen en opslaan van boekingsdata"
-BookingRepository -> Database : "Leest/schrijft boekingsdata"
-BookingService -down-> BookingAPI : "Boekt accommodaties"
-BookingService -down-> TransportAPI : "Boekt transport"
-BookingService -down-> CarRentAPI : "Boekt huurauto"
-BookingService -down-> ActivitiesAPI : "Boekt activiteiten"
-BookingService -down-> FoodAPI : "Bestelt eten"
+BookingController -down-> BookingService : "Verwerkt boeking aanvragen"
+BookingService -down-> BookingRepository : "Ophalen en opslaan van boekingsdata"
+BookingRepository -down-> Database : "Leest/schrijft boekingsdata"
+BookingService -left-> BookingAPI : "Boekt accommodaties"
+BookingService -left-> TransportAPI : "Boekt transport"
+BookingService -left-> CarRentAPI : "Boekt huurauto"
+BookingService -left-> ActivitiesAPI : "Boekt activiteiten"
+BookingService -left-> FoodAPI : "Bestelt eten"
+Frontend -down-> BookingController : "Boekingen beheren"
+Frontend -down-> UserController : "Gebruikersbeheer en authenticatie"
 
-UserController -> UserService : "Verwerkt gebruikers aanvragen"
-UserService -> UserRepository : "Ophalen en opslaan van gebruikersdata"
-UserRepository -> Database : "Leest/schrijft gebruikersdata"
+UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
+UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
+UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
 UserService -down-> IdProviderAPI : "Authenticatie en login"
 
 @enduml
