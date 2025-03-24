@@ -14,12 +14,12 @@ component "Hotel Component\n(Beheert accommodatieboekingen)" as Hotel
 component "CarRental Component\n(Auto verhuurdiensten)" as CarRental
 component "TravelGuide Component\n(Biedt activiteiten en ervaringen)" as TravelGuide
 
-component "Booking.com / Airbnb API\n(Beheert accommodatieboekingen)" as BookingAPI
-component "NS / Deutsche Bahn / KLM API\n(Biedt transportopties)" as TransportAPI
-component "Sixt / Hertz API\n(Auto verhuurdiensten)" as RentalAPI
-component "Tripadvisor / GetYourGuide API\n(Biedt activiteiten en ervaringen)" as GuideAPI
-component "Takeaway / Eet.nu API\n(Eten bezorgen en restaurantboekingen)" as DiningAPI
-component "Google / Microsoft / Airbnb Login Provider\n(Beheert authenticatie en inloggen van gebruikers)" as LoginProvider
+Component_Ext(BookingAPI, "Booking.com / Airbnb API", ? ,"Beheert accommodatieboekingen")
+Component_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", ? ,"Biedt transportopties")
+Component_Ext(RentalAPI, Sixt / Hertz API, ? ,"Auto verhuurdiensten")
+Component_Ext(GuideAPI, Tripadvisor / GetYourGuide API, ? ,"Activiteiten en ervaringen")
+Component_Ext(DiningAPI, Takeaway / Eet.nu API, ? ,"Eten bezorgen en restaurantboekingen")
+Component_Ext(LoginProvider, "Google / Microsoft / Airbnb Login Provider", ?, "Beheert authenticatie en inloggen van gebruikers")
 
 WebApp --> SignIn
 WebApp --> Service
