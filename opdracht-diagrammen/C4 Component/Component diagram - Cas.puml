@@ -3,21 +3,22 @@
 
 Container(Frontend, "Frontend", "JavaScript/React", "Single Page Application die de gebruikersinterface levert")
 
-
-
-' Definieer Backend Componenten
+' Backend Componenten
 System_Boundary(Backend, "TripTop Backend") {
     Component(BookingController, "BookingController", "Spring Boot REST Controller", "Behandelt boekingsaanvragen")
     Component(BookingService, "BookingService", "Service Layer", "Verwerkt boekingslogica")
+    Component(ActivitiesService, "ActivitiesService", "Service Layer", "Verwerkt activiteiten logica")
     Component(BookingRepository, "BookingRepository", "Spring Data Repository", "Leest/schrijft boekingsdata in database")
-
+    Component(ActivitiesController, ActivitiesController, Behandelt activiteitsaanvragen)
     Component(UserController, "UserController", "Spring Boot REST Controller", "Behandelt gebruikersaanvragen")
     Component(UserService, "UserService", "Service Layer", "Verwerkt gebruikerslogica")
     Component(UserRepository, "UserRepository", "Spring Data Repository", "Leest/schrijft gebruikersdata in database")
+    Component(ActivitiesRepository, ActivitiesRepository, Spring Data Repository, "Leest/schrijft activiteitsgegevens")
 
     ComponentDb(Database, "TripTop Database", "PostgreSQL", "Bewaart gebruikers- en reisgegevens")
 }
 
+' Externe systemen
 System_Ext(BookingAPI, "Booking.com / Airbnb API", "Beheert accommodatieboekingen")
 System_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", "Biedt transportopties")
 System_Ext(CarRentAPI, "Sixt / Hertz API", "Auto verhuurdiensten")
@@ -32,14 +33,17 @@ BookingRepository -down-> Database : "Leest/schrijft boekingsdata"
 BookingService -left-> BookingAPI : "Boekt accommodaties"
 BookingService -left-> TransportAPI : "Boekt transport"
 BookingService -left-> CarRentAPI : "Boekt huurauto"
-BookingService -left-> ActivitiesAPI : "Boekt activiteiten"
-BookingService -left-> FoodAPI : "Bestelt eten"
+ActivitiesService -> FoodAPI : "Bestelt eten"
 Frontend -down-> BookingController : "Boekingen beheren"
 Frontend -down-> UserController : "Gebruikersbeheer en authenticatie"
-
+Frontend -down-> ActivitiesController : "Activiteiten beheren"
+ActivitiesService -> ActivitiesAPI : "Boekt activiteiten"
+ActivitiesController -down-> ActivitiesService : "Verwerkt activiteitsaanvragen"
 UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
 UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
 UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
 UserService -down-> IdProviderAPI : "Authenticatie en login"
+ActivitiesService -down-> ActivitiesRepository : "Ophalen en opslaan van activiteitsgegevens"
+ActivitiesRepository -down-> Database : "Leest/schrijft activiteitsgegevens"
 
 @enduml
