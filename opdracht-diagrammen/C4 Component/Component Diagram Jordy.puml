@@ -30,8 +30,8 @@ Component_Ext(EmailProvider, "sendmail ultimate email sender API", ?, "Verstuurd
 
 Rel(WebApp, SignIn, Uses, HTTP/JSON)
 Rel(WebApp, TravelData, Uses, HTTP/JSON)
-Rel(SignIn, Email, Uses)
 Rel(SignIn, UserRepo, Uses)
+Rel(TravelData, Email, Uses)
 Rel(TravelData, TravelService, Uses)
 Rel(TravelData, LocationService, Uses)
 Rel(TravelData, PlansRepo, Uses)
@@ -40,10 +40,9 @@ Rel(TravelService, CarRental, Uses)
 Rel(LocationService, TravelGuide, Uses)
 Rel(TravelService, TravelMethods, Uses)
 Rel(LocationService, DiningOptions, Uses)
-
-
-UserRepo --> DB
-PlansRepo --> DB
+Rel(UserRepo, DB, Retrieves and stores userdata, N1QL)
+Rel(PlansRepo, DB, Retries and stores traveldata, N1QL)
+Rel(Email, EmailProvider, Sends email using, HTTP/JSON)
 
 TravelMethods --> TransportAPI
 CarRental --> RentalAPI
@@ -51,5 +50,4 @@ DiningOptions --> DiningAPI
 Hotel --> BookingAPI
 TravelGuide --> GuideAPI
 'SignIn --> LoginProvider
-Email --> EmailProvider
 @enduml
