@@ -1,0 +1,29 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+SHOW_LEGEND()
+SHOW_PERSON_OUTLINE()
+title "Systeem component diagram voorTripTop Frontend"
+
+Person(Traveler, "Reiziger", "Plannen en boeken van een reis")
+
+System_Boundary(Frontend, "TripTop Frontend") {
+Component(inlogcomponent, "Inlogcomponent", "JavaScript/React", "Pagina waar gebruiker inlogt")
+Component(boekingscomponent, "Boekingscomponent", "JavaScript/React", "Pagina waar gebruiker reis boekt/wijzigt")
+}
+
+Component(TripTopBackend, "TripTop Backend", "Spring Boot", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
+
+Component_Ext(IdentityProvider, "Identity Provider", "EasyAuthenticator API", "zorgt voor authenticatie gebruiker")
+Component_Ext(JSONsaver, "JSON Saver", "JSON Saver API", "slaagt JSON data op")
+
+
+Rel(Traveler, boekingscomponent, "wilt boeken/ boeking aanpassen", formulier)
+Rel(Traveler, inlogcomponent, logt in op, formulier)
+Rel(inlogcomponent, boekingscomponent, "stuurt gebruiker door naar", link)
+Rel(inlogcomponent, IdentityProvider, "stuurt inloggegevens door", JSON)
+Rel(boekingscomponent, TripTopBackend, "stuurt boekingsdata door naar", JSON)
+Rel(IdentityProvider, IdentityProvider, "checkt authenticiteit van gebruiker", webtoken)
+Rel(boekingscomponent, JSONsaver, "stuurt boekingsdata door naar", JSON)
+Rel(JSONsaver, TripTopBackend, "stuurt boekingsdata door naar", JSON)
+
+@enduml
