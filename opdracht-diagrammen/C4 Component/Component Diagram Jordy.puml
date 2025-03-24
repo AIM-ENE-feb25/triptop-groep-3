@@ -28,8 +28,8 @@ Component_Ext(DiningAPI, Takeaway / Eet.nu API, ? ,"Eten bezorgen en restaurantb
 'Component_Ext(LoginProvider, "Google / Microsoft / Airbnb Login Provider", ?, "Beheert authenticatie en inloggen van gebruikers")
 Component_Ext(EmailProvider, "sendmail ultimate email sender API", ?, "Verstuurd e-mail berichten naar gebruikers")
 
-Rel(WebApp, SignIn, Uses, HTTP/JSON)
-Rel(WebApp, TravelData, Uses, HTTP/JSON)
+Rel(WebApp, SignIn, Makes API calls to, HTTP/JSON)
+Rel(WebApp, TravelData, Makes API calls to, HTTP/JSON)
 Rel(SignIn, UserRepo, Uses)
 Rel(TravelData, Email, Uses)
 Rel(TravelData, TravelService, Uses)
