@@ -1,0 +1,43 @@
+@startuml
+component "Web Application" as WebApp
+component "Sign In Controller\n(Beheert authenticatie en inloggen van gebruikers)" as SignIn
+component "TripTopService" as Service
+component "UserRepository\n(Beheert gebruikersgegevens)" as UserRepo
+component "TravelPlansRepository\n(Beheert reisplannen)" as PlansRepo
+database "User Database\n(Opgeslagen gebruikersinformatie)" as UserDB
+database "Travel Plans Database\n(Opgeslagen reisplannen)" as PlansDB
+component "E-mail Component\n(Beheert e-mail communicatie)" as Email
+component "TravelMethods Component\n(Biedt transportopties)" as TravelMethods
+component "DiningOptions Component\n(Beheert eetgelegenheden)" as DiningOptions
+component "Hotel Component\n(Beheert accommodatieboekingen)" as Hotel
+component "CarRental Component\n(Auto verhuurdiensten)" as CarRental
+component "TravelGuide Component\n(Biedt activiteiten en ervaringen)" as TravelGuide
+
+component "Booking.com / Airbnb API\n(Beheert accommodatieboekingen)" as BookingAPI
+component "NS / Deutsche Bahn / KLM API\n(Biedt transportopties)" as TransportAPI
+component "Sixt / Hertz API\n(Auto verhuurdiensten)" as RentalAPI
+component "Tripadvisor / GetYourGuide API\n(Biedt activiteiten en ervaringen)" as GuideAPI
+component "Takeaway / Eet.nu API\n(Eten bezorgen en restaurantboekingen)" as DiningAPI
+component "Google / Microsoft / Airbnb Login Provider\n(Beheert authenticatie en inloggen van gebruikers)" as LoginProvider
+
+WebApp --> SignIn
+WebApp --> Service
+Service --> UserRepo
+Service --> PlansRepo
+Service --> Email
+Service --> TravelMethods
+Service --> DiningOptions
+Service --> Hotel
+Service --> CarRental
+Service --> TravelGuide
+
+UserRepo --> UserDB
+PlansRepo --> PlansDB
+
+TravelMethods --> TransportAPI
+CarRental --> RentalAPI
+DiningOptions --> DiningAPI
+Hotel --> BookingAPI
+TravelGuide --> GuideAPI
+SignIn --> LoginProvider
+@enduml
