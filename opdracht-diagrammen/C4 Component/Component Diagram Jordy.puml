@@ -3,16 +3,16 @@
 
 Container(WebApp, Web Application, Javascript and React, Biedt alle TripTop-functionaliteit aan gebruikers via hun browser)
 Component(SignIn, Sign In Controller, Spring MVC Rest Controller, Staat gebruikers toe in te loggen)
-Component(Service, TripTopService)
+Component(TravelData, Travel data Controller, Spring MVC Rest Controller, Haalt reis data op voor gebruikers)
 Component(UserRepo, UserRepository, Spring Repository, Beheert gebruikersgegevens)
 Component(PlansRepo, TravelPlansRepository, Spring Repository, Beheert reisplannen)
-ComponentDb(DB, Database, Opgeslagen gebruiker- en reisdata)
-Component(Email, E-mail Component, Verzorgt e-mail communicatie)
-Component(TravelMethods, TravelMethods Component, Biedt transportopties aan)
-Component(DiningOptions, DiningOptions Component, Biedt eetgelegenheden aan)
-Component(Hotel, Hotel Component, Biedt accommodatieboekingen aan)
-Component(CarRental, CarRental Component, Biedt Auto verhuurdiensten aan)
-Component(TravelGuide, TravelGuide Component, Biedt activiteiten en ervaringen aan)
+ComponentDb(DB, Database, CouchBase, Opgeslagen gebruiker- en reisdata)
+Component(Email, E-mail Component, Spring Bean, Verzorgt e-mail communicatie)
+Component(TravelMethods, TravelMethods Component, Spring Bean, Biedt transportopties aan)
+Component(DiningOptions, DiningOptions Component, Spring Bean, Biedt eetgelegenheden aan)
+Component(Hotel, Hotel Component, Spring Bean, Biedt accommodatieboekingen aan)
+Component(CarRental, CarRental Component, Spring Bean, Biedt Auto verhuurdiensten aan)
+Component(TravelGuide, TravelGuide Component, Spring Bean, Biedt activiteiten en ervaringen aan)
 
 Component_Ext(BookingAPI, "Booking.com / Airbnb API", ? ,"Beheert accommodatieboekingen")
 Component_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", ? ,"Biedt transportopties")
@@ -22,15 +22,15 @@ Component_Ext(DiningAPI, Takeaway / Eet.nu API, ? ,"Eten bezorgen en restaurantb
 Component_Ext(LoginProvider, "Google / Microsoft / Airbnb Login Provider", ?, "Beheert authenticatie en inloggen van gebruikers")
 
 WebApp --> SignIn
-WebApp --> Service
-Service --> UserRepo
-Service --> PlansRepo
-Service --> Email
-Service --> TravelMethods
-Service --> DiningOptions
-Service --> Hotel
-Service --> CarRental
-Service --> TravelGuide
+WebApp --> TravelData
+TravelData --> UserRepo
+TravelData --> PlansRepo
+TravelData --> Email
+TravelData --> TravelMethods
+TravelData --> DiningOptions
+TravelData --> Hotel
+TravelData --> CarRental
+TravelData --> TravelGuide
 
 UserRepo --> DB
 PlansRepo --> DB
