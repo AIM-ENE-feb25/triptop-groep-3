@@ -1,11 +1,12 @@
 @startuml
-component "Web Application" as WebApp
-component "Sign In Controller\n(Beheert authenticatie en inloggen van gebruikers)" as SignIn
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(WebApp, "Web Application", Javascript and React, Biedt alle TripTop-functionaliteit aan gebruikers via hun browser)
+Component(SignIn, Sign In Controller, Spring MVC Rest Controller, Staat gebruikers toe in te loggen)
 component "TripTopService" as Service
 component "UserRepository\n(Beheert gebruikersgegevens)" as UserRepo
 component "TravelPlansRepository\n(Beheert reisplannen)" as PlansRepo
-database "User Database\n(Opgeslagen gebruikersinformatie)" as UserDB
-database "Travel Plans Database\n(Opgeslagen reisplannen)" as PlansDB
+database "Database\n(Opgeslagen gebruiker- en reisdata)" as DB
 component "E-mail Component\n(Beheert e-mail communicatie)" as Email
 component "TravelMethods Component\n(Biedt transportopties)" as TravelMethods
 component "DiningOptions Component\n(Beheert eetgelegenheden)" as DiningOptions
@@ -31,8 +32,8 @@ Service --> Hotel
 Service --> CarRental
 Service --> TravelGuide
 
-UserRepo --> UserDB
-PlansRepo --> PlansDB
+UserRepo --> DB
+PlansRepo --> DB
 
 TravelMethods --> TransportAPI
 CarRental --> RentalAPI
