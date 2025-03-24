@@ -1,0 +1,51 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_TOP_DOWN()
+
+title Travel Expense Pro
+
+Component(TEPBEA, "TravelExpenseProBackEndApplication", "Web Application")
+
+System_Boundary(1, "") {
+    Component(EC, "ExpenseController", "Spring Boot REST Controller")
+    Component(LC, "LoginController", "Spring Boot REST Controller")
+
+    Component(ES, "ExpenseService", "Spring Boot Service")
+    Component(US, "UserService", "Spring Boot Service")
+    Component(AS, "AuthenticationService", "Spring Security Service")
+
+
+    Component(ER, "ExpenseRepository", "Spring Data Repository")
+    Component(UR, "UserRepository", "Spring Data Repository")
+
+}
+
+TEPBEA --> EC
+TEPBEA --> LC
+
+LC --> AS
+AS --> UR
+
+
+EC --> ES
+ES --> ER
+EC --> US
+US --> UR
+
+Component(TEPFEA, "TravelExpenseProFrontEndApplication", "Web Application")
+System_Boundary(2, "") {
+    Component(M, "Main", "")
+    Component(EE, "enterExpense", "")
+    Component(UL, "userLogin", "")
+    Component(LO, "logOut", "")
+}
+
+TEPFEA --> M
+
+M --> EE
+M --> UL
+EE --> LO
+UL --> LO
+
+@enduml

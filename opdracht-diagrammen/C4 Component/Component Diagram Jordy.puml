@@ -4,50 +4,72 @@
 top to bottom direction
 
 System_Boundary(TripTop, "TripTop Backend", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
-Component(SignIn, Sign In Controller, Spring MVC Rest Controller, Staat gebruikers toe in te loggen)
-Component(TravelData, Travel data Controller, Spring MVC Rest Controller, Haalt reis data op voor gebruikers)
-Component(TravelService, Travel Service, Spring Bean, Vraagt reisdata op)
-Component(LocationService, Location Service, Spring Bean, Vraagt locatiedata op)
-Component(UserRepo, UserRepository, Spring Repository, Beheert gebruikersgegevens)
-Component(PlansRepo, TravelPlansRepository, Spring Repository, Beheert reisplannen)
-ComponentDb(DB, Database, CouchBase, Opgeslagen gebruiker- en reisdata)
-Component(Email, E-mail Component, Spring Bean, Verzorgt e-mail communicatie)
-Component(TravelMethods, TravelMethods Component, Spring Bean, Biedt transportopties aan)
-Component(DiningOptions, DiningOptions Component, Spring Bean, Biedt eetgelegenheden aan)
-Component(Hotel, Hotel Component, Spring Bean, Biedt accommodatieboekingen aan)
-Component(CarRental, CarRental Component, Spring Bean, Biedt Auto verhuurdiensten aan)
-Component(TravelGuide, TravelGuide Component, Spring Bean, Biedt activiteiten en ervaringen aan)
+
+    package "Controllers" {
+        Component(SignIn, "Sign In Controller", "Spring MVC Rest Controller", "Staat gebruikers toe in te loggen")
+        Component(TravelData, "Travel Data Controller", "Spring MVC Rest Controller", "Haalt reisdata op voor gebruikers")
+    }
+
+    package "Services" {
+        Component(TravelService, "Travel Service", "Spring Bean", "Vraagt reisdata op")
+        Component(LocationService, "Location Service", "Spring Bean", "Vraagt locatiedata op")
+        }
+
+    package "API communication" {
+        Component(Email, "E-mail Component", "Spring Bean", "Verzorgt e-mail communicatie")
+        Component(TravelMethods, "TravelMethods Component", "Spring Bean", "Biedt transportopties aan")
+        Component(DiningOptions, "DiningOptions Component", "Spring Bean", "Biedt eetgelegenheden aan")
+        Component(Hotel, "Hotel Component", "Spring Bean", "Biedt accommodatieboekingen aan")
+        Component(CarRental, "CarRental Component", "Spring Bean", "Biedt auto verhuurdiensten aan")
+        Component(TravelGuide, "TravelGuide Component", "Spring Bean", "Biedt activiteiten en ervaringen aan")
+
+    }
+
+    package "Repositories" {
+        Component(UserRepo, "User Repository", "Spring Repository", "Beheert gebruikersgegevens")
+        Component(PlansRepo, "Travel Plans Repository", "Spring Repository", "Beheert reisplannen")
+    }
+
+    package "Database" {
+        ComponentDb(DB, "Database", "CouchBase", "Opgeslagen gebruiker- en reisdata")
+    }
 }
 
-Container(WebApp, Web Application, Javascript and React, Biedt alle TripTop-functionaliteit aan gebruikers via hun browser)
-Component_Ext(BookingAPI, "Booking.com / Airbnb API", ? ,"Beheert accommodatieboekingen")
-Component_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", ? ,"Biedt transportopties")
-Component_Ext(RentalAPI, Sixt / Hertz API, ? ,"Auto verhuurdiensten")
-Component_Ext(GuideAPI, Tripadvisor / GetYourGuide API, ? ,"Activiteiten en ervaringen")
-Component_Ext(DiningAPI, Takeaway / Eet.nu API, ? ,"Eten bezorgen en restaurantboekingen")
-'Component_Ext(LoginProvider, "Google / Microsoft / Airbnb Login Provider", ?, "Beheert authenticatie en inloggen van gebruikers")
-Component_Ext(EmailProvider, "sendmail ultimate email sender API", ?, "Verstuurd e-mail berichten naar gebruikers")
+Container(WebApp, "Web Application", "Javascript and React", "Biedt alle TripTop-functionaliteit aan gebruikers via hun browser")
 
-Rel(WebApp, SignIn, Uses, HTTP/JSON)
-Rel(WebApp, TravelData, Uses, HTTP/JSON)
-Rel(SignIn, UserRepo, Uses)
-Rel(TravelData, Email, Uses)
-Rel(TravelData, TravelService, Uses)
-Rel(TravelData, LocationService, Uses)
-Rel(TravelData, PlansRepo, Uses)
-Rel(TravelService, Hotel, Uses)
-Rel(TravelService, CarRental, Uses)
-Rel(LocationService, TravelGuide, Uses)
-Rel(TravelService, TravelMethods, Uses)
-Rel(LocationService, DiningOptions, Uses)
-Rel(UserRepo, DB, Retrieves and stores userdata, N1QL)
-Rel(PlansRepo, DB, Retries and stores traveldata, N1QL)
-Rel(Email, EmailProvider, Sends email using, HTTP/JSON)
+package "Externe API's" {
+    Component_Ext(BookingAPI, "Booking.com / Airbnb API", "", "Beheert accommodatieboekingen")
+    Component_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", "", "Biedt transportopties")
+    Component_Ext(RentalAPI, "Sixt / Hertz API", "", "Auto verhuurdiensten")
+    Component_Ext(GuideAPI, "Tripadvisor / GetYourGuide API", "", "Activiteiten en ervaringen")
+    Component_Ext(DiningAPI, "Takeaway / Eet.nu API", "", "Eten bezorgen en restaurantboekingen")
+    'Component_Ext(LoginProvider, "Google / Microsoft / Airbnb Login Provider", "", "Beheert authenticatie en inloggen van gebruikers")
+    Component_Ext(EmailProvider, "Sendmail Ultimate Email Sender API", "", "Verstuurt e-mailberichten naar gebruikers")
+}
 
-TravelMethods --> TransportAPI
-CarRental --> RentalAPI
-DiningOptions --> DiningAPI
-Hotel --> BookingAPI
-TravelGuide --> GuideAPI
-'SignIn --> LoginProvider
+Rel(WebApp, SignIn, "Uses", "HTTP/JSON")
+Rel(WebApp, TravelData, "Uses", "HTTP/JSON")
+Rel(SignIn, UserRepo, "Uses")
+Rel(TravelData, Email, "Uses")
+Rel(TravelData, TravelService, "Uses")
+Rel(TravelData, LocationService, "Uses")
+Rel(TravelService, PlansRepo, "Uses")
+Rel(TravelService, Hotel, "Uses")
+Rel(TravelService, CarRental, "Uses")
+Rel(LocationService, TravelGuide, "Uses")
+Rel(LocationService, PlansRepo, "Uses")
+Rel(TravelService, TravelMethods, "Uses")
+Rel(LocationService, DiningOptions, "Uses")
+
+Rel(UserRepo, DB, "Retrieves and stores userdata", "N1QL")
+Rel(PlansRepo, DB, "Retrieves and stores traveldata", "N1QL")
+Rel(Email, EmailProvider, "Sends email using", "HTTP/JSON")
+
+Rel(TravelMethods, TransportAPI, "Uses")
+Rel(CarRental, RentalAPI, "Uses")
+Rel(DiningOptions, DiningAPI, "Uses")
+Rel(Hotel, BookingAPI, "Uses")
+Rel(TravelGuide, GuideAPI, "Uses")
+'Rel(SignIn, LoginProvider, "Uses")
+
 @enduml
