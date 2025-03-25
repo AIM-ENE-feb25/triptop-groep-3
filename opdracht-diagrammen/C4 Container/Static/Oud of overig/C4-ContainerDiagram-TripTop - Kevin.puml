@@ -1,0 +1,47 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' Definieer Gebruikers
+Person(Traveler, "Reiziger", "Plant, boekt en beheert reizen")
+Person(TravelAgent, "Reisagent", "Helpt reizigers met boekingen en wijzigingen")
+
+' Definieer Systeem
+System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
+
+    ' Definieer Containers
+    Container(Frontend, "Frontend", "Webapplicatie", "Gebruikersinterface voor reisplanning en boekingen")
+    Container(Backend, "Backend", "REST API", "Verwerkt bedrijfslogica en beheert communicatie met externe diensten")
+    ContainerDb(Database, "Database", "PostgreSQL", "Slaat gebruikers-, boekings- en reisgegevens op")
+}
+
+' Definieer Externe Systemen
+System_Ext(Booking, "Booking.com / Airbnb API", "Verwerkt accommodatieboekingen")
+System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Biedt reisopties voor trein- en luchtvervoer")
+System_Ext(CarRent, "Sixt / Hertz API", "Verzorgt autoverhuur")
+System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Biedt activiteiten en excursies")
+System_Ext(Food, "Takeaway / Eet.nu API", "Faciliteert maaltijdbezorging en restaurantreserveringen")
+System_Ext(IdProvider, "Google / Microsoft / Airbnb Login API", "Beheert gebruikersauthenticatie en login")
+
+' Relaties
+Traveler -> Frontend : "Plant, boekt en beheert reizen"
+TravelAgent -> Frontend : "Helpt reizigers met boekingen"
+Rel(Frontend, Backend, "Stuurt API-verzoeken", "HTTP/JSON")
+Backend -> Booking : "Boekt accommodaties"
+Backend -> Transport : "Regelt vervoer"
+Backend -> CarRent : "Regelt autoverhuur"
+Backend -> Activities : "Boekt activiteiten en excursies"
+Backend -> Food : "Bestelt maaltijden en maakt reserveringen"
+Rel(Backend, Database, "Leest/Schrijft", "N1QL")
+Frontend -> IdProvider : "Authenticatie en login"
+
+' Positionering
+Traveler -[hidden]-> TripTop
+TravelAgent -[hidden]-> TripTop
+Backend -[hidden]-> Booking
+Backend -[hidden]-> Transport
+Backend -[hidden]-> CarRent
+Backend -[hidden]-> Activities
+Backend -[hidden]-> Food
+Backend -[hidden]-> IdProvider
+
+@enduml

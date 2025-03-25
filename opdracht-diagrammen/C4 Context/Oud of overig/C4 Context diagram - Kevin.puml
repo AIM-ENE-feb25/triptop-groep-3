@@ -2,15 +2,43 @@
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title Container Diagram for TripTop
-
+title Systeemcontextdiagram voor TripTop
 SHOW_PERSON_PORTRAIT()
-Person(Traveler, "Traveler", "Plans, books & modifies trips")
-Person(TravelAgent, "Travel Agent", "Supports travelers with bookings")
 
-System(WA, "TripTop Web Application", "Manages trip bookings & user interactions")
-System(BE, "Backend", "Manages trip bookings & user interactions")
+' Gebruikers (boven)
+Person(Traveler, "Reiziger", "Plant, boekt en beheert reizen")
+Person(TravelAgent, "Reisagent", "Ondersteunt reizigers bij boekingen en wijzigingen")
 
+' Systeem (midden)
+System(TripTop, "TripTop Webapplicatie", "Platform voor reisplanning, boekingen en gebruikersbeheer")
 
+' Externe systemen (onder)
+System_Ext(Booking, "Booking.com / Airbnb API", "Regelt accommodatieboekingen")
+System_Ext(Transport, "NS / Deutsche Bahn / KLM API", "Biedt opties voor trein- en vliegvervoer")
+System_Ext(CarRent, "Sixt / Hertz API", "Verzorgt autoverhuur")
+System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Boekt activiteiten en bezienswaardigheden")
+System_Ext(Food, "Takeaway / Eet.nu API", "Bestelt maaltijden en maakt restaurantreserveringen")
+System_Ext(IdProvider, "Google / Microsoft / Airbnb loginprovider", "Verzorgt authenticatie en gebruikerslogin")
+
+' Positionering
+Traveler -[hidden]-> TripTop
+TravelAgent -[hidden]-> TripTop
+TripTop -[hidden]-> Booking
+TripTop -[hidden]-> Transport
+TripTop -[hidden]-> CarRent
+TripTop -[hidden]-> Activities
+TripTop -[hidden]-> Food
+TripTop -[hidden]-> IdProvider
+
+' Relaties
+Traveler -> TripTop : "Plant, boekt en beheert reizen"
+TravelAgent -> TripTop : "Ondersteunt reizigers op verzoek"
+
+TripTop -down-> Booking : "Regelt accommodatieboekingen"
+TripTop -down-> Transport : "Boekt vervoer"
+TripTop -down-> CarRent : "Regelt autoverhuur"
+TripTop -down-> Activities : "Boekt activiteiten en bezienswaardigheden"
+TripTop -down-> Food : "Bestelt maaltijden en maakt reserveringen"
+TripTop -down-> IdProvider : "Verzorgt login en authenticatie"
 
 @enduml
