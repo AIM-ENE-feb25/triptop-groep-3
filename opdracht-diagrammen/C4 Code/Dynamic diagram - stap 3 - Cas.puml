@@ -1,0 +1,22 @@
+@startuml C4_Components
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+participant FrontendService
+participant BackendAPI
+participant AuthService
+participant DatabaseService
+participant ExternalServiceAdapter
+participant "External API" as ExternalAPI
+
+FrontendService -> BackendAPI: requestService(serviceId, userId)
+BackendAPI -> AuthService: validateToken(token)
+AuthService --> BackendAPI: return UserData (if valid)
+BackendAPI -> DatabaseService: saveServiceRequest(userId, serviceId, "pending")
+BackendAPI -> ExternalServiceAdapter: callService(serviceId, payload)
+ExternalServiceAdapter -> ExternalAPI: (API request)
+ExternalAPI --> ExternalServiceAdapter: (API response)
+ExternalServiceAdapter --> BackendAPI: mapResponseToDomainModel(response)
+BackendAPI -> DatabaseService: updateServiceStatus(requestId, "completed")
+BackendAPI --> FrontendService: return Response
+
+@enduml
