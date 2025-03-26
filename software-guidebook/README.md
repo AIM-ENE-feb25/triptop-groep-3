@@ -114,7 +114,47 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
 ### 8.1. ADR-001 Database
+## Status
+Under discussion
+## Context
 
+Voor TripTop, een Reisplanningsapplicatie
+in constructie, moeten we een database kiezen
+die schaalbaar en flexibel is, gezien de
+verschillende bouwstenen en de integratie
+met externe services. De database moet in staat zijn om dynamisch gegevens op te slaan,
+zoals reisopties en gebruikersinformatie, en deze efficiënt beheren.
+De keuze moet ook de integratie van diverse APIs en het omgaan met veranderende datastructuren ondersteunen,
+zonder de applicatie ingrijpend aan te passen.
+
+## Considered Options
+
+| Forces | MongoDB | Cassandra | neo4J | Redis | Couchbase | MySQL |
+| --- |---| - |-------|-------|-----------|-------|
+| snelheid | + | + | +     | +     | +         | 0     |
+| leercurve | + | — | —     | +     | +         | ++    |
+| functionaliteit | ++ | + | +     | -     | ++        | ++    |
+| schaalbaarheid | + | + | +     | +     | 0         | 0     |
+| ervaring | 0 | 0 | 0     | —     | —         | ++    |
+
+## Decision
+
+Omdat functionaliteit en leercurve zwaar meewegen, en ervaring,
+schaalbaarheid & snelheid minder meeweegt, is bij ons de overweging gekomen tussen MySQL, MongoDB & Couchbase.
+De keuze is gevallen op Couchbase, omdat deze de meeste voordelen heeft.
+Als we kijken naar de tabel, en alle zwaarwegende plussen en minnen op- en aftellen,
+dan komen wij tot de conclusie dat Couchbase het hoogst scoort.
+
+## Consequences
+
+Het gebruiken van Couchbase geeft TripTop de mogelijkheid om flink op te schalen wanneer het bedrijf daar klaar voor is.
+Je krijgt documentbased data, waardoor het datamodel enorm flexibel is.
+Het wordt dus makkelijk gemaakt om snel data toe te voegen, of bestaande structuren aan te passen wanneer nodig.
+Ook is Couchbase makkelijker te leren
+
+
+
+### 8.2. ADR-002 Ontwerpvraag Tren
 ## Status
 Under discussion
 
@@ -152,36 +192,47 @@ Je krijgt documentbased data, waardoor het datamodel enorm flexibel is.
 Het wordt dus makkelijk gemaakt om snel data toe te voegen, of bestaande structuren aan te passen wanneer nodig.
 Ook is Couchbase makkelijker te leren
 
-### 8.2. ADR-002 TITLE
+## Contexta
 
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
+In de applicatie **TripTop** communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
 
-#### Context
+We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **wijzigingen in de businesslogica of presentatie-laag** van onze applicatie. De oplossing moet:
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+•	Aanpasbaar zijn bij verandering van een specifieke API
 
-#### Considered Options
+•	De rest van het systeem onaangetast laten
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+•	De code begrijpelijk en onderhoudbaar houden
 
-#### Decision
+## Considered Options
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+| Criteria | directe parsing van JSON in de services | Externe API Adapter/APiMapper | één centrale ApiGateway |
+| --- | --- | --- | --- |
+| snelheid (van verwerken data) | ++ | + | +/- |
+| schaalbaarheid | ++ | + | — |
+| Aanpasbaarheid | — | ++ | - |
 
-#### Status
+## Decision
 
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
+In de applicatie **TripTop** communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
 
-#### Consequences
+We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **wijzigingen in de businesslogica of presentatie-laag** van onze applicatie. De oplossing moet:
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+•	Aanpasbaar zijn bij verandering van een specifieke API
 
+•	De rest van het systeem onaangetast laten
+
+•	De code begrijpelijk en onderhoudbaar houden
+
+## Consequences
+
+•	Wijzigingen in externe datastructuren vereisen **alleen aanpassing in de betreffende client/mapper**
+
+•	De rest van de applicatie (services, controller, repository) blijft **stabiel**
+
+•	We kunnen eenvoudig nieuwe externe APIs integreren door **nieuwe client + mapping toe te voegen**
+
+•	Door duidelijk onderscheid tussen domeinmodellen en externe modellen, blijft **code begrijpelijk en testbaar**
 ### 8.3. ADR-003 TITLE
 
 > [!TIP]
