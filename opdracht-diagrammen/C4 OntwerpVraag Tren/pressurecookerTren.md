@@ -6,12 +6,12 @@ stap 1
 
 Component moet misschien client worden voor de verschillende componenten die praten met externe API’s? een client is vaak verantwoordelijk voor communicatie met externen.
 
-| Component | Verantwoordelijkheid |
-| --- | --- |
-| Travel plans Repository | beheert reisplannen |
-| Travel Service | verwerkt reisaanvragen |
+| Component                                                                     | Verantwoordelijkheid                                                                                                 |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Travel plans Repository                                                       | beheert reisplannen                                                                                                  |
+| Travel Service                                                                | verwerkt reisaanvragen                                                                                               |
 | Car Rental/Travel Guide/Hotel/Dining Options/ Travel Methods/E-mail Component | Gebruikt externe API om data op te halen. De data is verschillend maar de essentie van deze componenten is hetzelfde |
-| Travel API Mapper | verantwoordelijk voor het mappen van externe data naar interne modellen. |
+| Travel API Mapper                                                             | verantwoordelijk voor het mappen van externe data naar interne modellen.                                             |
 
 stap 2
 
