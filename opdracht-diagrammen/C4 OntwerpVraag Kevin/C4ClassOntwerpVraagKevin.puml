@@ -1,0 +1,45 @@
+@startuml
+class Backend {
+    + getTransportOptions(origin: String, destination: String, date: Date): Trip[]
+    + createBooking(userId: String, tripId: String, payment: PaymentInfo): Booking
+    + getCarOptions(location: String, date: Date): Car[]
+    + getActivities(city: String, date: Date): Activity[]
+    + getFoodOptions(city: String, cuisine: String): Restaurant[]
+}
+
+class Proxy {
+    + forwardTransportOptions(origin: String, destination: String, date: Date): Trip[]
+    + forwardBooking(userId: String, tripId: String, payment: PaymentInfo): Booking
+    + forwardCarOptions(location: String, date: Date): Car[]
+    + forwardActivities(city: String, date: Date): Activity[]
+    + forwardFoodOptions(city: String, cuisine: String): Restaurant[]
+}
+
+interface BookingAPI {
+    + createBooking(tripId: String, customerData: Customer): Booking
+}
+
+interface TransportAPI {
+    + fetchTransportOptions(origin: String, destination: String, date: Date): Trip[]
+}
+
+interface CarRentalAPI {
+    + fetchCarOptions(location: String, date: Date): Car[]
+}
+
+interface ActivitiesAPI {
+    + fetchActivityOptions(city: String, date: Date): Activity[]
+}
+
+interface FoodAPI {
+    + fetchFoodOptions(city: String, cuisine: String): Restaurant[]
+}
+
+Backend --> Proxy : "Stuurt verzoeken naar"
+Proxy --> BookingAPI : "Verstuurt verzoeken naar"
+Proxy --> TransportAPI : "Verstuurt verzoeken naar"
+Proxy --> CarRentalAPI : "Verstuurt verzoeken naar"
+Proxy --> ActivitiesAPI : "Verstuurt verzoeken naar"
+Proxy --> FoodAPI : "Verstuurt verzoeken naar"
+
+@enduml

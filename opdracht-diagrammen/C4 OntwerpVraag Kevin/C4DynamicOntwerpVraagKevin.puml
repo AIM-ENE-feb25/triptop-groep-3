@@ -1,0 +1,27 @@
+@startuml
+actor User
+
+participant "Backend" as Backend
+participant "Proxy" as Proxy
+participant "BookingAPI" as BookingAPI
+participant "TransportAPI" as TransportAPI
+participant "CarRentalAPI" as CarRentalAPI
+participant "ActivitiesAPI" as ActivitiesAPI
+participant "FoodAPI" as FoodAPI
+
+User -> Backend : Verzoek voor reisboeking
+Backend -> Proxy : Roep proxy aan voor externe services
+Proxy -> TransportAPI : Haal reisopties op
+TransportAPI -> Proxy : Retourneer reisopties
+Proxy -> BookingAPI : Boek accommodatie
+BookingAPI -> Proxy : Retourneer bevestiging boeking
+Proxy -> CarRentalAPI : Haal autoverhuur opties op
+CarRentalAPI -> Proxy : Retourneer autoverhuur opties
+Proxy -> ActivitiesAPI : Haal activiteiten op
+ActivitiesAPI -> Proxy : Retourneer activiteiten
+Proxy -> FoodAPI : Haal restaurant opties op
+FoodAPI -> Proxy : Retourneer restaurant opties
+Proxy -> Backend : Retourneer alle verzamelde gegevens
+Backend -> User : Bevestig boeking
+
+@enduml
