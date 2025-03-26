@@ -1,0 +1,13 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+participant FrontendService
+participant BackendAPI
+participant AuthService
+participant DatabaseService
+participant ExternalServiceAdapter
+participant "External API" as ExternalAPI
+
+FrontendService -> BackendAPI: requestService(serviceId, userId)
+
+@enduml
