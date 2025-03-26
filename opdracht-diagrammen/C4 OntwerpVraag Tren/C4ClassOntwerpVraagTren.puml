@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' Class diagram = niveau 4 (code)
+title C4 - Class Level Diagram – TripTop backend
+
+' Applicatielaag
+Container(travelController, "TravelController", "Spring REST Controller", "Handelt HTTP-verzoeken af")
+
+' Servicelaag
+Container(travelService, "TravelService", "Service", "Businesslogica voor reizen")
+
+' Repository
+Container(travelPlansRepo, "TravelPlansRepository", "Repository", "Beheert TravelPlans in DB")
+
+' Mapper
+Container(mapper, "TravelApiMapper", "Mapper", "Zet externe API responses om naar domeinmodellen")
+
+' Domeinmodel
+Container(travelPlan, "TravelPlan", "Domain Model", "Representatie van een samengestelde reis")
+
+' Externe clients
+Container(carClient, "CarRentalClient", "Client", "Haalt autogegevens op van externe service")
+Container(hotelClient, "HotelClient", "Client", "Haalt hotelgegevens op van externe service")
+Container(guideClient, "TravelGuideClient", "Client", "Haalt activiteiten op")
+Container(diningClient, "DiningOptionsClient", "Client", "Haalt eetopties op")
+Container(methodsClient, "TravelMethodsClient", "Client", "Haalt transportopties op")
+
+' Relaties
+Rel(travelController, travelService, "getTravelPlan(userId)")
+Rel(travelService, travelPlansRepo, "findByUserId / save")
+Rel(travelService, carClient, "fetchCarOptions")
+Rel(travelService, hotelClient, "fetchHotels")
+Rel(travelService, guideClient, "fetchActivities")
+Rel(travelService, diningClient, "fetchDiningOptions")
+Rel(travelService, methodsClient, "fetchTransportOptions")
+
+Rel(carClient, mapper, "mapToDomain(response)")
+Rel(hotelClient, mapper, "mapToDomain(response)")
+Rel(guideClient, mapper, "mapToDomain(response)")
+Rel(diningClient, mapper, "mapToDomain(response)")
+Rel(methodsClient, mapper, "mapToDomain(response)")
+
+Rel(travelService, mapper, "ontvangt gemapte modellen")
+Rel(travelService, travelPlan, "stelt samen en retourneert")
+
+@enduml

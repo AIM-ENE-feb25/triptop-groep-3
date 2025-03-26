@@ -1,0 +1,35 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Diagram – Ophalen van een reisplan
+
+Person(user, "Gebruiker")
+
+Container(travelController, "TravelController", "Spring REST Controller", "Ontvangt HTTP-verzoeken")
+Container(travelService, "TravelService", "Service", "Verwerkt reisaanvragen")
+Container(repo, "TravelPlansRepository", "Repository", "Beheert reisplannen")
+Container(Client, "Client", "Client", "Haalt gegevens op")
+Container(mapper, "TravelApiMapper", "Mapper", "Mapt externe API-data naar interne modellen")
+
+Rel(user, travelController, "vraagt reisplan op", "HTTP")
+Rel(travelController, travelService, "roept aan", "getTravelPlan(userId)")
+Rel(travelService, repo, "zoekt bestaand plan", "findByUserId(userId)")
+
+' Als er geen plan is, stel een nieuw plan samen met data uit externe APIs
+Rel(travelService, Client, "haalt gegevens op", "fetchgegevens(benodigde parameters)")
+
+
+' Responses worden gemapt naar interne modellen
+Rel(Client, mapper, "geeft externalResponse")
+Rel(mapper, travelService, "geeft  model terug")
+
+
+
+' Opslaan van het plan
+Rel(travelService, repo, "slaat samengesteld plan op", "save(plan)")
+
+' Antwoord terug naar controller
+Rel(travelService, travelController, "geeft TravelPlan terug")
+Rel(travelController, user, "stuurt TravelPlan terug", "JSON")
+
+@enduml
