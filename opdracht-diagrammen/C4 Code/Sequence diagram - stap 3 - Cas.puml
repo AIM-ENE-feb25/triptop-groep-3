@@ -3,20 +3,22 @@
 
 participant FrontendService
 participant BackendAPI
-participant AuthService
 participant DatabaseService
 participant ExternalServiceAdapter
+participant AuthServiceAdapter
 participant "External API" as ExternalAPI
 
 FrontendService -> BackendAPI: requestService(serviceId, userId)
-BackendAPI -> AuthService: validateToken(token)
-AuthService --> BackendAPI: return UserData (if valid)
-BackendAPI -> DatabaseService: saveServiceRequest(userId, serviceId, "pending")
-BackendAPI -> ExternalServiceAdapter: callService(serviceId, payload)
-ExternalServiceAdapter -> ExternalAPI: (API request)
-ExternalAPI --> ExternalServiceAdapter: (API response)
+BackendAPI -> ExternalServiceAdapter: callService("auth", token)
+ExternalServiceAdapter -> AuthServiceAdapter: callService(token)
+AuthServiceAdapter -> ExternalAPI: (Auth API request)
+
+ExternalAPI --> AuthServiceAdapter: (Auth API response)
+AuthServiceAdapter --> ExternalServiceAdapter: return UserData (if valid)
 ExternalServiceAdapter --> BackendAPI: mapResponseToDomainModel(response)
-BackendAPI -> DatabaseService: updateServiceStatus(requestId, "completed")
+
+BackendAPI -> DatabaseService: saveServiceRequest(userId, serviceId, "completed")
+
 BackendAPI --> FrontendService: return Response
 
 @enduml
