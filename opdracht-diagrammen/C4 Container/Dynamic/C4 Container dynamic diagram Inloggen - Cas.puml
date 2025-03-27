@@ -19,7 +19,7 @@ Rel(Traveler, Frontend, "Interactie met de webapplicatie")
 Rel(Frontend, ApiGateway, "Verstuurt inlogverzoek")
 Rel(ApiGateway, Backend, Verstuurt inlogverzoek)
 
-Rel(Backend, IdentityProvider, Verstuurt inloggegevens)
+Rel(Backend, IdentityProvider, Verstuurt e-mail van gebruiker)
 Rel(IdentityProvider, Backend, "Verstuurt authenticatietoken")
 Rel(Backend, Backend, Verifieert token)
 
