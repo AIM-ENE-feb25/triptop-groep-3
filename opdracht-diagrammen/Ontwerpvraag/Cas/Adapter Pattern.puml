@@ -1,0 +1,41 @@
+@startuml
+
+interface IExternalServiceAdapter {
+    +callService(serviceId, payload)
+    +mapResponseToDomainModel(response)
+}
+
+interface IAuthServiceAdapter {
+    +callService(payload)
+}
+
+class ExternalServiceAdapter implements IExternalServiceAdapter {
+}
+
+class AuthServiceAdapter implements IAuthServiceAdapter {
+}
+
+class FrontendService {
+    +fetchAvailableServices()
+    +requestService(serviceId)
+    +getUserSession()
+}
+
+class BackendAPI {
+    +getAvailableServices()
+    +processServiceRequest(serviceId, userId)
+    +authenticateUser(token)
+}
+
+class DatabaseService {
+    +saveServiceRequest(userId, serviceId, status)
+    +getUserSession(userId)
+    +updateServiceStatus(requestId, status)
+}
+
+FrontendService --> BackendAPI : uses
+BackendAPI --> IExternalServiceAdapter : uses
+BackendAPI --> DatabaseService : uses
+ExternalServiceAdapter --> IAuthServiceAdapter : delegates to
+
+@enduml
