@@ -9,7 +9,7 @@ System_Boundary(Backend, "TripTop Backend") {
     Component(BookingService, "BookingService", "Service Layer", "Verwerkt boekingslogica")
     Component(ActivitiesService, "ActivitiesService", "Service Layer", "Verwerkt activiteiten logica")
     Component(BookingRepository, "BookingRepository", "Spring Data Repository", "Leest/schrijft boekingsdata in database")
-    Component(ActivitiesController, ActivitiesController, Behandelt activiteitsaanvragen)
+    Component(ActivitiesController, ActivitiesController,Spring Boot REST Controller, Behandelt activiteitsaanvragen)
     Component(UserController, "UserController", "Spring Boot REST Controller", "Behandelt gebruikersaanvragen")
     Component(UserService, "UserService", "Service Layer", "Verwerkt gebruikerslogica")
     Component(UserRepository, "UserRepository", "Spring Data Repository", "Leest/schrijft gebruikersdata in database")
