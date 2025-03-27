@@ -8,10 +8,10 @@ Person(TravelAgent, "Reisbureau", "Ondersteunt reizigers met boekingen")
 System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
 
 ' Definieer Containers
-Container(WebApp, "Webapplicatie", "?", "Beheert reisboekingen en gebruikersinteracties")
-Container(GatewayAPI, "GatewayAPI", "?", "Verwerkt API-aanvragen")
-Container(Backend, "Backend", "?", "Verwerkt bedrijfslogica")
-ContainerDb(Database, "Database", "?", "Bewaart gebruikers- en reisdata")
+Container(Frontend, "Frontend", "React, JavaScript", "Beheert reisboekingen en gebruikersinteracties")
+Container(GatewayAPI, "GatewayAPI", "Spring Boot, Java", "Verwerkt API-aanvragen")
+Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt bedrijfslogica")
+ContainerDb(Database, "Database", "MongoDB", "Bewaart gebruikers- en reisdata")
 }
 
 ' Definieer Externe Systemen
@@ -23,17 +23,17 @@ System_Ext(Food, "Takeaway / Eet.nu API", "Eten bezorgen en restaurantboekingen"
 System_Ext(IdProvider, "Google / Microsoft / Airbnb login Provider", "Beheert authenticatie en inloggen van gebruikers")
 
 ' Relaties
-Traveler -> WebApp : "Boekt en beheert reizen"
-TravelAgent -> WebApp : "Ondersteunt reizigers met boekingen"
-WebApp -> GatewayAPI : "Verwerkt API-aanvragen"
-GatewayAPI -> Backend : "Stuurt API-aanvragen"
+Traveler -> Frontend : "Boekt en beheert reizen"
+TravelAgent -> Frontend : "Ondersteunt reizigers met boekingen"
+Frontend -> GatewayAPI : "Verstuurt HTTP-verzoek"
+GatewayAPI -> Backend : "Verwerkt verzoek"
 Backend -> Booking : "Boekt accommodaties"
 Backend -> Transport : "Boekt transport"
 Backend -> CarRent : "Boekt huurauto"
 Backend -> Activities : "Boekt activiteiten"
 Backend -> Food : "Bestelt eten"
 Backend -> Database : "Leest/Schrijft"
-WebApp -> IdProvider : "Inloggen en authenticatie"
+Backend -> IdProvider : "Inloggen en authenticatie"
 
 ' Positionering
 Traveler -[hidden]-> TripTop
