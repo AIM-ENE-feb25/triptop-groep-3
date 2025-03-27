@@ -1,3 +1,7 @@
+Vraag:
+Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn 
+en toch verwacht wordt dat er waardevolle output gegeven wordt?
+
 Stap 1
 
 | **Componentnaam**          | **Verantwoordelijkheid**                                                                                                     |
