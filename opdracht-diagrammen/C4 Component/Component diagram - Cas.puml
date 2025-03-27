@@ -15,7 +15,7 @@ System_Boundary(Backend, "TripTop Backend") {
     Component(UserRepository, "UserRepository", "Spring Data Repository", "Leest/schrijft gebruikersdata in database")
     Component(ActivitiesRepository, ActivitiesRepository, Spring Data Repository, "Leest/schrijft activiteitsgegevens")
 
-    ComponentDb(Database, "TripTop Database", "PostgreSQL", "Bewaart gebruikers- en reisgegevens")
+    ComponentDb(Database, "TripTop Database", "MongoDB", "Bewaart gebruikers- en reisgegevens")
 }
 
 ' Externe systemen
