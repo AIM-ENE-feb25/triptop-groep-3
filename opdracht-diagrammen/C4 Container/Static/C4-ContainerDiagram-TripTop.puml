@@ -1,6 +1,6 @@
 @startuml C4_Elements
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-
+left to right direction
 ' Definieer Gebruikers
 Person(Traveler, "Reiziger", "Plant, boekt en beheert reizen")
 Person(TravelAgent, "Reisagent", "Helpt reizigers met boekingen en wijzigingen")
