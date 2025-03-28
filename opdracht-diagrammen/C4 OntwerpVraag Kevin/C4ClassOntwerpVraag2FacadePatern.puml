@@ -1,0 +1,30 @@
+@startuml
+
+class BetalingService {
+    + verwerkBetaling(betalingInfo: BetalingInfo): BetalingResultaat
+    + valideerBetaling(betalingInfo: BetalingInfo): Boolean
+}
+
+interface ExterneBetaalAPI {
+    + betaal(betalingInfo: BetalingInfo): Boolean
+}
+
+interface iDEALAPI {
+    + betaal(betalingInfo: BetalingInfo): Boolean
+}
+
+interface CreditCardAPI {
+    + betaal(betalingInfo: BetalingInfo): Boolean
+}
+
+interface PayPalAPI {
+    + betaal(betalingInfo: BetalingInfo): Boolean
+}
+
+BetalingService --> ExterneBetaalAPI : "Stuurt verzoeken naar"
+BetalingService --> iDEALAPI : "Stuurt verzoeken naar"
+BetalingService --> CreditCardAPI : "Stuurt verzoeken naar"
+BetalingService --> PayPalAPI : "Stuurt verzoeken naar"
+
+
+@enduml
