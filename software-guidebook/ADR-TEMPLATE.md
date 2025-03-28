@@ -23,13 +23,6 @@ De database moet in staat zijn om gegevens zoals [gebruikersinformatie, reisopti
 | Schaalbaarheid         | +       | +         | +     | +      | 0          | 0      |
 | Teamervaring           | 0       | 0         | 0     | —      | —          | ++     |
 
-Legenda:
-- `++` = sterke positieve score
-- `+`  = positief
-- `0`  = neutraal
-- `—`  = negatief
-- `-`  = sterk negatief
-
 ## Decision
 
 Omdat **functionaliteit** en **leercurve** zwaar meewegen in onze afweging, en **ervaring**, **schaalbaarheid** en **snelheid** minder zwaar, hebben we ons gefocust op **MySQL**, **MongoDB** en **Couchbase**.
