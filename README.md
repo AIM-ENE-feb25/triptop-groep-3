@@ -20,7 +20,7 @@ Deze applicatie is geïnspireerd op [Ellipsis Travel](https://www.ellipsistravel
 
 Triptop wil een soortgelijke applicatie ontwikkelen, maar dan gericht op de Nederlandse markt. De userinterface zou veel weg mogen hebben van Ellipsis Travel, maar dan met een Nederlandse touch. Alhoewel het maken van de webapplicatie zelf, in bijzonder het front-end voor deze opdracht buiten scope is geeft de volgende UI-schets een idee van de mogelijkheden:
 
-![UI-schets](opdracht-diagrammen/example-ellipsistravel.png)
+![UI-schets](opdracht-diagrammen/Domain/example-ellipsistravel.png)
 
 Een reis bestaat uit verschillende bouwstenen die aan elkaar gekoppeld kunnen worden en die samen een trip vormen waarbij de route langs alle bouwstenen bepaald moet kunnen worden. 
 

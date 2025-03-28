@@ -45,11 +45,11 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ### 3.2 Domain Story Reis Boeken (AS IS)
 
-![Domain Story Reis Boeken AS IS](../opdracht-diagrammen/reis-boeken-asis-coursegrained_2024-06-11.egn.svg)
+![Domain Story Reis Boeken AS IS](../opdracht-diagrammen/Domain/reis-boeken-asis-coursegrained_2024-06-11.egn.svg)
 
 ### 3.3 Domain Story Reis Boeken (TO BE)
 
-![Domain Story Reis Boeken TO BE](../opdracht-diagrammen/reis-boeken-tobe-coursegrained_2024-06-11.egn.svg)
+![Domain Story Reis Boeken TO BE](../opdracht-diagrammen/Domain/reis-boeken-tobe-coursegrained_2024-06-11.egn.svg)
 
 ### 3.4 Domain Model
 
