@@ -8,7 +8,7 @@ Person(Traveler, "Reiziger", "Plannen en boeken van een reis")
 System_Boundary(s1, "Triptop Applicatie") {
     Container(Frontend, "Frontend", "React, JavaScript", "De front-end applicatie waarmee de reiziger kan inloggen")
     Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
-    ContainerDb(Database, Database, MongoDB, Bewaart gebruikers- en reisgegevens)
+    ContainerDb(Database, Database, Couchbase, Bewaart gebruikers- en reisgegevens)
 }
 
 System_Ext(IdentityProvider, "Identity Provider", "Regelt authenticatie")
@@ -23,8 +23,8 @@ Rel(Backend, Backend, Verifieert token)
 
 Rel(Backend, Database, "Haalt gegevens op")
 
-Rel(Backend, ApiGateway, Verstuurt token & gegevens)
-Rel(ApiGateway, Frontend, Verstuurt token & gegevens)
+Rel(Backend, Frontend, Verstuurt gegevens)
+
 Rel(Frontend, Frontend, Slaat token op)
 
 

@@ -8,19 +8,16 @@ System_Boundary(s1, "Triptop Applicatie") {
 
     Container(Frontend, "Frontend", "React, JavaScript", "De front-end applicatie waarmee de reiziger zijn reis kan plannen")
     Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
-    ContainerDb(Database, "Database", "MongoDB", "Slaat reisgegevens op zoals boekingen en gebruikersinformatie")
-    Container(ApiGateway, "API Gateway", "Spring Boot, Java", "Behandelt alle API-verzoeken")
+    ContainerDb(Database, "Database", "Couchbase", "Slaat reisgegevens op zoals boekingen en gebruikersinformatie")
 }
 
 System_Ext(NS, "NS/Deutsche Bahn/KLM API", "Levert vervoersopties")
 
 Rel(Traveler, Frontend, "Interageert met")
-Rel(Frontend, ApiGateway, "Verstuurt gebruikersgegevens")
-Rel(ApiGateway, Backend, Verstuurt gebruikersgegevens)
+Rel(Frontend, Backend, "Verstuurt gebruikersgegevens")
 Rel(Backend, Backend, Verifieert gebruikersbevoegdheden)
 Rel(Backend, NS, "Vraagt reisopties op")
 Rel(Backend, Database, "Leest/schrijft reisgegevens")
-Rel(Backend, ApiGateway, Verstuurt reisgegevens)
-Rel(ApiGateway, Frontend, Verstuurt reisgegevens)
+Rel(Backend, Frontend, Verstuurt reisgegevens)
 
 @enduml

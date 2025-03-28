@@ -9,8 +9,8 @@ Person(TravelAgent, "Reisagent", "Helpt reizigers met boekingen en wijzigingen")
 System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
 
     ' Definieer Containers
-    Container(Frontend, "Frontend", "Webapplicatie", "Gebruikersinterface voor reisplanning en boekingen")
-    Container(Backend, "Backend", "REST API", "Verwerkt bedrijfslogica en beheert communicatie met externe diensten")
+    Container(Frontend, "Frontend", "React, JavaScript", "Gebruikersinterface voor reisplanning en boekingen")
+    Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt bedrijfslogica en beheert communicatie met externe diensten")
     ContainerDb(Database, "Database", "Couchbase", "Slaat gebruikers-, boekings- en reisgegevens op")
 }
 
