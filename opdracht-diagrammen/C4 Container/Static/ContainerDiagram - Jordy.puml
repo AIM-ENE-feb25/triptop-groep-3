@@ -11,7 +11,7 @@ System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4
 Container(Frontend, "Frontend", "React, JavaScript", "Beheert reisboekingen en gebruikersinteracties")
 Container(GatewayAPI, "GatewayAPI", "Spring Boot, Java", "Verwerkt API-aanvragen")
 Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt bedrijfslogica")
-ContainerDb(Database, "Database", "MongoDB", "Bewaart gebruikers- en reisdata")
+ContainerDb(Database, "Database", "Couchbase", "Bewaart gebruikers- en reisdata")
 }
 
 ' Definieer Externe Systemen
