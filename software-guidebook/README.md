@@ -155,44 +155,9 @@ Ook is Couchbase makkelijker te leren
 
 
 ### 8.2. ADR-002 Ontwerpvraag Tren
-## Status
-Under discussion
+
 
 ## Context
-
-Voor TripTop, een Reisplanningsapplicatie in constructie, moeten we een database kiezen die schaalbaar en flexibel is,
-gezien de verschillende bouwstenen en de integratie met externe services.
-De database moet in staat zijn om dynamisch gegevens op te slaan,
-zoals reisopties en gebruikersinformatie, en deze efficiënt beheren.
-De keuze moet ook de integratie van diverse APIs en het omgaan met veranderende datastructuren ondersteunen,
-zonder de applicatie ingrijpend aan te passen.
-
-## Considered Options
-
-| Forces | MongoDB | Cassandra | neo4J | Redis | Couchbase | MySQL |
-| --- |---| - |-------|-------|-----------|-------|
-| snelheid | + | + | +     | +     | +         | 0     |
-| leercurve | + | — | —     | +     | +         | ++    |
-| functionaliteit | ++ | + | +     | -     | ++        | ++    |
-| schaalbaarheid | + | + | +     | +     | 0         | 0     |
-| ervaring | 0 | 0 | 0     | —     | —         | ++    |
-
-## Decision
-
-Omdat functionaliteit en leercurve zwaar meewegen, en ervaring,
-schaalbaarheid & snelheid minder meeweegt, is bij ons de overweging gekomen tussen MySQL, MongoDB & Couchbase.
-De keuze is gevallen op Couchbase, omdat deze de meeste voordelen heeft en erg flexibel is.
-Als we kijken naar de tabel, en alle zwaarwegende plussen en minnen op- en aftellen,
-dan komen wij tot de conclusie dat Couchbase het hoogst scoort.
-
-## Consequences
-
-Het gebruiken van Couchbase geeft TripTop de mogelijkheid om flink op te schalen wanneer het bedrijf daar klaar voor is.
-Je krijgt documentbased data, waardoor het datamodel enorm flexibel is.
-Het wordt dus makkelijk gemaakt om snel data toe te voegen, of bestaande structuren aan te passen wanneer nodig.
-Ook is Couchbase makkelijker te leren
-
-## Contexta
 
 In de applicatie **TripTop** communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
 
@@ -214,9 +179,9 @@ We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **w
 
 ## Decision
 
-In de applicatie **TripTop** communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
+In de applicatie TripTop communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
 
-We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **wijzigingen in de businesslogica of presentatie-laag** van onze applicatie. De oplossing moet:
+We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wijzigingen in de businesslogica of presentatie-laag van onze applicatie. De oplossing moet:
 
 •	Aanpasbaar zijn bij verandering van een specifieke API
 
@@ -226,13 +191,13 @@ We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **w
 
 ## Consequences
 
-•	Wijzigingen in externe datastructuren vereisen **alleen aanpassing in de betreffende client/mapper**
+•	Wijzigingen in externe datastructuren vereisen alleen aanpassing in de betreffende client/mapper
 
-•	De rest van de applicatie (services, controller, repository) blijft **stabiel**
+•	De rest van de applicatie (services, controller, repository) blijft stabiel
 
-•	We kunnen eenvoudig nieuwe externe APIs integreren door **nieuwe client + mapping toe te voegen**
+•	We kunnen eenvoudig nieuwe externe APIs integreren door nieuwe client + mapping toe te voegen
 
-•	Door duidelijk onderscheid tussen domeinmodellen en externe modellen, blijft **code begrijpelijk en testbaar**
+•	Door duidelijk onderscheid tussen domeinmodellen en externe modellen, blijft code begrijpelijk en testbaar
 ### 8.3. ADR-003 TITLE
 
 > [!TIP]
