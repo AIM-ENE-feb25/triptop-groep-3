@@ -1,11 +1,6 @@
 @startuml
-
+skinparam classAttributeIconSize 0
 title Class Diagram – Omgaan met externe datastructuren (één mapper per Client)
-
-class TravelController {
-    +getTravelPlan(userId)
-}
-
 class TravelService {
     +getTravelPlan(userId)
 }
@@ -19,7 +14,7 @@ class CarRentalClient {
     +fetchCarOptions(location)
 }
 
-class CarRentalMapper {
+class CarRentalAdapter {
     +map(response): CarRental
 }
 
@@ -27,7 +22,7 @@ class HotelClient {
     +fetchHotels(destination)
 }
 
-class HotelMapper {
+class HotelAdapter {
     +map(response): Hotel
 }
 
@@ -35,7 +30,7 @@ class TravelGuideClient {
     +fetchActivities(destination)
 }
 
-class TravelGuideMapper {
+class TravelGuideAdapter {
     +map(response): Activity
 }
 
@@ -43,7 +38,7 @@ class DiningOptionsClient {
     +fetchDiningOptions(destination)
 }
 
-class DiningOptionsMapper {
+class DiningOptionsAdapter {
     +map(response): DiningOption
 }
 
@@ -51,7 +46,7 @@ class TravelMethodsClient {
     +fetchTransportOptions(from, to)
 }
 
-class TravelMethodsMapper {
+class TravelMethodsAdapter {
     +map(response): TransportOption
 }
 
@@ -64,7 +59,6 @@ class TravelPlan {
 }
 
 ' Relaties
-TravelController --> TravelService : uses
 TravelService --> TravelPlansRepository : uses
 TravelService --> CarRentalClient : uses
 TravelService --> HotelClient : uses
@@ -74,10 +68,10 @@ TravelService --> TravelMethodsClient : uses
 TravelService --> EmailClient : uses
 TravelService --> TravelPlan : assembles
 
-CarRentalClient --> CarRentalMapper : maps response
-HotelClient --> HotelMapper : maps response
-TravelGuideClient --> TravelGuideMapper : maps response
-DiningOptionsClient --> DiningOptionsMapper : maps response
-TravelMethodsClient --> TravelMethodsMapper : maps response
+CarRentalClient --> CarRentalAdapter : maps response
+HotelClient --> HotelAdapter : maps response
+TravelGuideClient --> TravelGuideAdapter : maps response
+DiningOptionsClient --> DiningOptionsAdapter : maps response
+TravelMethodsClient --> TravelMethodsAdapter : maps response
 
 @enduml
