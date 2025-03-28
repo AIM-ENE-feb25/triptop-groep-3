@@ -16,7 +16,6 @@ class DatabaseService {
     +CompareCache(travelData)
 }
 
-
 TravelControl --> APIService : uses
 TravelControl --> DatabaseService : uses
 

@@ -1,0 +1,45 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class TravelData {
+    - travelDataDescription: String
+    - DataType: String
+    - sourceLink: String
+    - travelerId: int
+    + update(state String, date String)
+}
+
+interface TravelDataState {
+    +UpdateState(state String, date String) : TravelDataState
+}
+
+class Planned {
+    - plannedDate: String
+    +UpdateState(state String) : TravelDataState
+}
+
+class Arranged {
+    +UpdateState(state String, date String) : TravelDataState
+}
+
+class Paid {
+    +UpdateState(state String, date String) : TravelDataState
+}
+
+class NotDoable {
+    +UpdateState(state String, date String) : TravelDataState
+}
+
+class Done {
+    - dateDone: String
+    +UpdateState(state String, date String) : TravelDataState
+}
+
+TravelData --> "currentState 1" TravelDataState: located in >
+Arranged ..|> TravelDataState
+Paid ..|> TravelDataState
+Planned ..|> TravelDataState
+Done ..|> TravelDataState
+NotDoable ..|> TravelDataState
+
+@enduml
