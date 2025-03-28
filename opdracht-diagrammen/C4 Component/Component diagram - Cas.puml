@@ -29,6 +29,8 @@ System_Ext(IdProviderAPI, "Google / Microsoft / Airbnb login Provider", "Beheert
 BookingController -down-> BookingService : "Verwerkt boeking aanvragen"
 BookingService -down-> BookingRepository : "Ophalen en opslaan van boekingsdata"
 BookingRepository -down-> Database : "Leest/schrijft boekingsdata"
+UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
+
 
 ExternalServiceAdapter -left-> BookingAPI : "Boekt accommodaties"
 ExternalServiceAdapter -left-> TransportAPI : "Boekt transport"
@@ -38,10 +40,9 @@ ExternalServiceAdapter -left-> FoodAPI : Regelt restaurantboekingen
 ExternalServiceAdapter -right-> IdProviderAPI : Regelt authenticatie
 BookingService -down-> ExternalServiceAdapter : "Communiceert met externe systemen voor boekingen"
 
-Frontend -down-> BookingController : "Boekingen beheren"
-Frontend -down-> UserController : "Gebruikersbeheer en authenticatie"
+Frontend -down-> BookingController : "Boekingen beheren [HTTP/JSON]"
+Frontend -down-> UserController : "Gebruikersbeheer en authenticatie [HTTP/JSON]"
 UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
-UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
 UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
 UserService -down-> ExternalServiceAdapter : "Regelt authenticatie via externe providers"
 
