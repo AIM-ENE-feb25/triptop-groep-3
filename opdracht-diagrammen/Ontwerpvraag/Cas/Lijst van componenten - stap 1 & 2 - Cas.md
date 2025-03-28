@@ -1,5 +1,8 @@
 # Lijst van componenten en verantwoordelijkheden
 
+**Onderzoeksvraag**:
+Wie roept een specifieke externe service aan, gebeurt dat vanuit de front-end of vanuit de back-end? Welke redenen zijn er om voor de ene of de andere aanpak te kiezen? (Interoperability)
+
 
 | **Componentnaam**                     | **Verantwoordelijkheid**                                                                                                                                             |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

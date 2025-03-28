@@ -1,0 +1,38 @@
+@startuml
+
+
+
+class AuthServiceAdapter implements ExternalServiceAdapter {
+}
+
+class TransportServiceAdapter implements ExternalServiceAdapter {
+}
+
+interface ExternalServiceAdapter {
+    +callService(serviceId, payload)
+    +mapResponseToDomainModel(response)
+}
+
+class Frontend {
+    +fetchAvailableServices()
+    +requestService(serviceId)
+    +getUserSession()
+}
+
+class Backend {
+    +getAvailableServices()
+    +processServiceRequest(serviceId, userId)
+    +authenticateUser(token)
+}
+
+class DatabaseService {
+    +saveServiceRequest(userId, serviceId, status)
+    +getUserSession(userId)
+    +updateServiceStatus(requestId, status)
+}
+
+Frontend --> Backend : uses
+Backend --> ExternalServiceAdapter : uses
+Backend --> DatabaseService : uses
+
+@enduml

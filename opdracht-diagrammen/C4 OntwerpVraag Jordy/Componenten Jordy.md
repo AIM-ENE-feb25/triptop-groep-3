@@ -1,3 +1,7 @@
+Vraag:
+Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn 
+en toch verwacht wordt dat er waardevolle output gegeven wordt?
+
 Stap 1
 
 | **Componentnaam**          | **Verantwoordelijkheid**                                                                                                     |
@@ -18,15 +22,17 @@ Interface TravelControl
 
 Interface APIService: 
 
-| **Methode**               | **Parameters**    | **Returnwaarde** | **Beschrijving**                         |
-|---------------------------| ----------------- | ---------------- |------------------------------------------|
-| DetermineResult(response) | response: object | serviceResponse | Bepaald het resultaat van de API request | 
+| **Methode**                    | **Parameters**    | **Returnwaarde** | **Beschrijving**                        |
+|--------------------------------| ----------------- | ---------------- |-----------------------------------------|
+| ReturnResult(response)         | response: object | serviceResponse | Bepaald het resultaat van de API request | 
+| SendRequest(keyword, category) | keyword: string, category: string | serviceResponse | Stuurt verzoek naar externe API         | 
+
 
 Interface DatabaseService: 
 
-| **Methode**                     | **Parameters**                    | **Returnwaarde** | **Beschrijving**                                                          |
-|---------------------------------|-----------------------------------|------------------|---------------------------------------------------------------------------|
-| CollectCache(keyword, category) | keyword: string, category: string | travelData       | Haalt data op uit de cache op basis van gekozen trefwoord en/of categorie | 
-| StoreCache(travelData)          | travelData: object                | bool             | Slaat data op in de cache en geeft aan of dit slaagt of faalt             | 
-| CompareCache(travelData) travelData: object | bool | Controleert of de reisdata al bestaat in de cache | 
+| **Methode**                      | **Parameters**                    | **Returnwaarde** | **Beschrijving**                                                          |
+|----------------------------------|-----------------------------------|------------------|---------------------------------------------------------------------------|
+| ReturnCollect(keyword, category) | keyword: string, category: string | travelData       | Haalt data op uit de cache op basis van gekozen trefwoord en/of categorie | 
+| StoreCache(travelData)           | travelData: object                | bool             | Slaat data op in de cache en geeft aan of dit slaagt of faalt             | 
+| CompareCache(travelData)         |  travelData: object               | bool | Controleert of de reisdata al bestaat in de cache | 
 

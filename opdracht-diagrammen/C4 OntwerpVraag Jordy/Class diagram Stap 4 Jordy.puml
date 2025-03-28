@@ -1,0 +1,23 @@
+@startuml
+
+class TravelControl {
+    +RequestData(keyword, category)
+    +RequestCache(keyword, category)
+}
+
+class APIService {
+    +ReturnResult(response)
+    +SendRequest(keyword, category)
+}
+
+class DatabaseService {
+    +ReturnCollect(keyword, category)
+    +StoreCache(travelData)
+    +CompareCache(travelData)
+}
+
+
+TravelControl --> APIService : uses
+TravelControl --> DatabaseService : uses
+
+@enduml

@@ -6,23 +6,27 @@ LAYOUT_TOP_DOWN()
 Person(Traveler, "Reiziger", "Plannen en boeken van een reis")
 
 System_Boundary(s1, "Triptop Applicatie") {
-    Container(Frontend, "Webapplicatie", "?", "De front-end applicatie waarmee de reiziger kan inloggen")
-    Container(Backend, "Backend", "?", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
-    Container(ApiGateway, "API Gateway", "?", "Behandelt alle API-verzoeken")
+    Container(Frontend, "Frontend", "React, JavaScript", "De front-end applicatie waarmee de reiziger kan inloggen")
+    Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt aanvragen, beheert reisdata en voert logica uit")
+    Container(ApiGateway, "API Gateway", "Spring Boot, Java", "Behandelt alle API-verzoeken")
+    ContainerDb(Database, Database, MongoDB, Bewaart gebruikers- en reisgegevens)
 }
 
 System_Ext(IdentityProvider, "Identity Provider", "Regelt authenticatie")
 
 Rel(Traveler, Frontend, "Interactie met de webapplicatie")
 
-Rel(Frontend, ApiGateway, "Stuurt inloggegevens door")
-Rel(ApiGateway, Backend, Stuurt gegevens door)
-Rel(Backend, Backend, Controleer of token geldig is)
+Rel(Frontend, ApiGateway, "Verstuurt inlogverzoek")
+Rel(ApiGateway, Backend, Verstuurt inlogverzoek)
 
-Rel(Backend, IdentityProvider, Stuurt emailadres door)
-Rel(IdentityProvider, Backend, "Stuurt authenticatietoken terug")
-Rel(Backend, ApiGateway, Stuurt token door)
-Rel(ApiGateway, Frontend, Stuurt token door)
+Rel(Backend, IdentityProvider, Verstuurt e-mail van gebruiker)
+Rel(IdentityProvider, Backend, "Verstuurt authenticatietoken")
+Rel(Backend, Backend, Verifieert token)
+
+Rel(Backend, Database, "Haalt gegevens op")
+
+Rel(Backend, ApiGateway, Verstuurt token & gegevens)
+Rel(ApiGateway, Frontend, Verstuurt token & gegevens)
 Rel(Frontend, Frontend, Slaat token op)
 
 

@@ -17,22 +17,19 @@ class ExternalServiceAdapter {
     +mapResponseToDomainModel(response)
 }
 
+class AuthServiceAdapter {
+    +callService(payload)
+}
+
 class DatabaseService {
     +saveServiceRequest(userId, serviceId, status)
     +getUserSession(userId)
     +updateServiceStatus(requestId, status)
 }
 
-class AuthService {
-    +validateToken(token)
-    +checkPermissions(userId, action)
-}
-
 FrontendService --> BackendAPI : uses
 BackendAPI --> ExternalServiceAdapter : uses
 BackendAPI --> DatabaseService : uses
-BackendAPI --> AuthService : uses
-DatabaseService --> BackendAPI : interacts with
-AuthService --> BackendAPI : interacts with
+ExternalServiceAdapter --> AuthServiceAdapter : delegates to
 
 @enduml

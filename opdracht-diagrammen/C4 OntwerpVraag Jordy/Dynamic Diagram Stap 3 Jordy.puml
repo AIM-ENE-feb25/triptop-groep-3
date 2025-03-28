@@ -1,0 +1,16 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+participant TravelControl
+participant APIService
+participant DatabaseService
+participant "External API" as ExternalAPI
+
+TravelControl -> APIService : RequestData(keyword, category)
+APIService -> ExternalAPI : SendRequest(keyword, category)
+APIService -> TravelControl : DetermineResult(response)
+TravelControl -> DatabaseService : RequestCache(keyword, category)
+DatabaseService -> DatabaseService : CompareCache(travelData)
+DatabaseService -> TravelControl : ReturnCollect(keyword, category)
+
+@enduml
