@@ -10,7 +10,7 @@ class TravelData {
 }
 
 interface TravelDataState {
-    +UpdateState(state String, date String) : TravelDataState
+    +{abstract}UpdateState(state String, date String) : TravelDataState
 }
 
 class Planned {
@@ -36,10 +36,10 @@ class Done {
 }
 
 TravelData --> "currentState 1" TravelDataState: located in >
-Arranged ..|> TravelDataState
-Paid ..|> TravelDataState
-Planned ..|> TravelDataState
-Done ..|> TravelDataState
-NotDoable ..|> TravelDataState
+Arranged .|> TravelDataState
+Paid .u.|> TravelDataState
+Planned .u.|> TravelDataState
+Done .u.|> TravelDataState
+NotDoable .l.|> TravelDataState
 
 @enduml

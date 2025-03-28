@@ -106,8 +106,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.3. Design & Code
 
-> [!IMPORTANT]
-> Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
+
+Travel data State Pattern class diagram. 
+![img_12.png](img_12.png)
 
 ## 8. Architectural Decision Records
 
