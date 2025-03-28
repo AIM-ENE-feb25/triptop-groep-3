@@ -8,22 +8,20 @@ Person(user, "Traveler")
 Container(travelController, "TravelController", "Spring REST Controller", "Ontvangt HTTP-verzoeken")
 Container(travelService, "TravelService", "Service", "Verwerkt reisaanvragen")
 Container(Client, "Client", "Client", "Haalt gegevens op")
-Container(mapper, "TravelApiMapper", "Mapper", "Mapt externe API-data naar interne modellen")
+Container(adapter, "TravelApiAdapter", "Adapter", "Mapt externe API-data naar interne modellen")
 
 Rel(user, travelController, "vraagt reisplan op", "HTTP")
 Rel(travelController, travelService, "roept aan", "getTravelPlan(userId)")
 
-' Als er geen plan is, stel een nieuw plan samen met data uit externe APIs
 Rel(travelService, Client, "haalt gegevens op", "fetchgegevens(benodigde parameters)")
 
 
-' Responses worden gemapt naar interne modellen
-Rel(Client, mapper, "geeft externalResponse")
-Rel(mapper, travelService, "geeft  model terug")
+Rel(Client, adapter, "geeft externalResponse", "JSON")
+Rel(adapter, travelService, "geeft  model terug", "JSON")
 
 
 ' Antwoord terug naar controller
-Rel(travelService, travelController, "geeft TravelPlan terug")
+Rel(travelService, travelController, "geeft TravelPlan terug", "JSON")
 Rel(travelController, user, "stuurt TravelPlan terug", "JSON")
 
 @enduml

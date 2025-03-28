@@ -1,5 +1,6 @@
 @startuml C4_Elements
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
 ' Definieer Gebruikers
 Person(Traveler, "Reiziger", "Boekt en beheert reizen")
 Person(TravelAgent, "Reisbureau", "Ondersteunt reizigers met boekingen")
@@ -7,11 +8,9 @@ Person(TravelAgent, "Reisbureau", "Ondersteunt reizigers met boekingen")
 ' Definieer Systeem
 System_Boundary(TripTop, "TripTop", $link="https://github.com/plantuml-stdlib/C4-PlantUML") {
 
-' Definieer Containers
-Container(Frontend, "Frontend", "React, JavaScript", "Beheert reisboekingen en gebruikersinteracties")
-Container(GatewayAPI, "GatewayAPI", "Spring Boot, Java", "Verwerkt API-aanvragen")
-Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt bedrijfslogica")
-ContainerDb(Database, "Database", "MongoDB", "Bewaart gebruikers- en reisdata")
+  Container(Frontend, "Frontend", "React, JavaScript", "Beheert reisboekingen en gebruikersinteracties")
+  Container(Backend, "Backend", "Spring Boot, Java", "Verwerkt bedrijfslogica")
+  ContainerDb(Database, "Database", "MongoDB", "Bewaart gebruikers- en reisdata")
 }
 
 ' Definieer Externe Systemen
@@ -25,8 +24,7 @@ System_Ext(IdProvider, "Google / Microsoft / Airbnb login Provider", "Beheert au
 ' Relaties
 Traveler -> Frontend : "Boekt en beheert reizen"
 TravelAgent -> Frontend : "Ondersteunt reizigers met boekingen"
-Frontend -> GatewayAPI : "Verstuurt HTTP-verzoek"
-GatewayAPI -> Backend : "Verwerkt verzoek"
+Frontend -> Backend : "Verstuurt HTTP-verzoek"
 Backend -> Booking : "Boekt accommodaties"
 Backend -> Transport : "Boekt transport"
 Backend -> CarRent : "Boekt huurauto"
@@ -38,12 +36,12 @@ Backend -> IdProvider : "Inloggen en authenticatie"
 ' Positionering
 Traveler -[hidden]-> TripTop
 TravelAgent -[hidden]-> TripTop
-TripTop -[hidden]-> GatewayAPI
-GatewayAPI -[hidden]-> Booking
-GatewayAPI -[hidden]-> Transport
-GatewayAPI -[hidden]-> CarRent
-GatewayAPI -[hidden]-> Activities
-GatewayAPI -[hidden]-> Food
-GatewayAPI -[hidden]-> IdProvider
+TripTop -[hidden]-> Backend
+Backend -[hidden]-> Booking
+Backend -[hidden]-> Transport
+Backend -[hidden]-> CarRent
+Backend -[hidden]-> Activities
+Backend -[hidden]-> Food
+Backend -[hidden]-> IdProvider
 
 @enduml
