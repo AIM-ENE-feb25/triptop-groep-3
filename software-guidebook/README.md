@@ -9,7 +9,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 
 ## 2. Context
 
-![img_3.png](img_3.png)
+![img_3.png](Images/C4/Context.png)
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
 Toelichting op de context van de software inclusief System Context Diagram:
@@ -109,16 +109,15 @@ Adapter Pattern Dynamic Diagram
 ![img_13.png](img_13.png)
 
 Adapter Pattern Class Diagram 
-![img_14.png](img_14.png)
+![img_14.png](Images/Class%20diagrams/Adapter%20pattern%20-%20Tren.png)
 
 Travel data State Pattern class diagram. 
-![img_12.png](img_12.png)
+![img_12.png](Images/Class%20diagrams/State%20pattern%20-%20Jordy.png)
 
 ## 8. Architectural Decision Records
 
-> Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
-### 8.1. ADR-001 Database
+# 8.1. ADR-001 Database
 ## Status
 Under discussion
 ## Context
@@ -159,7 +158,7 @@ Ook is Couchbase makkelijker te leren
 
 
 
-### 8.2. ADR-002 Ontwerpvraag Tren
+# 8.2. ADR-002 Ontwerpvraag Tren
 
 
 ## Context
@@ -227,7 +226,7 @@ Na het evalueren van verschillende design patterns is gekozen voor het Adapter P
 Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
 
 
-### 8.4. ADR-004 API Falen 
+# 8.4. ADR-004 API Falen 
 
 ## Status
 Proposed
@@ -261,7 +260,7 @@ Door te kiezen voor Couchbase cache:
 - Kan een waardevolle output teruggegeven worden aan gebruikers door zoekresultaten op te slaan
 
 
-### 8.5. ADR-005 Reisdata toestand
+# 8.5. ADR-005 Reisdata toestand
 
 ## Status
 Proposed
@@ -305,7 +304,7 @@ Door te kiezen voor de state pattern:
 - Kunnen er regels toegevoegd worden aan toestanden om het gedrag ook te beperken 
 
 
-## 8.6. ADR-006  patterns Tren
+# 8.6. ADR-006  patterns Tren
 ## Context
 
 In de applicatie TripTop communiceren we met meerdere externe services.

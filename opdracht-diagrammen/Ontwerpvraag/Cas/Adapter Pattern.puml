@@ -1,11 +1,17 @@
 @startuml
 
-
-
-class AuthServiceAdapter implements ExternalServiceAdapter {
+class AuthenticationController {
+    +handleRequest(serviceId, userId)
 }
 
-class TransportServiceAdapter implements ExternalServiceAdapter {
+class AuthenticationService {
+    +getAvailableServices()
+    +processServiceRequest(serviceId, userId)
+}
+
+class AuthenticationRepository {
+    +saveRequest(userId, serviceId)
+    +getRequestHistory(userId)
 }
 
 interface ExternalServiceAdapter {
@@ -13,26 +19,16 @@ interface ExternalServiceAdapter {
     +mapResponseToDomainModel(response)
 }
 
-class Frontend {
-    +fetchAvailableServices()
-    +requestService(serviceId)
-    +getUserSession()
+class AuthServiceAdapter  {
 }
 
-class Backend {
-    +getAvailableServices()
-    +processServiceRequest(serviceId, userId)
-    +authenticateUser(token)
+class TransportServiceAdapter  {
 }
 
-class DatabaseService {
-    +saveServiceRequest(userId, serviceId, status)
-    +getUserSession(userId)
-    +updateServiceStatus(requestId, status)
-}
-
-Frontend --> Backend : uses
-Backend --> ExternalServiceAdapter : uses
-Backend --> DatabaseService : uses
+AuthenticationController --> AuthenticationService : "calls"
+AuthenticationService --> AuthenticationRepository : "uses"
+AuthenticationService --> ExternalServiceAdapter : "uses"
+ExternalServiceAdapter <|.. AuthServiceAdapter
+ExternalServiceAdapter <|.. TransportServiceAdapter
 
 @enduml
