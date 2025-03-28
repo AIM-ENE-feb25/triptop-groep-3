@@ -39,6 +39,7 @@ Backend -> IdProvider : "Authenticatie en login"
 ' Positionering
 Traveler -[hidden]-> TripTop
 TravelAgent -[hidden]-> TripTop
+Frontend -[hidden]-> Backend
 Backend -[hidden]-> Booking
 Backend -[hidden]-> Transport
 Backend -[hidden]-> CarRent

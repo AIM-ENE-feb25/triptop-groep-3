@@ -1,6 +1,6 @@
 ## Status
 <!-- Kies één: Proposed / Under discussion / Accepted / Rejected -->
-Under discussion
+Accepted
 
 ## Context
 
