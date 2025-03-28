@@ -6,7 +6,7 @@ Proposed
 
 Voor TripTop, een Reisplanningsapplicatie in constructie,
 worden verschillende stukken reisdata opgehaald en opgeslagen voor het organiseren van een of meerdere reisen. 
-Deze stukken reidata bevatten informatie zoals overnachtingen, vervoer, autohuur, excursies, etc. 
+Deze stukken reisdata bevatten informatie zoals overnachtingen, vervoer, autohuur, excursies, etc. 
 Deze reisdata word opgeslagen met gebruik van verschillende toestanden zodat de gebruiker bij kan houden hoe zijn/haar reisplanning verloopt. 
 De vraag is hoe deze toestanden het best kunnen worden geïmplementeerd.
 

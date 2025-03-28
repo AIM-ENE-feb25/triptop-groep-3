@@ -198,6 +198,8 @@ We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wij
 •	We kunnen eenvoudig nieuwe externe APIs integreren door nieuwe client + mapping toe te voegen
 
 •	Door duidelijk onderscheid tussen domeinmodellen en externe modellen, blijft code begrijpelijk en testbaar
+
+
 # 8.3. ADR-003 Design pattern
 
 ## Status
@@ -220,65 +222,82 @@ Na het evalueren van verschillende design patterns is gekozen voor het Adapter P
 Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
 
 
-### 8.4. ADR-004 TITLE
+### 8.4. ADR-004 API Falen 
 
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
+## Status
+Proposed
 
-#### Context
+## Context
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+Voor TripTop, een Reisplanningsapplicatie in constructie,
+worden verschillende externe APIs aangeroepen voor het ophalen van reisinformatie voor gebruikers. 
+Echter komt het wel eens voor dat de externe APIS onbeschikbaar zijn waardoor deze informatie onbeschikbaar is.
+Daarom moet er een keuze gemaakt worden in hoe het systeem hierop reageert.
 
-#### Considered Options
+## Considered Options
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+| Criteria / Forces  | In-Memory Cache | Foutmelding | Couchbase Cache | Redis | 
+|--------------------|----------------|-------------|-----------------|-------|
+| Snelheid           | +              | ++          | +               | +     |
+| Leercurve          | 0              | ++          | 0               | -     | 
+| Waardevolle output | +              | --          | ++              | ++    |
+| integreerbaar      | +              | ++          | ++              | 0     |
 
-#### Decision
+## Decision
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+Ondanks dat een simpele foutmelding het meeste pluspunten scoort, valt deze optie al snel af omdat de voornaamste eis de waardevolle output is. 
+Omdat er gebruikt word gemaakt van CouchBase als database is het gebruik van de cache binnen deze database makkelijk te integreren, en dus de uiteindelijke keuze. 
 
-#### Status
+## Consequences
 
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
+Door te kiezen voor Couchbase cache:
 
-#### Consequences
+- Is integratie een minder groot probleem doordat dit in het bestaande ontwerp makkelijk kan worden toegevoegd
+- Kan een waardevolle output teruggegeven worden aan gebruikers door zoekresultaten op te slaan
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
 
-### 8.5. ADR-005 TITLE
+### 8.5. ADR-005 Reisdata toestand
 
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
+## Status
+Proposed
 
-#### Context
+## Context
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+Voor TripTop, een Reisplanningsapplicatie in constructie,
+worden verschillende stukken reisdata opgehaald en opgeslagen voor het organiseren van een of meerdere reisen. 
+Deze stukken reisdata bevatten informatie zoals overnachtingen, vervoer, autohuur, excursies, etc. 
+Deze reisdata word opgeslagen met gebruik van verschillende toestanden zodat de gebruiker bij kan houden hoe zijn/haar reisplanning verloopt. 
+De vraag is hoe deze toestanden het best kunnen worden geïmplementeerd.
 
-#### Considered Options
+## Considered Options
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+| Criteria / Forces             | State Pattern | Enum | Strategy Pattern | 
+|-------------------------------|--------------|------|------------------|
+| Staat verschillend gedrag toe | ++           | +    | +                |
+|Uitbreidbaar | + | ++   | + |   
+| Delegeerd gedrag aan toestand | ++ | --   | 0 | 
 
-#### Decision
+Legenda:
+- `++` = sterke positieve score
+- `+`  = positief
+- `0`  = neutraal
+- `—`  = negatief
+- `-`  = sterk negatief
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+## Decision
 
-#### Status
+Omdat het gedrag van de opgeslagen reisdata moet veranderen op basis van de toestand,
+b.v. reisdata dat al uitgevoerd is moet niet meer kunnen veranderen, 
+is het van belang dat elke toestand andere functionaliteit kan beheren. 
+Met deze reden is gekozen voor de state pattern. 
 
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
+## Consequences
 
-#### Consequences
+Door te kiezen voor de state pattern:
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+- Is het makkelijk in te zien in welke toestand een stuk reisdata zich bevind 
+- Kan reisdata andere methodes beschikbaar hebben op basis van de huidige toestand
+- Kunnen er regels toegevoegd worden aan toestanden om het gedrag ook te beperken 
 
 ## 9. Deployment, Operation and Support
 
