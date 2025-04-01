@@ -1,77 +1,32 @@
 @startuml
 skinparam classAttributeIconSize 0
-title Class Diagram – Omgaan met externe datastructuren (één mapper per Client)
-class TravelService {
-    +getTravelPlan(userId)
-}
-
-class TravelPlansRepository {
-    +findByUserId(userId)
-    +save(plan)
-}
-
-class CarRentalClient {
-    +fetchCarOptions(location)
-}
-
-class CarRentalAdapter {
-    +map(response): CarRental
-}
+title Class Diagram – Omgaan met externe datastructuren (één adapter per Client)
 
 class HotelClient {
-    +fetchHotels(destination)
+    +useHotelService(destination, latitude, longitude)
 }
 
 class HotelAdapter {
-    +map(response): Hotel
+    +fetchHotels(latitude, longitude)
+    -map(response): Hotel
 }
 
-class TravelGuideClient {
-    +fetchActivities(destination)
+class Hotel {
+    +setDestination(destination)
+    +bookHotel()
 }
 
-class TravelGuideAdapter {
-    +map(response): Activity
+interface IHotelService {
+    +fetchHotels(latitude, longitude)
 }
 
-class DiningOptionsClient {
-    +fetchDiningOptions(destination)
-}
-
-class DiningOptionsAdapter {
-    +map(response): DiningOption
-}
-
-class TravelMethodsClient {
-    +fetchTransportOptions(from, to)
-}
-
-class TravelMethodsAdapter {
-    +map(response): TransportOption
-}
-
-class EmailClient {
-    +sendBookingConfirmation(confirmation)
-}
-
-class TravelPlan {
-    <<Domain Model>>
+class PrototypeTrenAdapterPatternApplication {
+    +main(args)
 }
 
 ' Relaties
-TravelService --> TravelPlansRepository : uses
-TravelService --> CarRentalClient : uses
-TravelService --> HotelClient : uses
-TravelService --> TravelGuideClient : uses
-TravelService --> DiningOptionsClient : uses
-TravelService --> TravelMethodsClient : uses
-TravelService --> EmailClient : uses
-TravelService --> TravelPlan : assembles
-
-CarRentalClient --> CarRentalAdapter : maps response
-HotelClient --> HotelAdapter : maps response
-TravelGuideClient --> TravelGuideAdapter : maps response
-DiningOptionsClient --> DiningOptionsAdapter : maps response
-TravelMethodsClient --> TravelMethodsAdapter : maps response
-
+PrototypeTrenAdapterPatternApplication --> HotelClient : create and use
+HotelClient --> IHotelService : depends on
+HotelAdapter ..|> IHotelService : implements
+HotelAdapter --> Hotel : maps to domain model
 @enduml

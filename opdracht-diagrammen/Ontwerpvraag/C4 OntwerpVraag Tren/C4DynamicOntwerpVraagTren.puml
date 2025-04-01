@@ -1,27 +1,24 @@
 @startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Dynamic Diagram – Ophalen van een reisplan
+' Titel
+title Sequence Diagram – Hotel Service Adapter Pattern
 
-Person(user, "Traveler")
+participant Main as PrototypeTrenAdapterPatternApplication
+participant Client as HotelClient
+participant Service as IHotelService
+participant Adapter as HotelAdapter
+participant ExternalAPI as "Booking.com API"
+participant Mapper as "map(response)"
+participant DomainModel as Hotel
 
-Container(travelController, "TravelController", "Spring REST Controller", "Ontvangt HTTP-verzoeken")
-Container(travelService, "TravelService", "Service", "Verwerkt reisaanvragen")
-Container(Client, "Client", "Client", "Haalt gegevens op")
-Container(adapter, "TravelApiAdapter", "Adapter", "Mapt externe API-data naar interne modellen")
-
-Rel(user, travelController, "vraagt reisplan op", "HTTP")
-Rel(travelController, travelService, "roept aan", "getTravelPlan(userId)")
-
-Rel(travelService, Client, "haalt gegevens op", "fetchgegevens(benodigde parameters)")
-
-
-Rel(Client, adapter, "geeft externalResponse", "JSON")
-Rel(adapter, travelService, "geeft  model terug", "JSON")
-
-
-' Antwoord terug naar controller
-Rel(travelService, travelController, "geeft TravelPlan terug", "JSON")
-Rel(travelController, user, "stuurt TravelPlan terug", "JSON")
+Main -> Client : useHotelService("Amsterdam", lat, long)
+Client -> Service : fetchHotels(lat, long)
+Service -> Adapter : fetchHotels(lat, long)
+Adapter -> ExternalAPI : HTTP GET request met coordinaten
+ExternalAPI --> Adapter : JSON response
+Adapter -> Mapper : map(response)
+Mapper --> DomainModel : Hotel object
+Adapter -> DomainModel : bookHotel()
 
 @enduml
