@@ -1,19 +1,14 @@
 
 @startuml
 
-[*] --> PLANNED
-PLANNED : this is a string
-PLANNED : this is another string
+[*] --> PLANNED : New Activity
 
-PLANNED -> PAID
-PLANNED -> ARRANGED
-PLANNED -> NOTDOABLE
-PAID -> NOTDOABLE
-PAID -> DONE
-ARRANGED -> NOTDOABLE
-ARRANGED -> DONE
-
-NOTDOABLE --> [*] : final
-DONE --> [*] : final
+PLANNED -down-> PAID : paid
+PLANNED -down-> NOTDOABLE : unavailable
+PLANNED -down-> ARRANGED : reserved
+PAID -right-> NOTDOABLE : unavailable
+PAID -down-> DONE : executed
+ARRANGED -left-> NOTDOABLE : unavailable
+ARRANGED -down-> DONE : executed
 
 @enduml
