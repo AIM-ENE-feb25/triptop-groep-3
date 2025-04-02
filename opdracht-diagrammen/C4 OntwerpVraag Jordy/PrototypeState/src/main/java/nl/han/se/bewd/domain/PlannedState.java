@@ -13,10 +13,8 @@ public class PlannedState implements TravelDataState {
             return new PaidState();
         } else if (Objects.equals(state, "NotDoable")){
             return new NotDoableState();
-        } else if (Objects.equals(state, "Done")){
-            return new DoneState(date);
-        } else {
-            System.out.println("This state can only be updated to not doable or done.");
+        }  else {
+            System.out.println("This state can only be updated to paid, arranged or not doable.");
             return this;
         }
     }
