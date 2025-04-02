@@ -1,6 +1,6 @@
 package nl.han.se.bewd;
 
-public interface ExternalServiceAdapter {
+public interface iExternalServiceAdapter {
     void callService(String serviceId, String payload);
     Object mapResponseToDomainModel(String response);
 }

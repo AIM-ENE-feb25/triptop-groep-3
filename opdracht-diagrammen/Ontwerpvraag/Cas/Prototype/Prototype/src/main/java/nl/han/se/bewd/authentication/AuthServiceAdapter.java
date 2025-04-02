@@ -1,11 +1,14 @@
-package nl.han.se.bewd;
+package nl.han.se.bewd.authentication;
+
+import nl.han.se.bewd.iExternalServiceAdapter;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class AuthServiceAdapter implements ExternalServiceAdapter {
+public class AuthServiceAdapter implements iExternalServiceAdapter {
     private static final String API_URL = "https://easy-authenticator.p.rapidapi.com/newAuthKey";
     private static final String RAPIDAPI_KEY = "70a86ded3fmsh28c7c8558de8c7ep16db07jsn0d0a4e3c2dfa";
     private static final String RAPIDAPI_HOST = "easy-authenticator.p.rapidapi.com";
@@ -50,7 +53,9 @@ public class AuthServiceAdapter implements ExternalServiceAdapter {
     }
 
     @Override
-    public Object mapResponseToDomainModel(String response) {
-        return "Mapped Auth Response: " + response;
+    public AuthResponse mapResponseToDomainModel(String response) {
+        JSONObject json = new JSONObject(response);
+        String secretCode = json.getString("secretCode");
+        return new AuthResponse(secretCode);
     }
 }
