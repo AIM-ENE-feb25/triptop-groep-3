@@ -1,6 +1,12 @@
 package nl.han.se.bewd.domain;
 
 public class TravelData {
+
+    private String travelDataDescription;
+    private int travelerId;
+    private int travelDataId;
+    private TravelDataState currentState;
+
     public String getTravelDataDescription() {
         return travelDataDescription;
     }
@@ -9,28 +15,12 @@ public class TravelData {
         this.travelDataDescription = travelDataDescription;
     }
 
-    public String getDataType() {
-        return DataType;
-    }
-
-    public void setDataType(String dataType) {
-        DataType = dataType;
-    }
-
-    public String getSourceLink() {
-        return sourceLink;
-    }
-
-    public void setSourceLink(String sourceLink) {
-        this.sourceLink = sourceLink;
-    }
-
     public int getTravelDataId() {
-        return TravelDataId;
+        return travelDataId;
     }
 
     public void setTravelDataId(int travelDataId) {
-        TravelDataId = travelDataId;
+        this.travelDataId = travelDataId;
     }
 
     public int getTravelerId() {
@@ -45,16 +35,12 @@ public class TravelData {
         return currentState;
     }
 
-    private String travelDataDescription;
-    private String DataType;
-    private String sourceLink;
-    private int travelerId;
-    private int TravelDataId;
-    private TravelDataState currentState;
-
-
     public void update(String state, String date) {
-        currentState = currentState.UpdateState(state, date);
+        if(currentState != null) {
+            currentState = currentState.UpdateState(state, date);
+        } else {
+            currentState = new PlannedState();
+        }
     }
 
 }

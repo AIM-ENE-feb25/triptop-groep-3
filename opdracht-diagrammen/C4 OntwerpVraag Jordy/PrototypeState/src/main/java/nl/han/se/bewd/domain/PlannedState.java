@@ -7,4 +7,8 @@ public class PlannedState implements TravelDataState {
     public TravelDataState UpdateState(String state, String date) {
         return null;
     }
+
+    public String getState() {
+        return "Planned";
+    }
 }
