@@ -1,4 +1,4 @@
-package nl.han.se.bewd.transport;
+package nl.han.se.bewd.adapter;
 
 import nl.han.se.bewd.iExternalServiceAdapter;
 

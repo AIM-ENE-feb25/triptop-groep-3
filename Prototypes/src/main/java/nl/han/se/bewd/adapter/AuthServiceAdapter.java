@@ -1,6 +1,7 @@
-package nl.han.se.bewd.authentication;
+package nl.han.se.bewd.adapter;
 
-import nl.han.se.bewd.iExternalServiceAdapter;
+import nl.han.se.bewd.adapter.iExternalServiceAdapter;
+import nl.han.se.bewd.response.AuthResponse;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;

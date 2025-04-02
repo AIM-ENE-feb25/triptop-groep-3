@@ -1,4 +1,4 @@
-package nl.han.se.bewd.authentication;
+package nl.han.se.bewd.repository;
 
 import java.util.HashSet;
 import java.util.Set;
