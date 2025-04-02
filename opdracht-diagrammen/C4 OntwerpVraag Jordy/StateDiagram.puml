@@ -1,0 +1,19 @@
+
+@startuml
+
+[*] --> PLANNED
+PLANNED : this is a string
+PLANNED : this is another string
+
+PLANNED -> PAID
+PLANNED -> ARRANGED
+PLANNED -> NOTDOABLE
+PAID -> NOTDOABLE
+PAID -> DONE
+ARRANGED -> NOTDOABLE
+ARRANGED -> DONE
+
+NOTDOABLE --> [*] : final
+DONE --> [*] : final
+
+@enduml
