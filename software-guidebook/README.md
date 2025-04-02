@@ -81,6 +81,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > [!IMPORTANT]
 > Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
 
+De software wordt opgesteld voor een webapplicatie. 
+Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
+
 ## 6. Principles
 
 > [!IMPORTANT]
