@@ -88,6 +88,12 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
+Binnen de software wordt er regelmatig gebruik gemaakt van verschillende soorten reis data en activiteiten waarmee de gebruikers hun reis kunnen samen stellen. 
+Deze stukken reis data kunnen zich binnen het systeem in verschillende toestanden bevinden, met elke toestand ander gedrag en variabele die moeten worden opgeslagen. 
+Omdat deze toestanden later nog aangepast of uitgebreid kunnen worden is het volgens het design principe 'Encapsulate What Varies' van belang dat deze toestanden worden opgenomen 
+in een geïsoleerde omgeving van de rest van de software door gebruik van een interface die bij alle toestanden geïmplemteerd word.
+
+
 ## 7. Software Architecture
 
 ###     7.1. Containers
@@ -122,7 +128,9 @@ Travel data states class diagram.
 
 In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
 Binnen dit diagram staat het interface 'TravelDataState' centraal met een abstracte methode die in elke toestand klasse word geïmplementeerd. 
-Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast. 
+Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, 
+hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
+Op deze manier wordt er ook gebruik gemaakt van het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
 
 Travel Data State Pattern state diagram.
 ![img.png](img.png)
@@ -281,7 +289,7 @@ Door te kiezen voor Couchbase cache:
 # 8.5. ADR-005 Reisdata toestand
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 
