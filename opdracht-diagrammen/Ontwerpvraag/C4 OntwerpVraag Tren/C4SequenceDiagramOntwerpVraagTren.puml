@@ -1,5 +1,5 @@
 @startuml
-title Sequence Diagram – Adapter pattern flow met aparte mapping
+title Sequence Diagram – Adapter pattern
 
 participant "HotelController" as Controller
 participant "HotelService" as Service
@@ -18,4 +18,4 @@ Adapter --> Client : List<Map>
 Client --> Service : List<Map>
 Service --> Controller : List<Map>
 
-@enduml
+@enduml§

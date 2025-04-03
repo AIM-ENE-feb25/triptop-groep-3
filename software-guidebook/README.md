@@ -145,11 +145,22 @@ Hierbij staat de verbinding tussen de backend en de verschillende externe APIs v
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 ###     7.3. Design & Code
-Adapter Pattern Dynamic Diagram 
-![img_13.png](img_13.png)
+Adapter Pattern Sequence Diagram 
+![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
+
+
+Het sequentiediagram toont de volledige flow van een HTTP-aanvraag tot aan de gemapte hoteldata. De HotelController handelt de HTTP GET request af en gebruikt de HotelService voor domeinlogica. Die service schakelt via de BookingApiClient de ExternalApiHotelAdapter in.
+De adapter zorgt voor communicatie met de Booking.com API (callExternalApi) en zet de response om naar een bruikbare datastructuur (mapResponse).
+De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibility Principle en het Adapter Pattern.
+
+
 
 Adapter Pattern Class Diagram 
-![img_14.png](Images/Class%20diagrams/Adapter%20pattern%20-%20Tren.png)
+![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
+
+In dit klassendiagram wordt duidelijk hoe het Adapter Pattern is toegepast om externe JSON-data (Booking.com) te integreren in het systeem zonder afhankelijkheid van de externe structuur. De ExternalApiHotelAdapter is verantwoordelijk voor zowel de API-call (callExternalApi) als het omzetten van de externe response naar interne structuur (mapResponse), waarmee de principes van Encapsulation en Separation of Concerns worden gevolgd.
+De IHotelService interface zorgt voor loskoppeling, waardoor andere adapters eenvoudig toegevoegd kunnen worden in de toekomst.
+
 
 Travel data states class diagram. 
 ![img_1.png](img_1.png)
@@ -167,6 +178,9 @@ In bovenstaand diagram is weergegeven op welke manier de toestand van een stuk r
 Er word hierbij vanuit gegaan dat de toestanden 'Arranged' en 'Paid' aan elkaar gelijk staan, omdat niet alle activiteiten altijd vooraf betaald hoeven worden. 
 Denk hierbij bijvoorbeeld aan een etentje of iets soortgelijks wat ter plekke betaald word maar wel gereserveerd kan worden.
 Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
+
+
+
 
 ## 8. Architectural Decision Records
 
@@ -478,3 +492,27 @@ Door te kiezen voor losse API's voor verschillende betaalmethodes, moeten we:
 
 > [!TIP]
 > Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
+
+# Gebruik Booking API
+## Benodigdheden
+- Java 21
+- Maven 3.9 
+- IDE naar keuze
+- internetverbinding
+- Geldige API keys
+
+
+## Installatie
+1. Clone de repository naar je lokale machine.
+2. Voeg jouw API key toe aan de configuratiebestanden.
+3. build de applicatie
+4. run de applicatie
+
+## Gebruik (endpoints)
+- haal hotels op met vaste locatie (Amsterdam)
+http://localhost:8080/amsterdam
+- haal hotels op met een locatie  en een gekozen hoeveelheid resultaten (afhankelijk van aantal hotels op locatie)
+http://localhost:8080/hotels?latitude=GEKOZENLATITUDE&longitude=GEKOZENLONGITUDE&results=GEKOZENRESULTATEN&amount=GEKOZENHOEVEELHEIDRESULTATEN
+longitude = longitude
+latitude = latitude
+amount = aantal hotels uit reactie
