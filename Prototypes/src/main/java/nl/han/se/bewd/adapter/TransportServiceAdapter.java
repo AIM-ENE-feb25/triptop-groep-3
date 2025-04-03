@@ -1,6 +1,6 @@
 package nl.han.se.bewd.adapter;
 
-import nl.han.se.bewd.iExternalServiceAdapter;
+import nl.han.se.bewd.adapter.iExternalServiceAdapter;
 
 public class TransportServiceAdapter implements iExternalServiceAdapter {
     @Override
