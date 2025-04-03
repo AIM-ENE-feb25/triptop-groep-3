@@ -1,20 +1,19 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Sequence – HotelClient Adapter Pattern (jouw variant)
+title Sequence – HotelClient Adapter Pattern (huidige JSON → JSON mapping)
 
 participant Main
-participant HotelClient
+participant HotelController
 participant HotelAdapter
 participant "Booking.com API"
-participant Hotel as DomainModel
 
-Main -> HotelClient : useHotelService("Amsterdam", lat, long)
-HotelClient -> HotelAdapter : fetchHotels(lat, long)
+Main -> HotelController : GET /hotels?lat=..&long=..&amount=..
+HotelController -> HotelAdapter : fetchHotels(lat, long, amount)
 HotelAdapter -> "Booking.com API" : HTTP GET request
 "Booking.com API" --> HotelAdapter : JSON response
-HotelAdapter -> HotelAdapter : map(response)
-HotelAdapter -> Hotel : create Hotel
-Hotel -> Hotel : bookHotel()
+HotelAdapter -> HotelAdapter : map naar interne JSON array
+HotelAdapter --> HotelController : JSONArray (intern formaat)
+HotelController --> Main : JSON response
 
 @enduml
