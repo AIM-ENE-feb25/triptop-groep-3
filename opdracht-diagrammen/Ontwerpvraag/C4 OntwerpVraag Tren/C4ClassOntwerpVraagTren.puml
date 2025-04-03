@@ -1,23 +1,36 @@
 @startuml
 skinparam classAttributeIconSize 0
-title Class Diagram – Adapter pattern met interne JSON mapping
+title Class Diagram – Adapter Pattern met opgesplitste mapping
 
+class HotelController {
+    - hotelService: HotelService
+    +getHotels(lat, long, amount): List<Map>
+}
 
-class BookingAPIClient {
-    -hotelService: IHotelService
-    +BookingAPIClient(hotelService: IHotelService)
-    +useHotelService(latitude: double, longitude: double, amount: int): List<Map<String, Object>>
+class HotelService {
+    - bookingClient: BookingApiClient
+    +getHotels(lat, long, amount): List<Map>
+}
+
+class BookingApiClient {
+    - adapter: IHotelService
+    +useHotelService(lat, long, amount): List<Map>
 }
 
 interface IHotelService {
-    +fetchHotels(latitude: double, longitude: double, amount: int): List<Map<String, Object>>
+    +fetchHotels(lat, long, amount): List<Map>
 }
 
-class HotelAdapter {
-    +fetchHotels(latitude: double, longitude: double, amount: int): List<Map<String, Object>>
+class ExternalApiHotelAdapter {
+    +fetchHotels(lat, long, amount): List<Map>
+    -callExternalApi(lat, long): JSONObject
+    -mapResponse(response, amount): List<Map>
 }
 
-BookingAPIClient --> IHotelService : depends on
-HotelAdapter ..|> IHotelService : implements
-PrototypeTrenAdapterPatternApplication --> BookingAPIClient : uses
+' Relaties
+HotelController --> HotelService : gebruikt
+HotelService --> BookingApiClient : gebruikt
+BookingApiClient --> IHotelService : gebruikt
+ExternalApiHotelAdapter ..|> IHotelService : implementeert
+
 @enduml

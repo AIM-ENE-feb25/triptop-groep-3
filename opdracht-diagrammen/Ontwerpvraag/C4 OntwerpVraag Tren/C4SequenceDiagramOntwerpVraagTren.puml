@@ -1,22 +1,21 @@
 @startuml
-title Sequence – Adapter Pattern (met SRP, zonder Main)
+title Sequence Diagram – Adapter pattern flow met aparte mapping
 
-actor Browser
-participant HotelController
-participant HotelService
-participant BookingAPIClient
-participant HotelAdapter
-participant "Booking.com API"
+participant "HotelController" as Controller
+participant "HotelService" as Service
+participant "BookingApiClient" as Client
+participant "ExternalApiHotelAdapter" as Adapter
+participant "Booking.com API" as API
 
-Browser -> HotelController : HTTP GET /hotels?lat=...&long=...&amount=3
-HotelController -> HotelService : getHotels(lat, long, amount)
-HotelService -> BookingAPIClient : useHotelService(lat, long, amount)
-BookingAPIClient -> HotelAdapter : fetchHotels(lat, long, amount)
-HotelAdapter -> "Booking.com API" : HTTP GET request
-"Booking.com API" --> HotelAdapter : JSON response
-HotelAdapter -> HotelAdapter : map response → List<Map>
-HotelAdapter --> BookingAPIClient : List<Map>
-BookingAPIClient --> HotelService : List<Map>
-HotelService --> HotelController : List<Map>
-HotelController --> Browser : JSON response
+Controller -> Service : getHotels(lat, long, amount)
+Service -> Client : useHotelService(lat, long, amount)
+Client -> Adapter : fetchHotels(lat, long, amount)
+Adapter -> Adapter : callExternalApi(lat, long)
+Adapter -> API : HTTP GET Request
+API --> Adapter : JSON Response
+Adapter -> Adapter : mapResponse(json, amount)
+Adapter --> Client : List<Map>
+Client --> Service : List<Map>
+Service --> Controller : List<Map>
+
 @enduml

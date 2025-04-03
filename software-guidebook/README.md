@@ -93,6 +93,34 @@ Deze stukken reis data kunnen zich binnen het systeem in verschillende toestande
 Omdat deze toestanden later nog aangepast of uitgebreid kunnen worden is het volgens het design principe 'Encapsulate What Varies' van belang dat deze toestanden worden opgenomen 
 in een geïsoleerde omgeving van de rest van de software door gebruik van een interface die bij alle toestanden geïmplemteerd word.
 
+### Adapter pattern principles
+Voor het adapter pattern is er bewust gebruikgemaakt van meerdere design principles om de uitbreidbaarheid, 
+flexibiliteit en onderhoudbaarheid van het systeem te waarborgen.
+#### Encapsulate what varies
+Elke externe datastructuur wordt ingekapseld in een aparte adapter, waardoor wijzigingen in de datastructuur van een externe service geen impact hebben op de rest van het systeem.
+De logica van het fetchen en mappen van de externe data is volledig losgekoppeld van de rest van de applicatie. 
+
+#### Single Responsibility Principle
+De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
+
+•	De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken. 
+
+•	De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken. 
+
+•	De BookingApiClient fungeert als delegatielaag tussen service en adapter.
+
+•	De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
+
+Hierdoor blijft de structuur helder en kunnen onderdelen eenvoudig aangepast of getest worden.
+
+#### Program to an Interface
+Door te programmeren op een interface (IHotelService) in plaats van op concrete implementaties 
+(zoals ExternalApiHotelAdapter), kunnen we gemakkelijk wisselen tussen verschillende externe bronnen of 
+testimplementaties zonder dat de rest van de code aangepast hoeft te worden. Dit maakt de architectuur
+veel flexibeler en beter uitbreidbaar.
+
+
+
 
 ## 7. Software Architecture
 
