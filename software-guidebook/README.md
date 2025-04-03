@@ -78,11 +78,10 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 5. Constraints
 
-> [!IMPORTANT]
-> Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
-
-De software wordt opgesteld voor een webapplicatie. 
+De software wordt opgesteld voor een webapplicatie, en zal dus nog geen rekening houden met een mobiele applicatie of dergelijke. 
 Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
+De frontend zal worden opgesteld door gebruik van Javascript en React. De backend wordt gemaakt door gebruik van Java en Spring Boot.
+Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frameworks, en er al andere onbekende onderdelen worden gebruikt waarmee het team zich bekend moet maken.
 
 ## 6. Principles
 
@@ -94,13 +93,17 @@ Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
 ###     7.1. Containers
 
 #### Statisch C4 container diagram:
-![img.png](img.png)
+![img_2.png](img_2.png)
+
+In bovenstaand diagram zijn alle relevante containers opgenomen voor het opbouwen van de software.
+Hierbij staat de verbinding tussen de backend en de verschillende externe APIs voor het ophalen van informatie centraal.
+
 
 #### Dynamisch C4 diagram 'inloggen':
-![img_7.png](img_7.png)
+![img_3.png](img_3.png)
 
 #### Dynamisch C4 diagram 'reis boeken':
-![img_5.png](img_5.png)
+![img_4.png](img_4.png)
 
 ###     7.2. Components
 
@@ -114,8 +117,20 @@ Adapter Pattern Dynamic Diagram
 Adapter Pattern Class Diagram 
 ![img_14.png](Images/Class%20diagrams/Adapter%20pattern%20-%20Tren.png)
 
-Travel data State Pattern class diagram. 
-![img_12.png](Images/Class%20diagrams/State%20pattern%20-%20Jordy.png)
+Travel data states class diagram. 
+![img_1.png](img_1.png)
+
+In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
+Binnen dit diagram staat het interface 'TravelDataState' centraal met een abstracte methode die in elke toestand klasse word geïmplementeerd. 
+Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast. 
+
+Travel Data State Pattern state diagram.
+![img.png](img.png)
+
+In bovenstaand diagram is weergegeven op welke manier de toestand van een stuk reisdata kan veranderen. 
+Er word hierbij vanuit gegaan dat de toestanden 'Arranged' en 'Paid' aan elkaar gelijk staan, omdat niet alle activiteiten altijd vooraf betaald hoeven worden. 
+Denk hierbij bijvoorbeeld aan een etentje of iets soortgelijks wat ter plekke betaald word maar wel gereserveerd kan worden.
+Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
 
 ## 8. Architectural Decision Records
 

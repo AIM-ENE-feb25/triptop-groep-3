@@ -35,7 +35,7 @@ public class TravelData {
         return currentState;
     }
 
-    public void update(String state, String date) {
+    public void updateState(String state, String date) {
         if(currentState != null) {
             currentState = currentState.UpdateState(state, date);
         } else {
