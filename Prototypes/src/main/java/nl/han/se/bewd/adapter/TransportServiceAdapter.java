@@ -1,5 +1,7 @@
 package nl.han.se.bewd.adapter;
 
+import nl.han.se.bewd.iExternalServiceAdapter;
+
 public class TransportServiceAdapter implements iExternalServiceAdapter {
     @Override
     public void callService(String serviceId, String payload) {

@@ -1,32 +1,23 @@
 @startuml
 skinparam classAttributeIconSize 0
-title Class Diagram – Omgaan met externe datastructuren (één adapter per Client)
+title Class Diagram – Adapter pattern met interne JSON mapping
 
-class HotelClient {
-    +useHotelService(destination, latitude, longitude)
-}
 
-class HotelAdapter {
-    +fetchHotels(latitude, longitude)
-    -map(response): Hotel
-}
-
-class Hotel {
-    +setDestination(destination)
-    +bookHotel()
+class BookingAPIClient {
+    -hotelService: IHotelService
+    +BookingAPIClient(hotelService: IHotelService)
+    +useHotelService(latitude: double, longitude: double, amount: int): List<Map<String, Object>>
 }
 
 interface IHotelService {
-    +fetchHotels(latitude, longitude)
+    +fetchHotels(latitude: double, longitude: double, amount: int): List<Map<String, Object>>
 }
 
-class PrototypeTrenAdapterPatternApplication {
-    +main(args)
+class HotelAdapter {
+    +fetchHotels(latitude: double, longitude: double, amount: int): List<Map<String, Object>>
 }
 
-' Relaties
-PrototypeTrenAdapterPatternApplication --> HotelClient : create and use
-HotelClient --> IHotelService : depends on
+BookingAPIClient --> IHotelService : depends on
 HotelAdapter ..|> IHotelService : implements
-HotelAdapter --> Hotel : maps to domain model
+PrototypeTrenAdapterPatternApplication --> BookingAPIClient : uses
 @enduml
