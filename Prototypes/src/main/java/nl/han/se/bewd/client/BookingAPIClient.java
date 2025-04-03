@@ -1,5 +1,8 @@
 package nl.han.se.bewd.prototypetrenadapterpattern;
 
+import java.util.List;
+import java.util.Map;
+
 public class BookingAPIClient {
     private final IHotelService hotelService;
 
@@ -7,7 +10,7 @@ public class BookingAPIClient {
         this.hotelService = hotelService;
     }
 
-    public void useHotelService(String destination, double latitude, double longitude) {
-        hotelService.fetchHotels(latitude, longitude);
+    public List<Map<String, Object>> useHotelService( double latitude, double longitude, int amount) {
+        return hotelService.fetchHotels(latitude, longitude, amount);
     }
 }

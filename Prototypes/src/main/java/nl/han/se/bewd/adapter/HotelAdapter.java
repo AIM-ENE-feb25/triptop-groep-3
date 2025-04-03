@@ -1,15 +1,17 @@
 package nl.han.se.bewd.prototypetrenadapterpattern;
 
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.*;
 
 public class HotelAdapter implements IHotelService {
-
     @Override
-    public void fetchHotels(double latitude, double longitude) {
+    public List<Map<String, Object>> fetchHotels(double latitude, double longitude, int amount) {
         try {
             String url = "https://booking-com.p.rapidapi.com/v1/hotels/search-by-coordinates?" +
                     "page_number=0&locale=en-gb&longitude=" + longitude +
@@ -26,22 +28,29 @@ public class HotelAdapter implements IHotelService {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println("API Response:");
-            System.out.println(response.body());
+            JSONObject external = new JSONObject(response.body());
+            JSONArray results = external.getJSONArray("result");
 
-            Hotel hotel = map(response.body());
-            hotel.bookHotel();
+            List<Map<String, Object>> hotels = new ArrayList<>();
+
+            for (int i = 0; i < Math.min(amount, results.length()); i++) {
+                JSONObject hotel = results.getJSONObject(i);
+                Map<String, Object> mapped = new HashMap<>();
+                mapped.put("name", hotel.getString("hotel_name"));
+                mapped.put("address", hotel.getString("address"));
+                mapped.put("price", hotel.getJSONObject("price_breakdown").getDouble("gross_price"));
+                mapped.put("rating", hotel.getDouble("review_score"));
+                hotels.add(mapped);
+            }
+
+            return hotels;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return Collections.emptyList();
         }
-    }
-
-    private Hotel map(String response) {
-        Hotel hotel = new Hotel();
-        hotel.setDestination("Booking.com hotel op locatie");
-        return hotel;
     }
 }
