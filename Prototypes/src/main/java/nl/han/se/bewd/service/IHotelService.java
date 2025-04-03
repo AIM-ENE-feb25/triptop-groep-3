@@ -6,5 +6,3 @@ import java.util.Map;
 public interface IHotelService {
     List<Map<String, Object>> fetchHotels(double latitude, double longitude, int amount);
 }
-
-

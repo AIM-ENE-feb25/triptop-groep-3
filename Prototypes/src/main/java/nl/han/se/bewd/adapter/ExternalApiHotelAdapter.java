@@ -10,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
-public class HotelAdapter implements IHotelService {
+public class ExternalApiHotelAdapter implements IHotelService {
     @Override
     public List<Map<String, Object>> fetchHotels(double latitude, double longitude, int amount) {
         try {

@@ -12,7 +12,7 @@ public class BookingAPIClient {
         this.hotelService = hotelService;
     }
 
-    public List<Map<String, Object>> useHotelService( double latitude, double longitude, int amount) {
+    public List<Map<String, Object>> useHotelService(double latitude, double longitude, int amount) {
         return hotelService.fetchHotels(latitude, longitude, amount);
     }
 }
