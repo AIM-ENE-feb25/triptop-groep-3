@@ -3,10 +3,9 @@ skinparam classAttributeIconSize 0
 
 class TravelData {
     - travelDataDescription: String
-    - DataType: String
-    - sourceLink: String
     - travelerId: int
-    + update(state String, date String)
+    - travelDataId: int
+    + updateState(state String, date String)
 }
 
 interface TravelDataState {

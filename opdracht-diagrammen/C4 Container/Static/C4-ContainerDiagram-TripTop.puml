@@ -27,14 +27,14 @@ System_Ext(IDeal, "iDEAL", "Verwerkt iDEAL betalingen")
 Traveler -> Frontend : "Plant, boekt en beheert reizen"
 TravelAgent -> Frontend : "Helpt reizigers met boekingen"
 Rel(Frontend, Backend, "Stuurt API-verzoeken", "HTTP/JSON")
-Backend -> Booking : "Boekt accommodaties"
-Backend -> Transport : "Regelt vervoer"
-Backend -> CarRent : "Regelt autoverhuur"
-Backend -> Activities : "Boekt activiteiten en excursies"
-Backend -> Food : "Bestelt maaltijden en maakt reserveringen"
-Backend -> IDeal : "Verwerkt betalingen"
+Backend -down-> Booking : "Boekt accommodaties"
+Backend -down-> Transport : "Regelt vervoer"
+Backend -down-> CarRent : "Regelt autoverhuur"
+Backend -down-> Activities : "Boekt activiteiten en excursies"
+Backend -down-> Food : "Bestelt maaltijden en maakt reserveringen"
+Backend -down-> IDeal : "Verwerkt betalingen"
 Rel(Backend, Database, "Leest/Schrijft", "N1QL")
-Backend -> IdProvider : "Authenticatie en login"
+Backend -down-> IdProvider : "Authenticatie en login"
 
 ' Positionering
 Traveler -[hidden]-> TripTop

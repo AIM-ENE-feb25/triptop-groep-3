@@ -78,29 +78,66 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 5. Constraints
 
-> [!IMPORTANT]
-> Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
-
-De software wordt opgesteld voor een webapplicatie. 
+De software wordt opgesteld voor een webapplicatie, en zal dus nog geen rekening houden met een mobiele applicatie of dergelijke. 
 Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
+De frontend zal worden opgesteld door gebruik van Javascript en React. De backend wordt gemaakt door gebruik van Java en Spring Boot.
+Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frameworks, en er al andere onbekende onderdelen worden gebruikt waarmee het team zich bekend moet maken.
 
 ## 6. Principles
 
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
+Binnen de software wordt er regelmatig gebruik gemaakt van verschillende soorten reis data en activiteiten waarmee de gebruikers hun reis kunnen samen stellen. 
+Deze stukken reis data kunnen zich binnen het systeem in verschillende toestanden bevinden, met elke toestand ander gedrag en variabele die moeten worden opgeslagen. 
+Omdat deze toestanden later nog aangepast of uitgebreid kunnen worden is het volgens het design principe 'Encapsulate What Varies' van belang dat deze toestanden worden opgenomen 
+in een geïsoleerde omgeving van de rest van de software door gebruik van een interface die bij alle toestanden geïmplemteerd word.
+
+### Adapter pattern principles
+Voor het adapter pattern is er bewust gebruikgemaakt van meerdere design principles om de uitbreidbaarheid, 
+flexibiliteit en onderhoudbaarheid van het systeem te waarborgen.
+#### Encapsulate what varies
+Elke externe datastructuur wordt ingekapseld in een aparte adapter, waardoor wijzigingen in de datastructuur van een externe service geen impact hebben op de rest van het systeem.
+De logica van het fetchen en mappen van de externe data is volledig losgekoppeld van de rest van de applicatie. 
+
+#### Single Responsibility Principle
+De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
+
+•	De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken. 
+
+•	De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken. 
+
+•	De BookingApiClient fungeert als delegatielaag tussen service en adapter.
+
+•	De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
+
+Hierdoor blijft de structuur helder en kunnen onderdelen eenvoudig aangepast of getest worden.
+
+#### Program to an Interface
+Door te programmeren op een interface (IHotelService) in plaats van op concrete implementaties 
+(zoals ExternalApiHotelAdapter), kunnen we gemakkelijk wisselen tussen verschillende externe bronnen of 
+testimplementaties zonder dat de rest van de code aangepast hoeft te worden. Dit maakt de architectuur
+veel flexibeler en beter uitbreidbaar.
+
+
+
+
 ## 7. Software Architecture
 
 ###     7.1. Containers
 
 #### Statisch C4 container diagram:
-![img.png](img.png)
+![img_2.png](img_2.png)
+
+In bovenstaand diagram zijn alle relevante containers opgenomen voor het opbouwen van de software.
+Hierbij staat de verbinding tussen de backend en de verschillende externe APIs voor het ophalen van informatie centraal.
+
 
 #### Dynamisch C4 diagram 'inloggen':
-![img_7.png](img_7.png)
+![img_3.png](img_3.png)
 
 #### Dynamisch C4 diagram 'reis boeken':
-![img_5.png](img_5.png)
+![img_4.png](img_4.png)
 
 ###     7.2. Components
 
@@ -108,14 +145,42 @@ Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 ###     7.3. Design & Code
-Adapter Pattern Dynamic Diagram 
-![img_13.png](img_13.png)
+Adapter Pattern Sequence Diagram 
+![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
+
+
+Het sequentiediagram toont de volledige flow van een HTTP-aanvraag tot aan de gemapte hoteldata. De HotelController handelt de HTTP GET request af en gebruikt de HotelService voor domeinlogica. Die service schakelt via de BookingApiClient de ExternalApiHotelAdapter in.
+De adapter zorgt voor communicatie met de Booking.com API (callExternalApi) en zet de response om naar een bruikbare datastructuur (mapResponse).
+De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibility Principle en het Adapter Pattern.
+
+
 
 Adapter Pattern Class Diagram 
-![img_14.png](Images/Class%20diagrams/Adapter%20pattern%20-%20Tren.png)
+![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
-Travel data State Pattern class diagram. 
-![img_12.png](Images/Class%20diagrams/State%20pattern%20-%20Jordy.png)
+In dit klassendiagram wordt duidelijk hoe het Adapter Pattern is toegepast om externe JSON-data (Booking.com) te integreren in het systeem zonder afhankelijkheid van de externe structuur. De ExternalApiHotelAdapter is verantwoordelijk voor zowel de API-call (callExternalApi) als het omzetten van de externe response naar interne structuur (mapResponse), waarmee de principes van Encapsulation en Separation of Concerns worden gevolgd.
+De IHotelService interface zorgt voor loskoppeling, waardoor andere adapters eenvoudig toegevoegd kunnen worden in de toekomst.
+
+
+Travel data states class diagram. 
+![img_1.png](img_1.png)
+
+In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
+Binnen dit diagram staat het interface 'TravelDataState' centraal met een abstracte methode die in elke toestand klasse word geïmplementeerd. 
+Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, 
+hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
+Op deze manier wordt er ook gebruik gemaakt van het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
+
+Travel Data State Pattern state diagram.
+![img.png](img.png)
+
+In bovenstaand diagram is weergegeven op welke manier de toestand van een stuk reisdata kan veranderen. 
+Er word hierbij vanuit gegaan dat de toestanden 'Arranged' en 'Paid' aan elkaar gelijk staan, omdat niet alle activiteiten altijd vooraf betaald hoeven worden. 
+Denk hierbij bijvoorbeeld aan een etentje of iets soortgelijks wat ter plekke betaald word maar wel gereserveerd kan worden.
+Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
+
+
+
 
 ## 8. Architectural Decision Records
 
@@ -266,7 +331,7 @@ Door te kiezen voor Couchbase cache:
 # 8.5. ADR-005 Reisdata toestand
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 
@@ -308,41 +373,37 @@ Door te kiezen voor de state pattern:
 
 
 # 8.6. ADR-006  patterns Tren
+## Status
+accepted
 ## Context
 
-In de applicatie TripTop communiceren we met meerdere externe services.
-Deze services leveren data met eigen, vaak veranderlijke datastructuren.
-Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
-We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wijzigingen in de businesslogica of presentatie-laag van onze applicatie.
-De oplossing moet:
+De applicatie TripTop communiceert met verschillende externe API’s (Booking.com, Sixt, NS, TripAdvisor, etc). Deze API’s hebben allemaal hun eigen datastructuur, die ook nog eens zouden kunnen veranderen. Een wijziging in hun structuur kan direct impact hebben op de werking van TripTop.
 
-- Aanpasbaar zijn bij verandering van een specifieke API
-- De rest van het systeem onaangetast laten
-- De code begrijpelijk en onderhoudbaar houden
+Mijn ontwerpvraag is: “Hoe zorg je ervoor dat je bij een wijziging in de datastructuur van een externe service niet de hele applicatie hoeft aan te passen?”
 
-## Considered Options
+Ik ben op zoek naar de best passende design pattern om deze vraag te beantwoorden.
 
-| Criteria               | Adapter Pattern                   | Strategy Pattern                    | Facade Pattern                       |
-|------------------------|-----------------------------------|-------------------------------------|--------------------------------------|
-| Isoleert externe APIs  | ++                                | –                                   | +                                    |
-| Open/Closed Principle  | ++                                | +                                   | –                                    |
-| Herbruikbaarheid       | +                                 | ++                                  | –                                    |
-| Complexiteit           | +                                 | –                                   | ++                                   |
-| Specifiek voor datastructuren | ++                          | –                                   | ±                                    |
+## Considered options
+
+| Design pattern | Adapter | Factory | Facade | State |
+| --- | --- | --- | --- | --- |
+| aanpasbaarheid | ++ | - | + | + |
+| Complexiteit | + | - | + | + |
+| Schaalbaarheid | + | 0 | 0 | + |
+| isolatie van afhankelijkheid | ++ | - | + | - |
 
 ## Decision
 
-We kiezen voor het Adapter Pattern.
+De keuze is gevallen op het Adapter Pattern.
 
-Het Adapter Pattern zorgt ervoor dat we externe datastructuren kunnen omzetten naar interne domeinmodellen via een specifieke adapter per externe API.
-Deze adapter vormt een brug tussen onze interne interface en de werkelijke externe datastructuur.
+De adapter pattern was verreweg de beste keuze op basisvan het onderzoek wat ik gedaan heb. De andere opties hadden geen directe goede oplossingen voor isolatie van afhankelijkheid, en de aanpasbaarheid was ook minder sterk. Deze criteria wogen het zwaarst voor deze beslissing.
 
 ## Consequences
 
-- Wijzigingen in externe datastructuren vereisen alleen aanpassing in de betreffende adapter
-- De rest van de applicatie (services, controllers, repositories) blijft stabiel
-- Nieuwe externe APIs zijn eenvoudig te integreren via een nieuwe adapter + interface
-- De code blijft testbaar en begrijpelijk door een duidelijk onderscheid tussen externe en interne modellen
+- Door adapters te gebruiken wordt de afhankelijkheid van externe services geisoleerd. Dit verhoogt de stabiliteit en onderhoudbaarheid van de code.
+- Bij wijzigingen in externe datastructuren hoeft alleen de adapter aangepast te worden. De rest van de applicatie blijft onaangetast.
+- Externe logica wordt netjes ingekapseld in één plek, wat onderhoud en uitbreiding vergemakkelijkt.
+- De extra laag (adapter) maakt de architectuur iets ingewikkelder.
 
 ### 8.7. ADR-007 Externe api's met verouderde beveiligingsprotocollen
 
@@ -431,3 +492,27 @@ Door te kiezen voor losse API's voor verschillende betaalmethodes, moeten we:
 
 > [!TIP]
 > Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
+
+# Gebruik Booking API
+## Benodigdheden
+- Java 21
+- Maven 3.9 
+- IDE naar keuze
+- internetverbinding
+- Geldige API keys
+
+
+## Installatie
+1. Clone de repository naar je lokale machine.
+2. Voeg jouw API key toe aan de configuratiebestanden.
+3. build de applicatie
+4. run de applicatie
+
+## Gebruik (endpoints)
+- haal hotels op met vaste locatie (Amsterdam)
+http://localhost:8080/amsterdam
+- haal hotels op met een locatie  en een gekozen hoeveelheid resultaten (afhankelijk van aantal hotels op locatie)
+http://localhost:8080/hotels?latitude=GEKOZENLATITUDE&longitude=GEKOZENLONGITUDE&results=GEKOZENRESULTATEN&amount=GEKOZENHOEVEELHEIDRESULTATEN
+longitude = longitude
+latitude = latitude
+amount = aantal hotels uit reactie
