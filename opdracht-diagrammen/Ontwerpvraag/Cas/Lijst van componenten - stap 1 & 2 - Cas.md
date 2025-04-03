@@ -4,70 +4,37 @@
 Wie roept een specifieke externe service aan, gebeurt dat vanuit de front-end of vanuit de back-end? Welke redenen zijn er om voor de ene of de andere aanpak te kiezen? (Interoperability)
 
 
-| **Componentnaam**                     | **Verantwoordelijkheid**                                                                                                                                             |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Frontend**                          | Biedt de gebruikersinterface en verwerkt gebruikersinteracties. Kan API-aanroepen naar de backend doen en resultaten tonen.                                          |
-| **Backend**                           | Ontvangt verzoeken van de frontend, verwerkt data en roept externe services aan. Biedt een beveiligde en consistente interface voor de frontend.                     |
-| **External Service Adapter**          | Vat de communicatie met externe services samen (bijv. betalingsproviders, identity providers). Zorgt voor een stabiele interface, zelfs als externe APIs veranderen. |
-| **Database Service**                  | Slaat gegevens op die nodig zijn voor caching, gebruikerssessies of boekingen. Zorgt voor dataconsistentie en efficiëntie.                                           |
-| **Authentication & Security Service** | Beheert authenticatie en autorisatie. Zorgt voor veilige API-toegang en validatie van gebruikersrechten.                                                             |
+| **Componentnaam**        | **Verantwoordelijkheid**                                                               |
+|--------------------------|----------------------------------------------------------------------------------------|
+| **AuthController**       | Ontvangt API-verzoeken van de client en roept de AuthService aan.                      |
+| **AuthService**          | Bevat de business logic voor authenticatie en roept de juiste adapter aan.             |
+| **iAuthProviderAdapter** | Verzorgt de communicatie met externe authenticatiediensten (Google, Microsoft, etc.).  |
 
-### **1. User Interface (Frontend API)**
+### **1. AuthController**
 
-Biedt een interface voor de gebruiker om acties uit te voeren en gegevens op te halen.
+De AuthController is verantwoordelijk voor het ontvangen van HTTP-verzoeken van de client en het doorsturen naar de AuthService.
 
-**Interface: FrontendService**
+| **Methode**  | **Parameters**                    | **Returnwaarde** | **Beschrijving**                                                              |
+|--------------|-----------------------------------|------------------|-------------------------------------------------------------------------------|
+| newAuthKey() | email: String                     | AuthResponse     | Vraagt een nieuwe authenticatiesleutel aan en retourneert deze aan de client. |
+| verify()     | secretCode: String, token: String | AuthResponse     | Verifieert een ingevoerde code en geeft aan of deze correct is.               |
 
-| **Methode**               | **Parameters**    | **Returnwaarde** | **Beschrijving**                                          |
-| ------------------------- | ----------------- | ---------------- | --------------------------------------------------------- |
-| fetchAvailableServices()  | -                 | Service[]        | Haalt een lijst op van beschikbare externe services.      |
-| requestService(serviceId) | serviceId: string | Response         | Vraagt een specifieke externe service aan via de backend. |
-| getUserSession()          | -                 | SessionData      | Haalt de sessiegegevens van de gebruiker op.              |
+### **2. AuthService**
 
-### **2. API Gateway / Backend API**
+De AuthService verwerkt de business logic en bepaalt welke externe service gebruikt moet worden.
 
-Faciliteert communicatie tussen frontend en externe services via een consistente API.
-
-**Interface: BackendAPI**
-
-| **Methode**                              | **Parameters**                    | **Returnwaarde** | **Beschrijving**                                                      |
-| ---------------------------------------- | --------------------------------- | ---------------- | --------------------------------------------------------------------- |
-| getAvailableServices()                   | -                                 | Service[]        | Geeft een lijst van ondersteunde externe services.                    |
-| processServiceRequest(serviceId, userId) | serviceId: string, userId: string | Response         | Verwerkt een serviceaanvraag en roept de juiste externe service aan.  |
-| authenticateUser(token)                  | token: string                     | UserData         | Controleert en retourneert gebruikersgegevens als de token geldig is. |
+| **Methode**             | **Parameters**                     | **Returnwaarde** | **Beschrijving**                                                     |
+|-------------------------|------------------------------------|------------------|----------------------------------------------------------------------|
+| addNewUser()            | email: String                      | AuthResponse     | Roept de adapter aan om een nieuwe authenticatiesleutel op te halen. |
+| validateSecret()        | secretCode: String, token: String  | AuthResponse     | Roept de adapter aan om te controleren of de code klopt.             |
 
 
-### **3. External Service Adapter**
+### **3. iAuthProviderAdapter**
 
-Encapsuleert de communicatie met externe services en maakt deze onafhankelijk van hun implementatie.
+De iAuthProviderAdapter is een interface die de structuur definieert voor alle externe authenticatieadapters (bijv. Google, Microsoft).
 
-**Interface: ExternalServiceAdapter**
+| **Methode**                | **Parameters**                      | **Returnwaarde** | **Beschrijving**                                              |
+|----------------------------|-------------------------------------|------------------|---------------------------------------------------------------|
+| callService()              | serviceId: String, payload: String  | String           | Roept de externe API aan en retourneert de response als JSON. |
+| mapResponseToDomainModel() | response: String, serviceId: String | AuthResponse     | Zet de JSON-response om naar een AuthResponse object.         |
 
-| **Methode**                        | **Parameters**                     | **Returnwaarde** | **Beschrijving**                                                  |
-| ---------------------------------- | ---------------------------------- | ---------------- | ----------------------------------------------------------------- |
-| callService(serviceId, payload)    | serviceId: string, payload: object | ServiceResponse  | Roept een externe service aan en retourneert het resultaat.       |
-| mapResponseToDomainModel(response) | response: object                   | DomainModel      | Converteert de externe service respons naar een intern datamodel. |
-
-
-### **4. Database Service**
-
-Beheert persistente opslag van relevante gegevens zoals gebruikerssessies en service-aanvragen.
-
-**Interface: DatabaseService**
-
-| **Methode**                                   | **Parameters**                                    | **Returnwaarde** | **Beschrijving**                                                |
-| --------------------------------------------- | ------------------------------------------------- | ---------------- | --------------------------------------------------------------- |
-| saveServiceRequest(userId, serviceId, status) | userId: string, serviceId: string, status: string | boolean          | Slaat een serviceaanvraag op en geeft aan of dit succesvol was. |
-| getUserSession(userId)                        | userId: string                                    | SessionData      | Haalt sessiegegevens van een gebruiker op.                      |
-| updateServiceStatus(requestId, status)        | requestId: string, status: string                 | boolean          | Wijzigt de status van een serviceaanvraag.                      |
-
-### **5. Authentication & Security Service**
-
-Beheert authenticatie en autorisatie voor gebruikers en API-aanroepen.
-
-**Interface: AuthService**
-
-| **Methode**                      | **Parameters**                 | **Returnwaarde** | **Beschrijving**                                                    |
-| -------------------------------- | ------------------------------ | ---------------- | ------------------------------------------------------------------- |
-| validateToken(token)             | token: string                  | UserData         | Valideert een authenticatietoken en retourneert gebruikersgegevens. |
-| checkPermissions(userId, action) | userId: string, action: string | boolean          | Controleert of de gebruiker de juiste rechten heeft voor een actie. |

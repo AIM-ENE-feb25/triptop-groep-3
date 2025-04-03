@@ -15,14 +15,14 @@ public class AuthController {
     }
 
     @PostMapping("/newAuthKey")
-    public AuthResponse verifyUser(@RequestParam String email) {
-        System.out.println("Called verifyUser");
-        return authService.authenticateUser(email);
+    public AuthResponse newAuthKey(@RequestParam String email) {
+        System.out.println("Controller: Called newAuthKey");
+        return authService.addNewUser(email);
     }
 
     @PostMapping("/verify")
-    public AuthResponse validateToken(@RequestParam String secretCode, @RequestParam String token) {
-        System.out.println("Called validateToken");
+    public AuthResponse verify(@RequestParam String secretCode, @RequestParam String token) {
+        System.out.println("Controller: Called verify");
         return authService.validateSecret(secretCode, token);
     }
 }

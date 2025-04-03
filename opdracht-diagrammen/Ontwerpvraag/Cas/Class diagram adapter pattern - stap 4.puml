@@ -1,0 +1,33 @@
+@startuml
+
+class AuthenticationController {
+    +newAuthKey(email)
+    +verify(secretCode, token)
+}
+
+class AuthenticationService {
+    +addNewUser(email)
+    +validateSecretCode(secretCode, token)
+}
+
+class AuthenticationRepository {
+}
+
+interface AuthProviderAdapter {
+    +callService(serviceId, payload)
+    +mapResponseToDomainModel(response, serviceId)
+}
+
+class MicrosoftAuthAdapter  {
+}
+
+class GoogleAuthAdapter  {
+}
+
+AuthenticationController --> AuthenticationService : "calls"
+AuthenticationService --> AuthenticationRepository : "uses"
+AuthenticationService --> AuthProviderAdapter : "uses"
+AuthProviderAdapter <|.. MicrosoftAuthAdapter
+AuthProviderAdapter <|.. GoogleAuthAdapter
+
+@enduml

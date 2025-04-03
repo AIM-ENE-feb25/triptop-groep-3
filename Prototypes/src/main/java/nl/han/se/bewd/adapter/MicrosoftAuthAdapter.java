@@ -1,6 +1,5 @@
 package nl.han.se.bewd.adapter;
 
-import nl.han.se.bewd.adapter.iExternalServiceAdapter;
 import nl.han.se.bewd.response.AuthResponse;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -11,13 +10,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Component
-public class AuthServiceAdapter implements iExternalServiceAdapter {
+public class MicrosoftAuthAdapter implements iAuthProviderAdapter {
     private static final String API_URL = "https://easy-authenticator.p.rapidapi.com/";
     private static final String RAPIDAPI_KEY = "70a86ded3fmsh28c7c8558de8c7ep16db07jsn0d0a4e3c2dfa";
     private static final String RAPIDAPI_HOST = "easy-authenticator.p.rapidapi.com";
 
     @Override
-    public void callService(String serviceId, String payload) {
+    public AuthResponse callService(String serviceId, String payload) {
         try {
             String requestUrl;
 
@@ -54,20 +53,33 @@ public class AuthServiceAdapter implements iExternalServiceAdapter {
                 }
                 in.close();
 
-                System.out.println("API Response: " + response.toString() + "\n");
+                System.out.println("API response: " + response);
+
+                return mapResponseToDomainModel(response.toString(), serviceId);
             } else {
                 System.out.println("Error: API call failed with response code " + responseCode + "\n");
+                return new AuthResponse("Error: API call failed.");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return new AuthResponse("Error: Exception occurred.");
         }
     }
 
 
     @Override
-    public AuthResponse mapResponseToDomainModel(String response) {
+    public AuthResponse mapResponseToDomainModel(String response, String serviceId) {
         JSONObject json = new JSONObject(response);
-        String secretCode = json.getString("secretCode");
-        return new AuthResponse(secretCode);
+
+        switch (serviceId) {
+            case "NEW_AUTH_KEY":
+                return new AuthResponse(json.getString("secretCode"));
+            case "VERIFY":
+                return new AuthResponse(json.getBoolean("verify"));
+            default:
+                return new AuthResponse("Ongeldig serviceId: " + serviceId);
+        }
     }
+
+
 }

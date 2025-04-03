@@ -1,33 +1,27 @@
 package nl.han.se.bewd.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthResponse {
-    private boolean valid;
-    private String message;
+    private String secretCode;
+    private Boolean verify;
 
-    public AuthResponse() {}
-
-    public AuthResponse(boolean valid, String message) {
-        this.valid = valid;
-        this.message = message;
+    public AuthResponse(String secretCode) {
+        this.secretCode = secretCode;
+        this.verify = null;
     }
 
-    public AuthResponse(String message) {
-        this.message = message;
+    public AuthResponse(Boolean verify) {
+        this.verify = verify;
+        this.secretCode = null;
     }
 
-    public boolean isValid() {
-        return valid;
+    public String getSecretCode() {
+        return secretCode;
     }
 
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public Boolean getVerify() {
+        return verify;
     }
 }
