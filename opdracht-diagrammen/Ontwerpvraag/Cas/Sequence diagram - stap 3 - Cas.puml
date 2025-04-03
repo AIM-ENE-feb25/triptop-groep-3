@@ -5,6 +5,8 @@ participant AuthController
 participant AuthService
 participant MicrosoftAuthAdapter
 participant ExternalAPI
+participant AuthRepository
+participant Database
 
 AuthController -> AuthService: requestService(serviceId, userId)
 AuthService -> MicrosoftAuthAdapter: callService("auth", token)
@@ -12,6 +14,9 @@ MicrosoftAuthAdapter -> ExternalAPI: (Auth API request)
 
 ExternalAPI --> MicrosoftAuthAdapter: (Auth API response)
 MicrosoftAuthAdapter --> AuthService: mapResponseToDomainModel(response)
+
+AuthService -> AuthRepository: saveUserData(userData)
+AuthRepository -> Database: saveUser(userData)
 
 AuthService --> AuthController: return Response
 

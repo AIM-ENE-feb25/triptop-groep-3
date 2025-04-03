@@ -12,7 +12,8 @@ System_Boundary(Backend, "TripTop Backend") {
     Component(UserService, "UserService", "Service Layer", "Verwerkt gebruikerslogica")
     Component(UserRepository, "UserRepository", "Spring Data Repository", "Leest/schrijft gebruikersdata in database")
 
-    Component(ExternalServiceAdapter, ExternalServiceAdapter, Service Layer, Communiceert met adapters)
+    Component(iAuthProviderAdapter, "iAuthProviderAdapter", "Service Layer", "Verzorgt authenticatie via externe providers")
+    Component(iBookingProviderAdapter, "iBookingProviderAdapter", "Service Layer", "Verzorgt boekingen via externe systemen")
 
     ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
 }
@@ -23,7 +24,8 @@ System_Ext(TransportAPI, "NS / Deutsche Bahn / KLM API", "Biedt transportopties"
 System_Ext(CarRentAPI, "Sixt / Hertz API", "Auto verhuurdiensten")
 System_Ext(ActivitiesAPI, "Tripadvisor / GetYourGuide API", "Biedt activiteiten en ervaringen")
 System_Ext(FoodAPI, "Takeaway / Eet.nu API", "Eten bezorgen en restaurantboekingen")
-System_Ext(IdProviderAPI, "Google / Microsoft / Airbnb login Provider", "Beheert authenticatie en inloggen van gebruikers")
+System_Ext(GoogleAuthAPI, "Google Login API", "Authenticatie via Google")
+System_Ext(MicrosoftAuthAPI, "Microsoft Login API", "Authenticatie via Microsoft")
 
 ' Relaties
 BookingController -down-> BookingService : "Verwerkt boeking aanvragen"
@@ -31,19 +33,21 @@ BookingService -down-> BookingRepository : "Ophalen en opslaan van boekingsdata"
 BookingRepository -down-> Database : "Leest/schrijft boekingsdata"
 UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
 
+iAuthProviderAdapter -right-> GoogleAuthAPI : "Authenticatie via Google"
+iAuthProviderAdapter -right-> MicrosoftAuthAPI : "Authenticatie via Microsoft"
 
-ExternalServiceAdapter -left-> BookingAPI : "Boekt accommodaties"
-ExternalServiceAdapter -left-> TransportAPI : "Boekt transport"
-ExternalServiceAdapter -left-> CarRentAPI : "Boekt huurauto"
-ExternalServiceAdapter -left-> ActivitiesAPI : Boekt activiteiten
-ExternalServiceAdapter -left-> FoodAPI : Regelt restaurantboekingen
-ExternalServiceAdapter -right-> IdProviderAPI : Regelt authenticatie
-BookingService -down-> ExternalServiceAdapter : "Communiceert met externe systemen voor boekingen"
+iBookingProviderAdapter -left-> BookingAPI : "Boekt accommodaties"
+iBookingProviderAdapter -left-> TransportAPI : "Boekt transport"
+iBookingProviderAdapter -left-> CarRentAPI : "Boekt huurauto"
+iBookingProviderAdapter -left-> ActivitiesAPI : "Boekt activiteiten"
+iBookingProviderAdapter -left-> FoodAPI : "Regelt restaurantboekingen"
+
+BookingService -left-> iBookingProviderAdapter : "Communiceert met externe systemen voor boekingen"
 
 Frontend -down-> BookingController : "Boekingen beheren [HTTP/JSON]"
 Frontend -down-> UserController : "Gebruikersbeheer en authenticatie [HTTP/JSON]"
 UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
 UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
-UserService -down-> ExternalServiceAdapter : "Regelt authenticatie via externe providers"
+UserService -right-> iAuthProviderAdapter : "Regelt authenticatie via externe providers"
 
 @enduml
