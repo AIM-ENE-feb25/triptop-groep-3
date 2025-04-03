@@ -1,8 +1,11 @@
 package nl.han.se.bewd.repository;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@Repository
 public class AuthRepository {
     private final Set<String> mockDatabase;
 
