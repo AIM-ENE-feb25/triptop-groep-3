@@ -1,5 +1,6 @@
-package nl.han.se.bewd.prototypetrenadapterpattern;
+package nl.han.se.bewd.adapter;
 
+import nl.han.se.bewd.service.IHotelService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

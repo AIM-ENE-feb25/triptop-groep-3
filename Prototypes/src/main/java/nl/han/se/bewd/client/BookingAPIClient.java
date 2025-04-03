@@ -1,4 +1,6 @@
-package nl.han.se.bewd.prototypetrenadapterpattern;
+package nl.han.se.bewd.client;
+
+import nl.han.se.bewd.service.IHotelService;
 
 import java.util.List;
 import java.util.Map;

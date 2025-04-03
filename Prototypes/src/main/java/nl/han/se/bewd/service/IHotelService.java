@@ -1,4 +1,4 @@
-package nl.han.se.bewd.prototypetrenadapterpattern;
+package nl.han.se.bewd.service;
 
 import java.util.List;
 import java.util.Map;

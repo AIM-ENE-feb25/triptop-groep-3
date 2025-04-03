@@ -1,5 +1,7 @@
-package nl.han.se.bewd.prototypetrenadapterpattern;
+package nl.han.se.bewd.controllers;
 
+import nl.han.se.bewd.adapter.HotelAdapter;
+import nl.han.se.bewd.service.IHotelService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
