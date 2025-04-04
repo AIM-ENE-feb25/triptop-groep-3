@@ -319,6 +319,18 @@ Class diagram meerdere betaalmethodes
 
 [ADR Design pattern](#88-adr-008-Design-pattern-meerdere-betaalsystemen)
 
+Dit betaalsysteem maakt gebruik van het Facade Pattern, Adapter Pattern.
+Ook maakt het gebruik van het design principe Interface Segregation Principle.
+
+Het maakt gebruik van Facade door de complexiteit van de betaalservices te verbergen achter eenvoudige facades (PaypalFacade en InvoiceFacade).
+Deze roepen de bijbehorende services aan waar alle complexe code wordt verwerkt. Het enige wat je hoeft te doen is pay() aan te roepen met de juiste PaymentType.
+Het maakt gebruik van Adapter door PaypalService in te zetten als een adapter voor een externe PayPal API. De PayPal-service vertaalt externe API-aanroepen naar een consistente interface met methoden zoals createPayment(), getApprovalLink() en executePayment().
+Hierdoor kan PaymentService eenvoudig met PayPal-betalingen omgaan, zonder afhankelijk te zijn van de externe API-structuur.
+
+Tot slot zorgt ISP ervoor dat interfaces klein en specifiek blijven. PaymentFacade bevat alleen de methode pay(PaymentInfo), zodat PaypalFacade en InvoiceFacade geen onnodige methoden hoeven te implementeren.
+Ook bevatten PaypalService en InvoiceService alleen functionaliteit die relevant is voor hun betaalmethode.
+
+
 ## 8. Architectural Decision Records
 
 # 8.1. ADR-001 Keuze voor welke database

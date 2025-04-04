@@ -19,10 +19,13 @@ System_Boundary(Backend, "TripTop Backend") {
 ' Externe systemen
 System_Ext(PaypalApi, "PayPal", "Verwerkt PayPal betalingen")
 
-' Relaties
-Frontend --> PaymentController : "Roept aan"
+' REST Relaties
+Rel(Frontend, PaymentController, "Roept aan", "HTTP/JSON")
+
+' Overige relaties
 PaymentController --> PaymentService : "Maakt gebruik van"
-PaymentService --> BetaalFacade : "Stuurt verzoeken naar"
+PaymentService --> PaypalFacade : "Stuurt verzoeken naar"
+PaymentService --> InvoiceFacade : "Stuurt verzoeken naar"
 BetaalFacade <.. PaypalFacade : "Implementeert"
 BetaalFacade <.. InvoiceFacade : "Implementeert"
 PaypalFacade --> PaypalService : "Stuurt verzoeken naar"

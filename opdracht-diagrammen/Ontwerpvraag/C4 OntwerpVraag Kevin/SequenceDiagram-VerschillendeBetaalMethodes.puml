@@ -4,30 +4,45 @@ actor User
 participant PaymentController
 participant PaymentService
 participant PaymentType
+participant PaymentFacade
 participant PaypalFacade
 participant InvoiceFacade
 participant PaypalService
 participant InvoiceService
 participant ExternalPaypalPaymentApi
 
-User -> PaymentController : Initiate Payment PayPal
+User -> PaymentController : POST /pay (paymentInfo, paymentType)
 PaymentController -> PaymentService : pay(paymentInfo, paymentType)
 PaymentService -> PaymentType : getFacade()
-PaymentService -> PaypalFacade : pay(paymentInfo)
-PaypalFacade -> PaypalService : createPayment(paymentInfo)
+PaymentType -> PaymentFacade : return appropriate facade
+
+PaymentFacade -> PaypalFacade : pay(paymentInfo)
+PaypalFacade -> PaypalService : betaal(paymentInfo)
+PaypalService -> ExternalPaypalPaymentApi : createPayment(paymentInfo)
+ExternalPaypalPaymentApi -> PaypalService : return paymentId
 PaypalService -> ExternalPaypalPaymentApi : getApprovalLink(paymentInfo)
 ExternalPaypalPaymentApi -> PaypalService : return approvalLink
-PaypalService -> ExternalPaypalPaymentApi : executePayment(approvalLink)
+PaypalService -> ExternalPaypalPaymentApi : request approval link
+ExternalPaypalPaymentApi -> PaypalService : return approval link
+PaypalService -> User : Display approval link
+
+User -> PaypalService : Approve payment
+PaypalService -> ExternalPaypalPaymentApi : executePayment(paymentId)
 ExternalPaypalPaymentApi -> PaypalService : return paymentExecutionStatus
 PaypalService -> PaypalFacade : return paymentExecutionStatus
 PaypalFacade -> PaymentService : return paymentExecutionStatus
-User -> PaymentController : Initiate Payment Factuur
+PaymentService -> PaymentController : return paymentExecutionStatus
+PaymentController -> User : return paymentExecutionStatus
+
+User -> PaymentController : POST /pay (Factuur)
 PaymentController -> PaymentService : pay(paymentInfo, paymentType)
-PaymentService -> InvoiceFacade : pay(paymentInfo)
+PaymentService -> PaymentType : getFacade()
+PaymentType -> PaymentFacade : return appropriate facade
+PaymentFacade -> InvoiceFacade : pay(paymentInfo)
 InvoiceFacade -> InvoiceService : pay(paymentInfo)
 InvoiceService -> InvoiceFacade : return invoiceInfo
 InvoiceFacade -> PaymentService : return invoiceInfo
+PaymentService -> User : return invoiceInfo
 
-PaymentService -> PaymentController : return paymentResult
 
 @enduml
