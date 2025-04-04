@@ -10,16 +10,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ExternalApiHotelAdapter implements IHotelService {
+    @Value("${booking.api.key}")
+    private String bookingApiKey;
+
     @Override
     public List<Map<String, Object>> fetchHotels(double latitude, double longitude, int amount) {
         try {
@@ -42,7 +41,7 @@ public class ExternalApiHotelAdapter implements IHotelService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("x-rapidapi-key", "f562c0686fmsh7e337efc7095d2dp1e7ebejsn6061c09d7317")
+                .header("x-rapidapi-key", bookingApiKey)
                 .header("x-rapidapi-host", "booking-com.p.rapidapi.com")
                 .GET()
                 .build();
