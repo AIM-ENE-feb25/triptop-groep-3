@@ -184,8 +184,10 @@
   },
   "active": "7a0ecad21516a804",
   "lastOpenFiles": [
-    "software-guidebook/Dynamisch component diagram Adapter pattern Authenticatie Cas.png",
+    "software-guidebook/img_9.png",
     "software-guidebook/img_8.png",
+    "opdracht-diagrammen/Ontwerpvraag/C4 OntwerpVraag Kevin/SequenceDiagram-VerschillendeBetaalMethodes.puml",
+    "software-guidebook/Dynamisch component diagram Adapter pattern Authenticatie Cas.png",
     "software-guidebook/img_5.png",
     "software-guidebook/Statisch component diagram algemeen.png",
     "software-guidebook/Statisch container diagram.png",
@@ -194,7 +196,6 @@
     "software-guidebook/Component diagram Adapter pattern Cas.png",
     "software-guidebook/Sequence diagram Adapter pattern Cas.png",
     "software-guidebook/Class diagram Adapter pattern Cas.png",
-    "software-guidebook/img_7.png",
     "opdracht-diagrammen/Ontwerpvraag/C4 OntwerpVraag Tren/DynamicComponentDiagram.puml",
     "opdracht-diagrammen/Ontwerpvraag/C4 OntwerpVraag Kevin/ADR-VerschillendeBetaalMethodes.md",
     "opdracht-diagrammen/Ontwerpvraag/C4 OntwerpVraag Kevin/ADR-DesignPattern-VerschillendeBetaalmethodes-Kevin.md",
@@ -206,7 +207,6 @@
     "Prototypes/src/main/java/nl/han/se/bewd/service/PaymentService.java",
     "Prototypes/src/main/java/nl/han/se/bewd/service/InvoiceService.java",
     "Prototypes/src/main/java/nl/han/se/bewd/facade/PaypalFacade.java",
-    "Prototypes/src/main/java/nl/han/se/bewd/facade/PaymentFacade.java",
     "software-guidebook/README.md",
     "opdracht-diagrammen/Ontwerpvraag/Cas/Design principes.md"
   ]
