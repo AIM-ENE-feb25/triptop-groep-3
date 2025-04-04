@@ -124,28 +124,9 @@ in een geïsoleerde omgeving van de rest van de software door gebruik van een in
 Verder wordt elke externe datastructuur ingekapseld in een aparte adapter, waardoor wijzigingen in de datastructuur van een externe service geen impact hebben op de rest van het systeem.
 De logica van het fetchen en mappen van de externe data is volledig losgekoppeld van de rest van de applicatie.
 
-### Adapter pattern principles
-Voor het adapter pattern is er bewust gebruikgemaakt van meerdere design principles om de uitbreidbaarheid, 
-flexibiliteit en onderhoudbaarheid van het systeem te waarborgen.
 
-#### Single Responsibility Principle
-De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
 
-•	De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken. 
 
-•	De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken. 
-
-•	De BookingApiClient fungeert als delegatielaag tussen service en adapter.
-
-•	De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
-
-Hierdoor blijft de structuur helder en kunnen onderdelen eenvoudig aangepast of getest worden.
-
-#### Program to an Interface
-Door te programmeren op een interface (IHotelService) in plaats van op concrete implementaties 
-(zoals ExternalApiHotelAdapter), kunnen we gemakkelijk wisselen tussen verschillende externe bronnen of 
-testimplementaties zonder dat de rest van de code aangepast hoeft te worden. Dit maakt de architectuur
-veel flexibeler en beter uitbreidbaar.
 
 #### Interface Segregation Principle(ISP)
 Het Interface Segregation Principle (ISP) is een van de SOLID-principes en stelt dat een interface niet verplicht mag worden om methoden te implementeren die het niet nodig heeft.
@@ -277,9 +258,15 @@ De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibilit
 Adapter Pattern Class Diagram 
 ![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
-In dit klassendiagram wordt duidelijk hoe het Adapter Pattern is toegepast om externe JSON-data (Booking.com) te integreren in het systeem zonder afhankelijkheid van de externe structuur. De ExternalApiHotelAdapter is verantwoordelijk voor zowel de API-call (callExternalApi) als het omzetten van de externe response naar interne structuur (mapResponse), waarmee de principes van Encapsulation en Separation of Concerns worden gevolgd.
-De IHotelService interface zorgt voor loskoppeling, waardoor andere adapters eenvoudig toegevoegd kunnen worden in de toekomst.
+In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
 
+• De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken.
+
+• De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken.
+
+• De BookingApiClient fungeert als delegatielaag tussen service en adapter.
+
+• De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
 Travel data states class diagram. 
 ![img_1.png](img_1.png)
 
@@ -360,7 +347,7 @@ Mijn ontwerpvraag is: “Hoe zorg je ervoor dat je bij een wijziging in de datas
 | Flexibiliteit     | ++      | 0      | -     | +        | 0       |
 
 ## Decision
-Na het evalueren van verschillende design patterns is gekozen voor het Adapter Pattern. Dit biedt de beste balans tussen onderhoudbaarheid, flexibiliteit en testbaarheid, terwijl het eenvoudig maakt om nieuwe externe services toe te voegen zonder de interne logica te verstoren.
+Na het evalueren van verschillende design patterns is gekozen voor het Adapter Pattern. Dit biedt de beste balans tussen onderhoudbaarheid, flexibiliteit en testbaarheid, terwijl dit pattern het  eenvoudig maakt om nieuwe externe services toe te voegen zonder de interne logica te verstoren.
 
 ## Consequences
 Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
@@ -372,13 +359,10 @@ Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitb
 
 In de applicatie TripTop communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
 
-We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wijzigingen in de businesslogica of presentatie-laag van onze applicatie. De oplossing moet:
+Zoals in de vorige ADR aangegeven, is het Adapter Pattern gekozen om deze afhankelijkheid te isoleren.
+Nu gaan we onderzoeken of er geen andere, patternvrije oplossingen zijn, die misschien beter passen.
 
-•	Aanpasbaar zijn bij verandering van een specifieke API
 
-•	De rest van het systeem onaangetast laten
-
-•	De code begrijpelijk en onderhoudbaar houden
 
 ## Considered Options
 
@@ -390,15 +374,11 @@ We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wij
 
 ## Decision
 
-We kiezen voor het API Adapter pattern.
 
 De keuze is gevallen op het Adapter Pattern.
 
-De adapter pattern was verreweg de beste keuze op basis van het onderzoek wat ik gedaan heb. De andere opties hadden geen directe goede oplossingen voor isolatie van afhankelijkheid, en de aanpasbaarheid was ook minder sterk. Deze criteria wogen het zwaarst voor deze beslissing.
-
-Hiervoor is gekozen omdat de aanpasbaarheid van de applicatie voor ons het belangrijkst is,
-omdat we met meerdere externe services werken die allemaal hun eigen datastructuren hebben.
-Dit kan leiden tot veel aanpassingen in de applicatie als we dit niet goed aanpakken.
+De adapter pattern was verreweg de beste keuze op basis van het onderzoek wat ik gedaan heb. De andere opties hadden geen directe goede oplossingen voor isolatie van afhankelijkheid, en de aanpasbaarheid was ook minder sterk.
+Deze criteria wogen het zwaarst voor deze beslissing.
 
 ## Consequences
 
