@@ -191,11 +191,6 @@ In dit dynamisch componentdiagram wordt de interactie tussen de verschillende sy
 
 
 
-
-
-
-
-
 #### Component Diagram beschermen tegen externe API's
 ![AdapterPatternTrenComponentDiagram.png](AdapterPatternTrenComponentDiagram.png)
 
@@ -211,8 +206,6 @@ Dit diagram toont de flow van een hotelzoekopdracht in de applicatie.
 4.	De BookingApiClient gebruikt de ExternalApiHotelAdapter om een API-aanroep te doen naar Booking.com.
 5.	De adapter haalt de externe JSON-response op en zet deze om naar een interne HotelDTO.
 6.	De lijst van HotelDTO’s wordt via de lagen teruggestuurd naar de gebruiker als JSON.
-
-
 
 #### Component Diagram States
 ![img_6.png](img_6.png)
@@ -242,6 +235,31 @@ Om flexibiliteit te garanderen, maakt de applicatie gebruik van het Adapter Patt
 
 ![img_8.png](Class diagram Adapter pattern Cas.png)
 
+
+In het adapter pattern dat ik heb toegepast, zorgt de MicrosoftAuthAdapter ervoor dat AuthService kan communiceren met de ExternalAPI zonder afhankelijk te zijn van de specifieke implementatie van die API. AuthService roept de adapter aan via de interface iAuthProviderAdapter, waardoor het mogelijk is om eenvoudig andere authenticatieproviders toe te voegen, zoals een GoogleAuthAdapter. Dit ontwerp volgt design principles zoals Single Responsibility, Open-Closed, Dependency Inversion, Encapsulate What Varies en Program to an Interface, wat de flexibiliteit en onderhoudbaarheid van de applicatie vergroot.
+
+**Single Responsibility Principle (SRP)**
+
+De MicrosoftAuthAdapter heeft als enige verantwoordelijkheid het aanpassen van de interface van de ExternalAPI naar de interface die AuthService verwacht. Dit zorgt ervoor dat AuthController, AuthService en ExternalAPI hun eigen verantwoordelijkheden behouden zonder dat ze afhankelijk zijn van aanpassingen in de adapter.
+
+**Open-Closed Principle (OCP)**
+
+Het Adapter Pattern respecteert het Open-Closed Principle doordat we nieuwe adapters kunnen toevoegen (zoals GoogleAuthAdapter in de toekomst) zonder AuthService te wijzigen. AuthService blijft werken zonder aanpassingen, ongeacht welke externe authenticatieservice wordt gebruikt.
+
+**Dependency Inversion Principle (DIP)**
+
+De AuthService is niet direct afhankelijk van de MicrosoftAuthAdapter, maar van de interface iAuthProviderAdapter. Hierdoor kan AuthService werken met verschillende implementaties zonder afhankelijk te zijn van een specifieke externe authenticatiedienst. Dit maakt het systeem flexibeler en uitbreidbaar.
+
+**Encapsulate What Varies**
+
+De variabiliteit in authenticatieproviders wordt verborgen achter de iAuthProviderAdapter interface. Hierdoor hoeft AuthService geen wijzigingen te ondergaan wanneer een nieuwe authenticatieprovider, zoals GoogleAuthAdapter, wordt toegevoegd. De implementatiedetails van de specifieke adapters blijven geïsoleerd binnen hun respectieve klassen, waardoor de rest van het systeem hier geen last van heeft.
+
+**Program to an Interface**
+
+De AuthService werkt met iAuthProviderAdapter in plaats van met een specifieke implementatie zoals MicrosoftAuthAdapter. Dit betekent dat het systeem niet afhankelijk is van concrete klassen, maar van abstracties. Hierdoor kunnen nieuwe adapters eenvoudig worden toegevoegd zonder impact op de bestaande code.
+
+
+
 **Sequence diagram: Adapter pattern (Authenticatie)**
 
 Het authenticatieproces binnen TripTop verloopt via een gelaagde structuur waarin de AuthController aanvragen van de frontend verwerkt en deze doorstuurt naar de **AuthService**. Deze service bepaalt welke externe authenticatieprovider moet worden aangesproken en gebruikt de juiste adapter, zoals de MicrosoftAuthAdapter, om een verzoek naar de externe API te sturen.
@@ -257,18 +275,19 @@ Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze
 
 
 
-Adapter Pattern Sequence Diagram 
+**Adapter Pattern Sequence Diagram**
 ![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
 
 Het sequentiediagram toont de volledige flow van een HTTP-aanvraag tot aan de gemapte hoteldata. De HotelController handelt de HTTP GET request af en gebruikt de HotelService voor domeinlogica. Die service schakelt via de BookingApiClient de ExternalApiHotelAdapter in.
 De adapter zorgt voor communicatie met de Booking.com API (callExternalApi) en zet de response om naar een bruikbare datastructuur (mapResponse).
 De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibility Principle en het Adapter Pattern.
 
-Adapter Pattern Class Diagram 
+**Adapter Pattern Class Diagram**
 ![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
 In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
 
+<<<<<<< Updated upstream
 • De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken.
 
 • De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken.
@@ -277,6 +296,9 @@ In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klasse
 
 • De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
 Travel data states class diagram. 
+=======
+**Travel data states class diagram**
+>>>>>>> Stashed changes
 ![img_1.png](img_1.png)
 
 In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
@@ -285,7 +307,7 @@ Op het moment dat de toestand van een 'TravelData' object is aangepast word daar
 hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
 Op deze manier wordt er ook rekening gehouden met het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
 
-Travel Data State Pattern state diagram.
+**Travel Data State Pattern state diagram**
 ![img.png](img.png)
 
 In bovenstaand diagram is weergegeven op welke manier de toestand van een stuk reisdata kan veranderen. 
@@ -296,12 +318,14 @@ Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
 Sequence diagram meerdere betaalmethodes
 ![img_8.png](img_8.png)
 
+<<<<<<< Updated upstream
 Class diagram meerdere betaalmethodes
 ![img_9.png](img_9.png)
 
 
+=======
+>>>>>>> Stashed changes
 ## 8. Architectural Decision Records
-
 
 # 8.1. ADR-001 Keuze voor welke database
 ## Status
@@ -431,14 +455,12 @@ Daarom moet er een keuze gemaakt worden in hoe het systeem hierop reageert.
 
 Ondanks dat een simpele foutmelding het meeste pluspunten scoort, valt deze optie al snel af omdat de voornaamste eis de waardevolle output is. 
 Omdat er gebruikt word gemaakt van CouchBase als database is het gebruik van de cache binnen deze database makkelijk te integreren, en dus de uiteindelijke keuze. 
+Echter is de database voor geen andere ontwerpvraag van belang, en is dus nog niet geïmplemteerd waardoor dat ook zou moeten gebeuren voor het opstellen van de cache.
+Met deze redenering is het voorstel afgewezen ten gunste van een andere ontwerpvraag.
 
 ## Consequences
 
-Door te kiezen voor Couchbase cache:
-
-- Is integratie een minder groot probleem doordat dit in het bestaande ontwerp makkelijk kan worden toegevoegd
-- Kan een waardevolle output teruggegeven worden aan gebruikers door zoekresultaten op te slaan
-
+Door het voorstel af te wijzen komen er momenteel geen nuttige resultaten als een API faalt om informatie terug te geven.
 
 # 8.5. ADR-005 Reisdata toestand
 
@@ -642,3 +664,5 @@ http://localhost:8080/hotels?latitude=GEKOZENLATITUDE&longitude=GEKOZENLONGITUDE
 longitude = longitude
 latitude = latitude
 amount = aantal hotels uit reactie
+- Voer nieuwe reisdata in via de POST, verander de status van reisdata via de PUT haal alle reisdata op via de GET 
+http://localhost:8080/travelData
