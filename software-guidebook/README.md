@@ -101,14 +101,19 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 
 **Single Responsibility Principle (SRP)**
 
-
+Elke module binnen het systeem heeft één duidelijke verantwoordelijkheid. Dit maakt de code overzichtelijk, onderhoudbaar en makkelijker te testen.
+Functionaliteit zoals gebruikersbeheer, betalingen of communicatie met externe services is telkens gescheiden.
 **Open-Closed Principle (OCP)**
-
+De architectuur is opgebouwd rond afhankelijkheid van abstracties (zoals interfaces), niet van concrete implementaties.
+Hierdoor blijft de structuur flexibel en losgekoppeld: onderdelen kunnen onafhankelijk vervangen of aangepast worden.
 
 **Dependency Inversion Principle (DIP)**
-
+De architectuur is opgebouwd rond afhankelijkheid van abstracties (zoals interfaces), niet van concrete implementaties. 
+Hierdoor blijft de structuur flexibel en losgekoppeld: onderdelen kunnen onafhankelijk vervangen of aangepast worden.
 
 **Program to an Interface**
+Modules communiceren via abstracties in plaats van directe implementaties. 
+Dit zorgt ervoor dat ze uitwisselbaar blijven en los staan van specifieke technologieën of externe services.
 
 
 
