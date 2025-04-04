@@ -169,7 +169,7 @@ In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beh
 Binnen dit diagram staat het interface 'TravelDataState' centraal met een abstracte methode die in elke toestand klasse word geïmplementeerd. 
 Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, 
 hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
-Op deze manier wordt er ook gebruik gemaakt van het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
+Op deze manier wordt er ook rekening gehouden met het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
 
 Travel Data State Pattern state diagram.
 ![img.png](img.png)

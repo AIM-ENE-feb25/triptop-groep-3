@@ -16,7 +16,7 @@ public class TravelDataController {
     @PostMapping
     public ResponseEntity<TravelData> addTravelData(@RequestBody TravelData travelData) {
         if (travelData != null) {
-            travelData.update(null, null);
+            travelData.updateState(null, null);
             travelDataList.add(travelData);
             return ResponseEntity.ok(travelData);
         } else {
@@ -28,7 +28,7 @@ public class TravelDataController {
     public ResponseEntity<TravelData> updateTravelDataState(@RequestBody TravelDataUpdate travelDataUpdate) {
         for (TravelData travelData : travelDataList) {
             if (travelData.getTravelDataId() == travelDataUpdate.getTravelDataId()) {
-                travelData.update(travelDataUpdate.getNewState(), travelDataUpdate.getDate());
+                travelData.updateState(travelDataUpdate.getNewState(), travelDataUpdate.getDate());
                 return ResponseEntity.ok(travelData);
             }
         }

@@ -11,9 +11,6 @@ System_Boundary(Backend, "TripTop Backend") {
     Component(UserController, "UserController", "Spring Boot REST Controller", "Behandelt gebruikersaanvragen")
     Component(UserService, "UserService", "Service Layer", "Verwerkt gebruikerslogica")
     Component(UserRepository, "UserRepository", "Spring Data Repository", "Leest/schrijft gebruikersdata in database")
-    Component(TravelDataController, "TravelDataController", "Spring Boot REST Controller", "Behandelt reisdata en activiteiten")
-    Component(TravelDataService, "TravelDataService", "Service Layer", "Verwerkt reisdata en activiteiten")
-    Component(TravelDataRepository, "TravelDataRepository", "Spring Data Repository", "Leest/schrijft reisdata in database")
 
     Component(iAuthProviderAdapter, "iAuthProviderAdapter", "Service Layer", "Verzorgt authenticatie via externe providers")
     Component(iBookingProviderAdapter, "iBookingProviderAdapter", "Service Layer", "Verzorgt boekingen via externe systemen")
@@ -35,9 +32,6 @@ BookingController -down-> BookingService : "Verwerkt boeking aanvragen"
 BookingService -down-> BookingRepository : "Ophalen en opslaan van boekingsdata"
 BookingRepository -down-> Database : "Leest/schrijft boekingsdata"
 UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
-TravelDataController -down-> TravelDataService : "Verwerkt reisdata en activiteiten"
-TravelDataService -down-> TravelDataRepository : "Ophalen en opslaan van reisdata"
-TravelDataRepository -down-> Database : "Leest/schrijft reisdata"
 
 iAuthProviderAdapter -right-> GoogleAuthAPI : "Authenticatie via Google"
 iAuthProviderAdapter -right-> MicrosoftAuthAPI : "Authenticatie via Microsoft"
@@ -49,11 +43,9 @@ iBookingProviderAdapter -left-> ActivitiesAPI : "Boekt activiteiten"
 iBookingProviderAdapter -left-> FoodAPI : "Regelt restaurantboekingen"
 
 BookingService -left-> iBookingProviderAdapter : "Communiceert met externe systemen voor boekingen"
-BookingRepository -[hidden]-> TravelDataRepository
 
 Frontend -down-> BookingController : "Boekingen beheren [HTTP/JSON]"
 Frontend -down-> UserController : "Gebruikersbeheer en authenticatie [HTTP/JSON]"
-Frontend -down-> TravelDataController : "Boekingen beheren [HTTP/JSON]"
 UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
 UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
 UserService -right-> iAuthProviderAdapter : "Regelt authenticatie via externe providers"
