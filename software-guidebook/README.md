@@ -186,11 +186,6 @@ In dit dynamisch componentdiagram wordt de interactie tussen de verschillende sy
 
 
 
-
-
-
-
-
 #### Component Diagram beschermen tegen externe API's
 ![AdapterPatternTrenComponentDiagram.png](AdapterPatternTrenComponentDiagram.png)
 
@@ -206,8 +201,6 @@ Dit diagram toont de flow van een hotelzoekopdracht in de applicatie.
 4.	De BookingApiClient gebruikt de ExternalApiHotelAdapter om een API-aanroep te doen naar Booking.com.
 5.	De adapter haalt de externe JSON-response op en zet deze om naar een interne HotelDTO.
 6.	De lijst van HotelDTO’s wordt via de lagen teruggestuurd naar de gebruiker als JSON.
-
-
 
 #### Component Diagram States
 ![img_6.png](img_6.png)
@@ -252,18 +245,19 @@ Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze
 
 
 
-Adapter Pattern Sequence Diagram 
+**Adapter Pattern Sequence Diagram**
 ![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
 
 Het sequentiediagram toont de volledige flow van een HTTP-aanvraag tot aan de gemapte hoteldata. De HotelController handelt de HTTP GET request af en gebruikt de HotelService voor domeinlogica. Die service schakelt via de BookingApiClient de ExternalApiHotelAdapter in.
 De adapter zorgt voor communicatie met de Booking.com API (callExternalApi) en zet de response om naar een bruikbare datastructuur (mapResponse).
 De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibility Principle en het Adapter Pattern.
 
-Adapter Pattern Class Diagram 
+**Adapter Pattern Class Diagram**
 ![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
 In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
 
+<<<<<<< Updated upstream
 • De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken.
 
 • De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken.
@@ -272,6 +266,9 @@ In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klasse
 
 • De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
 Travel data states class diagram. 
+=======
+**Travel data states class diagram**
+>>>>>>> Stashed changes
 ![img_1.png](img_1.png)
 
 In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
@@ -280,7 +277,7 @@ Op het moment dat de toestand van een 'TravelData' object is aangepast word daar
 hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
 Op deze manier wordt er ook rekening gehouden met het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
 
-Travel Data State Pattern state diagram.
+**Travel Data State Pattern state diagram**
 ![img.png](img.png)
 
 In bovenstaand diagram is weergegeven op welke manier de toestand van een stuk reisdata kan veranderen. 
@@ -291,12 +288,14 @@ Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
 Sequence diagram meerdere betaalmethodes
 ![img_8.png](img_8.png)
 
+<<<<<<< Updated upstream
 Class diagram meerdere betaalmethodes
 ![img_9.png](img_9.png)
 
 
+=======
+>>>>>>> Stashed changes
 ## 8. Architectural Decision Records
-
 
 # 8.1. ADR-001 Keuze voor welke database
 ## Status
@@ -426,14 +425,12 @@ Daarom moet er een keuze gemaakt worden in hoe het systeem hierop reageert.
 
 Ondanks dat een simpele foutmelding het meeste pluspunten scoort, valt deze optie al snel af omdat de voornaamste eis de waardevolle output is. 
 Omdat er gebruikt word gemaakt van CouchBase als database is het gebruik van de cache binnen deze database makkelijk te integreren, en dus de uiteindelijke keuze. 
+Echter is de database voor geen andere ontwerpvraag van belang, en is dus nog niet geïmplemteerd waardoor dat ook zou moeten gebeuren voor het opstellen van de cache.
+Met deze redenering is het voorstel afgewezen ten gunste van een andere ontwerpvraag.
 
 ## Consequences
 
-Door te kiezen voor Couchbase cache:
-
-- Is integratie een minder groot probleem doordat dit in het bestaande ontwerp makkelijk kan worden toegevoegd
-- Kan een waardevolle output teruggegeven worden aan gebruikers door zoekresultaten op te slaan
-
+Door het voorstel af te wijzen komen er momenteel geen nuttige resultaten als een API faalt om informatie terug te geven.
 
 # 8.5. ADR-005 Reisdata toestand
 
@@ -637,3 +634,5 @@ http://localhost:8080/hotels?latitude=GEKOZENLATITUDE&longitude=GEKOZENLONGITUDE
 longitude = longitude
 latitude = latitude
 amount = aantal hotels uit reactie
+- Voer nieuwe reisdata in via de POST, verander de status van reisdata via de PUT haal alle reisdata op via de GET 
+http://localhost:8080/travelData
