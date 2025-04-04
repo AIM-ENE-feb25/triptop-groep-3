@@ -150,10 +150,22 @@ Hierbij staat de verbinding tussen de backend en de verschillende externe APIs v
 
 
 #### Component Diagram beschermen tegen externe API's
+![AdapterPatternTrenComponentDiagram.png](AdapterPatternTrenComponentDiagram.png)
 
+Aan de achterkant zorgt de HotelService ervoor dat de logica wordt afgehandeld. Deze service schakelt de BookingApiClient in, die via de interface IHotelService communiceert met een adapter (ExternalApiHotelAdapter).
+
+De adapter maakt een HTTP-aanroep naar de externe Booking.com API en zet de response om naar een interne representatie (HotelDTO). Deze losgekoppelde structuur voorkomt dat wijzigingen in de externe API impact hebben op de rest van de applicatie.
 #### Dynamic Diagram beschermen tegen externe API's
+![AdapterPatternTrenDynamicComponentDiagram.png](AdapterPatternTrenDynamicComponentDiagram.png)
+Dit diagram toont de flow van een hotelzoekopdracht in de applicatie.
+1.	De gebruiker stuurt een HTTP GET-verzoek naar /hotels.
+2.	De HotelController stuurt de parameters door naar de HotelService.
+3.	De HotelService schakelt de BookingApiClient in voor communicatie met de adapter.
+4.	De BookingApiClient gebruikt de ExternalApiHotelAdapter om een API-aanroep te doen naar Booking.com.
+5.	De adapter haalt de externe JSON-response op en zet deze om naar een interne HotelDTO.
+6.	De lijst van HotelDTO’s wordt via de lagen teruggestuurd naar de gebruiker als JSON.
 
-#### Sequence Diagram beschermen tegen externe API's
+
 
 #### Component Diagram States
 ![img_6.png](img_6.png)
