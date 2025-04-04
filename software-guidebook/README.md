@@ -320,13 +320,13 @@ Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
 Sequence diagram meerdere betaalmethodes
 ![img_8.png](img_8.png)
 
-<<<<<<< Updated upstream
 Class diagram meerdere betaalmethodes
 ![img_9.png](img_9.png)
 
+[ADR Design](#87-adr-007-meerdere-betaalsystemen)
 
-=======
->>>>>>> Stashed changes
+[ADR Design pattern](#88-adr-008-Design-pattern-meerdere-betaalsystemen)
+
 ## 8. Architectural Decision Records
 
 # 8.1. ADR-001 Keuze voor welke database
