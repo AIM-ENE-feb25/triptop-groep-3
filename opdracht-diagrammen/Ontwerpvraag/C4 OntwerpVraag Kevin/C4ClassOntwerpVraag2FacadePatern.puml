@@ -1,30 +1,62 @@
 @startuml
 
-class BetalingService {
-    + verwerkBetaling(betalingInfo: BetalingInfo): BetalingResultaat
-    + valideerBetaling(betalingInfo: BetalingInfo): Boolean
+class PaymentController {
+    + pay(paymentInfo: PaymentInfo, paymentType: PaymentType) : Object
+    + showAvailablePaymentTypes() : List<PaymentType>
 }
 
-interface ExterneBetaalAPI {
-    + betaal(betalingInfo: BetalingInfo): Boolean
+class PaymentService {
+    + pay(PaymentInfo, PaymentType) : Object
+    + getPaymentTypes() : List<PaymentType>
 }
 
-interface iDEALAPI {
-    + betaal(betalingInfo: BetalingInfo): Boolean
+enum PaymentType {
+    PAYPAL
+    INVOICE
 }
 
-interface CreditCardAPI {
-    + betaal(betalingInfo: BetalingInfo): Boolean
+interface PaymentFacade {
+    + pay(PaymentInfo) : Object
 }
 
-interface PayPalAPI {
-    + betaal(betalingInfo: BetalingInfo): Boolean
+class PaypalFacade {
+    + pay(PaymentInfo) : String
 }
 
-BetalingService --> ExterneBetaalAPI : "Stuurt verzoeken naar"
-BetalingService --> iDEALAPI : "Stuurt verzoeken naar"
-BetalingService --> CreditCardAPI : "Stuurt verzoeken naar"
-BetalingService --> PayPalAPI : "Stuurt verzoeken naar"
+class InvoiceFacade {
+    + pay(PaymentInfo) : InvoiceInfo
+}
 
+class PaypalService {
+    + pay(PaymentInfo) : String
+    + createPayment(PaymentInfo) : String
+    + getApprovalLink(String) : String
+    + executePayment(String) : String
+}
+
+class InvoiceService {
+    + pay(PaymentInfo) : InvoiceInfo
+}
+
+interface ExternalPaypalPaymentApi {
+}
+
+PaymentController -DOWN-> PaymentService : "Uses"
+PaymentService --> PaymentType : "Uses"
+PaymentService -DOWN-> PaypalFacade : "Sends requests to"
+PaymentService -DOWN-> InvoiceFacade : "Sends requests to"
+PaymentService -DOWN-> PaymentType : "PaymentType has facades"
+
+PaymentType : +getFacade() : PaymentFacade
+PaymentType -LEFT-> PaypalFacade : "Connects with"
+PaymentType -RIGHT-> InvoiceFacade : "Connects with"
+
+PaypalFacade ..|> PaymentFacade
+InvoiceFacade ..|> PaymentFacade
+
+PaypalFacade --> PaypalService : "Sends requests to"
+InvoiceFacade --> InvoiceService : "Sends requests to"
+
+PaypalService ..|> ExternalPaypalPaymentApi
 
 @enduml
