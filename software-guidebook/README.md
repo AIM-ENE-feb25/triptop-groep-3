@@ -135,7 +135,6 @@ Door dit toe te passen in de paymentFacade zorg ik ervoor dat je alle betaalServ
 In bovenstaand diagram zijn alle relevante containers opgenomen voor het opbouwen van de software.
 Hierbij staat de verbinding tussen de backend en de verschillende externe APIs voor het ophalen van informatie centraal.
 
-
 #### Dynamisch C4 diagram 'inloggen':
 ![img_3.png](img_3.png)
 
@@ -147,23 +146,35 @@ Hierbij staat de verbinding tussen de backend en de verschillende externe APIs v
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
+![img_5.png](img_5.png)
+
+
+#### Component Diagram States
+![img_6.png](img_6.png)
+
+Bovenstaand diagram toont de verschillende componenten die spelen bij het aanpassen en opslaan van een stuk reisdata. 
+Hierbij wordt de reisdata eerst opgehaald vanuit de database of vanuit de externe APIs waarmee andere onderdelen van de applicatie in contact staan.
+
+#### Dynamic Diagram States
+![img_7.png](img_7.png)
+
+Bovenstaand diagram toont de manier waarop verschillende componenten met elkaar communiceren om de toestand van een stuk reisdata of activiteit aan te passen. 
+Belangrijk aan deze volgorde is dat niet alle states zo maar mogen worden aangepast, wat de reden is voor het updaten van de state binnen de service. 
+Hier wordt gecontroleerd welke state de reisdata zich nu in bevindt, wat dus ook bepaald naar welke states die wel of niet mag transitioneren.
+
 ###     7.3. Design & Code
 Adapter Pattern Sequence Diagram 
 ![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
 
-
 Het sequentiediagram toont de volledige flow van een HTTP-aanvraag tot aan de gemapte hoteldata. De HotelController handelt de HTTP GET request af en gebruikt de HotelService voor domeinlogica. Die service schakelt via de BookingApiClient de ExternalApiHotelAdapter in.
 De adapter zorgt voor communicatie met de Booking.com API (callExternalApi) en zet de response om naar een bruikbare datastructuur (mapResponse).
 De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibility Principle en het Adapter Pattern.
-
-
 
 Adapter Pattern Class Diagram 
 ![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
 In dit klassendiagram wordt duidelijk hoe het Adapter Pattern is toegepast om externe JSON-data (Booking.com) te integreren in het systeem zonder afhankelijkheid van de externe structuur. De ExternalApiHotelAdapter is verantwoordelijk voor zowel de API-call (callExternalApi) als het omzetten van de externe response naar interne structuur (mapResponse), waarmee de principes van Encapsulation en Separation of Concerns worden gevolgd.
 De IHotelService interface zorgt voor loskoppeling, waardoor andere adapters eenvoudig toegevoegd kunnen worden in de toekomst.
-
 
 Travel data states class diagram. 
 ![img_1.png](img_1.png)
