@@ -6,7 +6,7 @@ import nl.han.se.bewd.facade.PaypalFacade;
 
 public enum PaymentType {
     PAYPAL(new PaypalFacade()),
-    FACTUUR(new InvoiceFacade());
+    INVOICE(new InvoiceFacade());
 
     private final PaymentFacade facade;
 
