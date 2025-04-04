@@ -1,11 +1,13 @@
-package nl.han.se.solex.triptop.service;
+package nl.han.se.bewd.service;
 
-import nl.han.se.solex.triptop.domain.PaymentInfo;
-import org.springframework.http.HttpHeaders;
+import nl.han.se.bewd.domain.PaymentInfo;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
 
 public class PaypalService {
 
