@@ -12,7 +12,7 @@ Voor Triptop, een modulair platform met verschillende bouwstenen, moeten we een 
 
 | Criteria / Forces          | Ondersteun meerdere api's | Losse API voor verschillende betaalmethodes | Eigen betaalgateway | 
 |----------------------------|---------------------------|---------------------------------------------|---------------------|
-| Implementatiecomplexiteit  | +                         | 0                                           | --                  |
+| Implementatiecomplexiteit  | ++                        | 0                                           | --                  |
 | Onderhoudbaarheid          | +                         | ++                                          | --                  |
 | Impact op prestaties       | +                         | ++                                          | +                   |
 | Schaalbaarheid             | ++                        | ++                                          | -                   |
