@@ -119,7 +119,10 @@ Door te programmeren op een interface (IHotelService) in plaats van op concrete 
 testimplementaties zonder dat de rest van de code aangepast hoeft te worden. Dit maakt de architectuur
 veel flexibeler en beter uitbreidbaar.
 
-
+#### Interface Segregation Principle(ISP)
+Het Interface Segregation Principle (ISP) is een van de SOLID-principes en stelt dat een interface niet verplicht mag worden om methoden te implementeren die het niet nodig heeft.
+Dit zorgt ervoor dat klassen alleen afhankelijk zijn van methoden die ze daadwerkelijk gebruiken.
+Door dit toe te passen in de paymentFacade zorg ik ervoor dat je alle betaalServices kunt aanroepen met de betaal() functie.
 
 
 ## 7. Software Architecture
