@@ -101,14 +101,19 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 
 **Single Responsibility Principle (SRP)**
 
-
+Elke module binnen het systeem heeft één duidelijke verantwoordelijkheid. Dit maakt de code overzichtelijk, onderhoudbaar en makkelijker te testen.
+Functionaliteit zoals gebruikersbeheer, betalingen of communicatie met externe services is telkens gescheiden.
 **Open-Closed Principle (OCP)**
-
+De architectuur is opgebouwd rond afhankelijkheid van abstracties (zoals interfaces), niet van concrete implementaties.
+Hierdoor blijft de structuur flexibel en losgekoppeld: onderdelen kunnen onafhankelijk vervangen of aangepast worden.
 
 **Dependency Inversion Principle (DIP)**
-
+De architectuur is opgebouwd rond afhankelijkheid van abstracties (zoals interfaces), niet van concrete implementaties. 
+Hierdoor blijft de structuur flexibel en losgekoppeld: onderdelen kunnen onafhankelijk vervangen of aangepast worden.
 
 **Program to an Interface**
+Modules communiceren via abstracties in plaats van directe implementaties. 
+Dit zorgt ervoor dat ze uitwisselbaar blijven en los staan van specifieke technologieën of externe services.
 
 
 
@@ -301,7 +306,7 @@ Travel data states class diagram.
 In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
 Binnen dit diagram staat het interface 'TravelDataState' centraal met een abstracte methode die in elke toestand klasse word geïmplementeerd. 
 Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, 
-hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
+hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast zoals beschreven in ADR-005 Reisdata toestand. 
 Op deze manier wordt er ook rekening gehouden met het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
 
 **Travel Data State Pattern state diagram**
@@ -663,3 +668,6 @@ latitude = latitude
 amount = aantal hotels uit reactie
 - Voer nieuwe reisdata in via de POST, verander de status van reisdata via de PUT haal alle reisdata op via de GET 
 http://localhost:8080/travelData
+- Betaalmethodes ophalen: (GET) http://localhost:8080/available-paymenttypes
+- Betalen met Paypal: (POST) http://localhost:8080/pay?paymentType=PAYPAL body: {"amount": 49.99,"description": "Lidmaatschap"}
+- Betalen via Factuur: (POST)http://localhost:8080/pay?paymentType=INVOICE body: {"amount": 49.99,"description": "Lidmaatschap"}
