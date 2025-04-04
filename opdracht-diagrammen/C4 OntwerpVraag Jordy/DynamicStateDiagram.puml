@@ -8,7 +8,7 @@ System_Boundary(Backend, "TripTop Backend") {
     Component(TravelDataController, "TravelDataController", "Spring Boot REST Controller", "Behandelt reisdata en activiteiten")
     Component(TravelDataService, "TravelDataService", "Service Layer", "Verwerkt reisdata en activiteiten")
     Component(TravelDataRepository, "TravelDataRepository", "Spring Data Repository", "Leest/schrijft reisdata in database")
-    ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
+    ContainerDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
 }
 
 ' Stappen

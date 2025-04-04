@@ -96,9 +96,6 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 
 ## 6. Principles
 
-> [!IMPORTANT]
-> Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
-
 **Single Responsibility Principle (SRP)**
 
 Elke module binnen het systeem heeft één duidelijke verantwoordelijkheid. Dit maakt de code overzichtelijk, onderhoudbaar en makkelijker te testen.
@@ -161,9 +158,6 @@ Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de fronten
 
 ### 7.2. Components
 
-> [!IMPORTANT]
-> Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
-
 #### 7.2.1. Component diagram
 
 **Algemeen component diagram**
@@ -208,13 +202,14 @@ Dit diagram toont de flow van een hotelzoekopdracht in de applicatie.
 6.	De lijst van HotelDTO’s wordt via de lagen teruggestuurd naar de gebruiker als JSON.
 
 #### Component Diagram States
-![img_6.png](img_6.png)
+![Component Diagram States.png](Component%20Diagram%20States.png)
 
 Bovenstaand diagram toont de verschillende componenten die spelen bij het aanpassen en opslaan van een stuk reisdata. 
 Hierbij wordt de reisdata eerst opgehaald vanuit de database of vanuit de externe APIs waarmee andere onderdelen van de applicatie in contact staan.
 
 #### Dynamic Diagram States
-![img_7.png](img_7.png)
+[![img_12.png](img_12.png)](DynamicComponentDiagramStates.png)
+
 
 Bovenstaand diagram toont de manier waarop verschillende componenten met elkaar communiceren om de toestand van een stuk reisdata of activiteit aan te passen. 
 Belangrijk aan deze volgorde is dat niet alle states zo maar mogen worden aangepast, wat de reden is voor het updaten van de state binnen de service. 
@@ -288,8 +283,6 @@ De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibilit
 ![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
 In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
-
-<<<<<<< Updated upstream
 • De HotelController is enkel verantwoordelijk voor het afhandelen van HTTP-verzoeken.
 
 • De HotelService bevat de businesslogica en bepaalt welke API-client wordt aangesproken.
@@ -300,7 +293,6 @@ In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klasse
 Travel data states class diagram. 
 =======
 **Travel data states class diagram**
->>>>>>> Stashed changes
 ![img_1.png](img_1.png)
 
 In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beheren van de toestand van een stuk reisdata. 
@@ -638,11 +630,6 @@ Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitb
 
 ## 9. Deployment, Operation and Support
 
-
-
-> [!TIP]
-> Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
-
 # Gebruik Booking API
 ## Benodigdheden
 - Java 21
@@ -666,8 +653,9 @@ http://localhost:8080/hotels?latitude=GEKOZENLATITUDE&longitude=GEKOZENLONGITUDE
 longitude = longitude
 latitude = latitude
 amount = aantal hotels uit reactie
-- Voer nieuwe reisdata in via de POST, verander de status van reisdata via de PUT haal alle reisdata op via de GET 
-http://localhost:8080/travelData
+- Nieuwe reisdata invoeren: (POST) http://localhost:8080/travelData { "travelDataDescription": "A round trip to italy", "travelerId": 1, "travelDataId": 1, "currentState": null }
+- Status reisdata veranderen: (PUT) http://localhost:8080/travelData { "travelDataId": 1, "newState": "Arranged", "date": "12-07-2025" }
+- Reisdata ophalen: (GET) http://localhost:8080/travelData
 - Betaalmethodes ophalen: (GET) http://localhost:8080/available-paymenttypes
 - Betalen met Paypal: (POST) http://localhost:8080/pay?paymentType=PAYPAL body: {"amount": 49.99,"description": "Lidmaatschap"}
 - Betalen via Factuur: (POST)http://localhost:8080/pay?paymentType=INVOICE body: {"amount": 49.99,"description": "Lidmaatschap"}
