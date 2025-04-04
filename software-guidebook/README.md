@@ -201,8 +201,7 @@ Dit ontwerp maakt gebruik van het **Adapter Pattern**, waardoor eenvoudig nieuwe
 
 In dit dynamisch componentdiagram wordt de interactie tussen de verschillende systeemcomponenten binnen de TripTop applicatie voor gebruikersauthenticatie weergegeven. Het diagram toont de communicatie van een authenticatieverzoek van de gebruiker via de AuthController naar de AuthService, die vervolgens de MicrosoftAuthAdapter gebruikt om te communiceren met de ExternalAPI voor het verifiëren van de gebruiker. Na ontvangst van de respons wordt de gegevens gemapt naar het interne domeinmodel en opgeslagen in de Database via de AuthRepository. Ten slotte wordt het resultaat van de authenticatie teruggestuurd naar de AuthController om de gebruiker te informeren over het succes of falen van het proces.
 
-![img_8.png](Dynamisch diagram Adapter pattern Cas.png)
-
+![img_8.png](Dynamisch component diagram Adapter pattern Authenticatie Cas.png)
 
 
 

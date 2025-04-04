@@ -12,14 +12,14 @@ System_Boundary(TripTop, "TripTop") {
 
 System_Ext(ExternalAPI, "ExternalAPI", "Microsoft Authentication API", "Externe service voor authenticatie")
 
-' Relaties en interacties
-AuthController -> AuthService : "Verstuurt authenticatieverzoek"
-AuthService -> MicrosoftAuthAdapter : "Roep MicrosoftAuthAdapter aan"
-MicrosoftAuthAdapter -down-> ExternalAPI : "Verstuurt request voor authenticatie"
-ExternalAPI --> MicrosoftAuthAdapter : "Ontvangt authenticatorespons"
-MicrosoftAuthAdapter --> AuthService : "Mapping van de response naar domeinmodel"
-AuthService -> AuthRepository : "Sla de gebruikersdata op"
-AuthRepository -> Database : "Schrijft gebruikersdata naar de database"
-AuthService --> AuthController : "Retourneert authenticatierespons"
+' Relaties en interacties met nummering
+AuthController -> AuthService : Verstuurt authenticatieverzoek #1
+AuthService -> MicrosoftAuthAdapter : Roep MicrosoftAuthAdapter aan #2
+MicrosoftAuthAdapter -down-> ExternalAPI : Verstuurt request voor authenticatie #3
+ExternalAPI --> MicrosoftAuthAdapter : Ontvangt authenticatorespons #4
+MicrosoftAuthAdapter --> AuthService : Mapping van de response naar domeinmodel #5
+AuthService -> AuthRepository : Sla de gebruikersdata op #6
+AuthRepository -> Database : Schrijft gebruikersdata naar de database #7
+AuthService --> AuthController : Retourneert authenticatierespons #8
 
 @enduml
