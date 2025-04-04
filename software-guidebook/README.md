@@ -9,9 +9,10 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 
 ## 2. Context
 
-![img_3.png](Images/C4/Context.png)
+![img_8.png](Context diagram.png)
 
 **Functionaliteit**
+
 TripTop is een webapplicatie die reizigers ondersteunt bij het plannen, boeken en beheren van reizen. De applicatie biedt een centrale interface waarmee gebruikers accommodaties, transport, activiteiten, autoverhuur en eetgelegenheden kunnen reserveren via integraties met externe systemen. Daarnaast biedt TripTop authenticatie via bekende loginproviders en ondersteuning voor reisagenten die reizigers helpen bij boekingen en wijzigingen.
 
 **Gebruikers**
@@ -26,6 +27,7 @@ TripTop communiceert met verschillende externe systemen om reisgerelateerde dien
 - **Tripadvisor / GetYourGuide API**: Voor het boeken van activiteiten en excursies.
 - **Takeaway / Eet.nu API**: Voor het bestellen van eten en maken van restaurantreserveringen.
 - **Google / Microsoft / Airbnb loginprovider**: Voor gebruikersauthenticatie en login.
+- **PayPal API**: Voor het verwerken van betalingen.
 
 ## 3. Functional Overview
 
@@ -87,10 +89,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 5. Constraints
 
-> [!Important]
-> Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
-
-De software wordt opgesteld voor een webapplicatie, en zal dus nog geen rekening houden met een mobiele applicatie of dergelijke. 
+De software wordt opgesteld voor een webapplicatie, en zal dus nog geen rekening houden met een mobiele- of desktop applicatie . 
 Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
 De frontend zal worden opgesteld door gebruik van Javascript en React. De backend wordt gemaakt door gebruik van Java en Spring Boot.
 Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frameworks, en er al andere onbekende onderdelen worden gebruikt waarmee het team zich bekend moet maken.
@@ -100,27 +99,17 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
-# Adapter pattern (Cas)
+**Single Responsibility Principle (SRP)**
 
-In het adapter pattern dat ik heb toegepast, zorgt de MicrosoftAuthAdapter ervoor dat AuthService kan communiceren met de ExternalAPI zonder afhankelijk te zijn van de specifieke implementatie van die API. AuthService roept de adapter aan via de interface iAuthProviderAdapter, waardoor het mogelijk is om eenvoudig andere authenticatieproviders toe te voegen, zoals een GoogleAuthAdapter. Dit ontwerp volgt design principles zoals Single Responsibility, Open-Closed, Dependency Inversion, Encapsulate What Varies en Program to an Interface, wat de flexibiliteit en onderhoudbaarheid van de applicatie vergroot.
 
-## Single Responsibility Principle (SRP)
-De MicrosoftAuthAdapter heeft als enige verantwoordelijkheid het aanpassen van de interface van de ExternalAPI naar de interface die AuthService verwacht. Dit zorgt ervoor dat AuthController, AuthService en ExternalAPI hun eigen verantwoordelijkheden behouden zonder dat ze afhankelijk zijn van aanpassingen in de adapter.
+**Open-Closed Principle (OCP)**
 
-## Open-Closed Principle (OCP)
-Het Adapter Pattern respecteert het Open-Closed Principle doordat we nieuwe adapters kunnen toevoegen (zoals GoogleAuthAdapter in de toekomst) zonder AuthService te wijzigen. AuthService blijft werken zonder aanpassingen, ongeacht welke externe authenticatieservice wordt gebruikt.
 
-## Dependency Inversion Principle (DIP)
+**Dependency Inversion Principle (DIP)**
 
-De AuthService is niet direct afhankelijk van de MicrosoftAuthAdapter, maar van de interface iAuthProviderAdapter. Hierdoor kan AuthService werken met verschillende implementaties zonder afhankelijk te zijn van een specifieke externe authenticatiedienst. Dit maakt het systeem flexibeler en uitbreidbaar.
 
-## Encapsulate What Varies
+**Program to an Interface**
 
-De variabiliteit in authenticatieproviders wordt verborgen achter de iAuthProviderAdapter interface. Hierdoor hoeft AuthService geen wijzigingen te ondergaan wanneer een nieuwe authenticatieprovider, zoals GoogleAuthAdapter, wordt toegevoegd. De implementatiedetails van de specifieke adapters blijven geïsoleerd binnen hun respectieve klassen, waardoor de rest van het systeem hier geen last van heeft.
-
-## Program to an Interface
-
-De AuthService werkt met iAuthProviderAdapter in plaats van met een specifieke implementatie zoals MicrosoftAuthAdapter. Dit betekent dat het systeem niet afhankelijk is van concrete klassen, maar van abstracties. Hierdoor kunnen nieuwe adapters eenvoudig worden toegevoegd zonder impact op de bestaande code.
 
 
 
@@ -168,12 +157,14 @@ Door dit toe te passen in de paymentFacade zorg ik ervoor dat je alle betaalServ
 
 ### 7.1. Containers
 
+
+
 **Statisch container diagram**
-![img_2.png](img_2.png)
+![img_8.png](Statisch container diagram.png)
 
-Dit containerdiagram geeft een overzicht van het **TripTop** systeem en zijn interacties. **Reizigers** plannen en beheren hun reizen via de **Frontend** (React), terwijl **reisagenten** hen ondersteunen. De **Backend** (Spring Boot) verwerkt alle aanvragen en beheert de communicatie met externe systemen.
+Dit containerdiagram geeft een overzicht van het TripTop systeem en zijn interacties. Reizigers plannen en beheren hun reizen via de Frontend (React), terwijl reisagenten hen ondersteunen. De Backend (Spring Boot) verwerkt alle aanvragen en beheert de communicatie met externe systemen.
 
-Authenticatie verloopt via **Google, Microsoft en Airbnb Login API's**, en betalingen worden afgehandeld met **iDEAL**. De backend regelt ook boekingen bij **Booking.com, NS, KLM, Sixt, Tripadvisor, Takeaway** en andere externe diensten. Gegevens worden opgeslagen in een **Couchbase-database**.
+Authenticatie verloopt via Google, Microsoft en Airbnb Login API's, en betalingen worden afgehandeld met iDEAL. De backend regelt ook boekingen bij Booking.com, NS, KLM, Sixt, Tripadvisor, Takeaway en andere externe diensten. Gegevens worden opgeslagen in een Couchbase-database.
 
 Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de frontend soepel met zowel gebruikers als externe systemen kan communiceren.
 
@@ -189,6 +180,11 @@ Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de fronten
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 #### 7.2.1. Component diagram
+
+**Algemeen component diagram**
+
+![img_5.png](Statisch component diagram algemeen.png)
+
 
 **Component diagram: Adapter pattern (Cas)**
 
@@ -208,30 +204,12 @@ In dit dynamisch componentdiagram wordt de interactie tussen de verschillende sy
 
 ![img_8.png](Dynamisch diagram Adapter pattern Cas.png)
 
-### 7.3. Design & Code
-
-**Class diagram: Adapter pattern (Cas)**
-
-Authenticatie binnen TripTop wordt afgehandeld via een gestructureerde laag van controllers, services en adapters. De AuthenticationController ontvangt verzoeken van de frontend en roept de AuthenticationService aan voor verdere verwerking. Deze service beheert gebruikersauthenticatie, waaronder het genereren en verifiëren van authenticatiesleutels.
-
-Om flexibiliteit te garanderen, maakt de applicatie gebruik van het Adapter Pattern. De AuthProviderAdapter fungeert als een abstracte interface voor externe authenticatiediensten, zoals Microsoft en Google. Hierdoor kan de applicatie eenvoudig uitbreiden met extra providers zonder wijzigingen in de kernlogica. Het onderstaande diagram toont de interacties tussen deze componenten.
-
-![img_8.png](Class diagram Adapter pattern Cas.png)
-
-**Sequence diagram: Adapter pattern (Cas)**
-
-Het authenticatieproces binnen TripTop verloopt via een gelaagde structuur waarin de AuthController aanvragen van de frontend verwerkt en deze doorstuurt naar de **AuthService**. Deze service bepaalt welke externe authenticatieprovider moet worden aangesproken en gebruikt de juiste adapter, zoals de MicrosoftAuthAdapter, om een verzoek naar de externe API te sturen.
-
-Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze om naar een domeinmodel dat de applicatie begrijpt. Vervolgens slaat de AuthService de gebruikersgegevens op via de AuthRepository, die deze data in de database vastlegt. Uiteindelijk keert de verwerkte authenticatierespons terug naar de controller, die deze doorstuurt naar de client. Het onderstaande sequence diagram toont dit proces stap voor stap.
-
-![img_8.png](Sequence diagram Adapter pattern Cas.png)
 
 
 
 
-# ????
 
-![img_5.png](img_5.png)
+
 
 
 #### Component Diagram beschermen tegen externe API's
@@ -266,6 +244,30 @@ Belangrijk aan deze volgorde is dat niet alle states zo maar mogen worden aangep
 Hier wordt gecontroleerd welke state de reisdata zich nu in bevindt, wat dus ook bepaald naar welke states die wel of niet mag transitioneren.
 
 ###     7.3. Design & Code
+
+**Class diagram: Adapter pattern (Authenticatie)**
+
+Authenticatie binnen TripTop wordt afgehandeld via een gestructureerde laag van controllers, services en adapters. De AuthenticationController ontvangt verzoeken van de frontend en roept de AuthenticationService aan voor verdere verwerking. Deze service beheert gebruikersauthenticatie, waaronder het genereren en verifiëren van authenticatiesleutels.
+
+Om flexibiliteit te garanderen, maakt de applicatie gebruik van het Adapter Pattern. De AuthProviderAdapter fungeert als een abstracte interface voor externe authenticatiediensten, zoals Microsoft en Google. Hierdoor kan de applicatie eenvoudig uitbreiden met extra providers zonder wijzigingen in de kernlogica. Het onderstaande diagram toont de interacties tussen deze componenten.
+
+![img_8.png](Class diagram Adapter pattern Cas.png)
+
+**Sequence diagram: Adapter pattern (Authenticatie)**
+
+Het authenticatieproces binnen TripTop verloopt via een gelaagde structuur waarin de AuthController aanvragen van de frontend verwerkt en deze doorstuurt naar de **AuthService**. Deze service bepaalt welke externe authenticatieprovider moet worden aangesproken en gebruikt de juiste adapter, zoals de MicrosoftAuthAdapter, om een verzoek naar de externe API te sturen.
+
+Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze om naar een domeinmodel dat de applicatie begrijpt. Vervolgens slaat de AuthService de gebruikersgegevens op via de AuthRepository, die deze data in de database vastlegt. Uiteindelijk keert de verwerkte authenticatierespons terug naar de controller, die deze doorstuurt naar de client. Het onderstaande sequence diagram toont dit proces stap voor stap.
+
+![img_8.png](Sequence diagram Adapter pattern Cas.png)
+
+
+
+
+---
+
+
+
 Adapter Pattern Sequence Diagram 
 ![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
 
@@ -302,9 +304,9 @@ Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
 ## 8. Architectural Decision Records
 
 
-# 8.1. ADR-001 Database
+# 8.1. ADR-001 Keuze voor welke database
 ## Status
-Under discussion
+Accepted
 ## Context
 
 Voor TripTop, een Reisplanningsapplicatie
@@ -342,7 +344,7 @@ Het wordt dus makkelijk gemaakt om snel data toe te voegen, of bestaande structu
 Ook is Couchbase makkelijker te leren
 
 
-# 8.2. ADR-003 design pattern beschermen tegen externe API's
+# 8.2. ADR-002 design pattern beschermen tegen externe API's
 ## Status
 Accepted
 ## Context
@@ -365,7 +367,7 @@ Na het evalueren van verschillende design patterns is gekozen voor het Adapter P
 Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
 
 
-# 8.3. ADR-003 beschermen tegen externe API's
+# 8.3. ADR-003 Oplossingen voor beschermen tegen externe API's
 
 ## Context
 
@@ -415,7 +417,7 @@ Dit kan leiden tot veel aanpassingen in de applicatie als we dit niet goed aanpa
 # 8.4. ADR-004 API Falen 
 
 ## Status
-Proposed
+Rejected
 
 ## Context
 
@@ -467,12 +469,6 @@ De vraag is hoe deze toestanden het best kunnen worden geïmplementeerd.
 |Uitbreidbaar | + | ++   | + |   
 | Delegeerd gedrag aan toestand | ++ | --   | 0 | 
 
-Legenda:
-- `++` = sterke positieve score
-- `+`  = positief
-- `0`  = neutraal
-- `—`  = negatief
-- `-`  = sterk negatief
 
 ## Decision
 
@@ -491,7 +487,7 @@ Door te kiezen voor de state pattern:
 
 
 
-# 8.7. ADR-007 Externe api's met verouderde beveiligingsprotocollen
+# 8.6. ADR-006 Externe api's met verouderde beveiligingsprotocollen
 
 ## Status
 Rejected
@@ -515,12 +511,6 @@ De oplossing moet:
 | Impact op prestaties       | 0                                | 0     | -                   |
 | Schaalbaarheid             | ++                               | +     | --                  |
 
-Legenda:
-- `++` = sterke positieve score
-- `+`  = positief
-- `0`  = neutraal
-- `—`  = negatief
-- `-`  = sterk negatief
 
 ## Decision
 
@@ -531,7 +521,7 @@ Omdat alle opties geen veiligheid kunnen garanderen wanneer een externen api ver
 Dit betekend dat wanneer er verouderde api's zijn we deze niet kunnen gebruiken.
 
 
-# 8.8. ADR-008 Meerdere betaalsystemen
+# 8.7. ADR-007 Meerdere betaalsystemen
 
 ## Status
 Accepted
@@ -551,12 +541,6 @@ Voor Triptop, een modulair platform met verschillende bouwstenen, moeten we een 
 | Impact op prestaties       | +                         | ++                                          | +                   |
 | Schaalbaarheid             | ++                        | ++                                          | -                   |
 
-Legenda:
-- `++` = sterke positieve score
-- `+`  = positief
-- `0`  = neutraal
-- `—`  = negatief
-- `-`  = sterk negatief
 
 ## Decision
 
@@ -570,6 +554,29 @@ Door te kiezen voor losse API's voor verschillende betaalmethodes, moeten we:
 
 - Voor iedere betaalmethode afzonderlijke API-integraties implementeren, wat zorgt voor meer werk tijdens de initiële ontwikkeling.
 - Een goede documentatie en duidelijke standaarden opzetten voor het onderhoud van de API's.
+
+# 8.8 ADR-008 - Design pattern 
+
+## Status
+Closed
+## Context
+Het systeem heeft verschillende externe services die via een gemeenschappelijk adapter moeten worden aangesproken. Deze externe services kunnen variëren van betalingssysteemintegraties tot communicatie-API's en data-aanroepen. Het is belangrijk dat de interne logica van het systeem niet hoeft te worden aangepast wanneer nieuwe externe services worden toegevoegd of bestaande services worden gewijzigd. Dit maakt de implementatie van een schaalbare en onderhoudbare oplossing noodzakelijk, waarbij de communicatie met deze externe services flexibel kan worden toegevoegd zonder de bestaande werking van het systeem te verstoren.
+## Considered Options
+
+| Forces            | Adapter | Facade | State | Strategy | Factory | 
+|-------------------|---------|--------|-------|----------|---------|
+| Onderhoudbaarheid | ++      | ++     | -     | ++       | ++      |
+| Testbaarheid      | +       | -      | --    | ++       | -       |
+| Flexibiliteit     | ++      | 0      | -     | +        | 0       |
+
+## Decision
+Na het evalueren van verschillende design patterns is gekozen voor het Adapter Pattern. Dit biedt de beste balans tussen onderhoudbaarheid, flexibiliteit en testbaarheid, terwijl het eenvoudig maakt om nieuwe externe services toe te voegen zonder de interne logica te verstoren.
+
+## Consequences
+Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
+
+
+
 
 
 ## 9. Deployment, Operation and Support
