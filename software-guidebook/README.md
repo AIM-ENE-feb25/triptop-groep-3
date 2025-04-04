@@ -178,13 +178,12 @@ Authenticatie verloopt via **Google, Microsoft en Airbnb Login API's**, en betal
 Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de frontend soepel met zowel gebruikers als externe systemen kan communiceren.
 
 **Dynamisch diagram bij user story 'inloggen':**
-#### Dynamisch C4 diagram 'inloggen':
 ![img_3.png](img_3.png)
 
 **Dynamisch C4 diagram 'reis boeken':**
 ![img_4.png](img_4.png)
 
-###     7.2. Components
+### 7.2. Components
 
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
@@ -192,6 +191,7 @@ Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de fronten
 #### 7.2.1. Component diagram
 
 **Component diagram: Adapter pattern (Cas)**
+
 Dit diagram geeft een overzicht van de authenticatie- en gebruikersbeheercomponenten binnen de **TripTop Backend**.
 - **Frontend** (React) communiceert met de backend via **UserController** voor gebruikersbeheer en authenticatie.
 - **UserController** verwerkt gebruikersaanvragen en stuurt deze door naar **UserService**, die de gebruikerslogica beheert.
@@ -199,30 +199,37 @@ Dit diagram geeft een overzicht van de authenticatie- en gebruikersbeheercompone
 - Voor authenticatie gebruikt **UserService** de **iAuthProviderAdapter**, een adapter die externe authenticatieproviders ondersteunt.
 - De **iAuthProviderAdapter** kan verschillende externe authenticatieservices aanspreken, zoals de **Google Login API** en **Microsoft Login API**, om gebruikers veilig te authenticeren.
 Dit ontwerp maakt gebruik van het **Adapter Pattern**, waardoor eenvoudig nieuwe authenticatieproviders kunnen worden toegevoegd zonder wijzigingen aan **UserService**.
-![[Component diagram Adapter pattern Cas.png]]
+
+![img_8.png](Component diagram Adapter pattern Cas.png)
 
 **Dynamisch diagram: Adapter pattern (Cas)**
+
 In dit dynamisch componentdiagram wordt de interactie tussen de verschillende systeemcomponenten binnen de TripTop applicatie voor gebruikersauthenticatie weergegeven. Het diagram toont de communicatie van een authenticatieverzoek van de gebruiker via de AuthController naar de AuthService, die vervolgens de MicrosoftAuthAdapter gebruikt om te communiceren met de ExternalAPI voor het verifiëren van de gebruiker. Na ontvangst van de respons wordt de gegevens gemapt naar het interne domeinmodel en opgeslagen in de Database via de AuthRepository. Ten slotte wordt het resultaat van de authenticatie teruggestuurd naar de AuthController om de gebruiker te informeren over het succes of falen van het proces.
-![[Pasted image 20250404111758.png]]
+
+![img_8.png](Dynamisch diagram Adapter pattern Cas.png)
 
 ### 7.3. Design & Code
 
 **Class diagram: Adapter pattern (Cas)**
+
 Authenticatie binnen TripTop wordt afgehandeld via een gestructureerde laag van controllers, services en adapters. De AuthenticationController ontvangt verzoeken van de frontend en roept de AuthenticationService aan voor verdere verwerking. Deze service beheert gebruikersauthenticatie, waaronder het genereren en verifiëren van authenticatiesleutels.
 
 Om flexibiliteit te garanderen, maakt de applicatie gebruik van het Adapter Pattern. De AuthProviderAdapter fungeert als een abstracte interface voor externe authenticatiediensten, zoals Microsoft en Google. Hierdoor kan de applicatie eenvoudig uitbreiden met extra providers zonder wijzigingen in de kernlogica. Het onderstaande diagram toont de interacties tussen deze componenten.
-![[Pasted image 20250404111115.png]]
+
+![img_8.png](Class diagram Adapter pattern Cas.png)
 
 **Sequence diagram: Adapter pattern (Cas)**
+
 Het authenticatieproces binnen TripTop verloopt via een gelaagde structuur waarin de AuthController aanvragen van de frontend verwerkt en deze doorstuurt naar de **AuthService**. Deze service bepaalt welke externe authenticatieprovider moet worden aangesproken en gebruikt de juiste adapter, zoals de MicrosoftAuthAdapter, om een verzoek naar de externe API te sturen.
 
 Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze om naar een domeinmodel dat de applicatie begrijpt. Vervolgens slaat de AuthService de gebruikersgegevens op via de AuthRepository, die deze data in de database vastlegt. Uiteindelijk keert de verwerkte authenticatierespons terug naar de controller, die deze doorstuurt naar de client. Het onderstaande sequence diagram toont dit proces stap voor stap.
-![[Pasted image 20250404111138.png]]
+
+![img_8.png](Sequence diagram Adapter pattern Cas.png)
 
 
 
 
-
+# ????
 
 ![img_5.png](img_5.png)
 

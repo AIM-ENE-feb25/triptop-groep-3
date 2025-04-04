@@ -184,6 +184,11 @@
   },
   "active": "7a0ecad21516a804",
   "lastOpenFiles": [
+    "software-guidebook/Dynamisch diagram Adapter pattern Cas.png",
+    "software-guidebook/img_8.png",
+    "software-guidebook/Component diagram Adapter pattern Cas.png",
+    "software-guidebook/Sequence diagram Adapter pattern Cas.png",
+    "software-guidebook/Class diagram Adapter pattern Cas.png",
     "software-guidebook/img_7.png",
     "software-guidebook/img_6.png",
     "software-guidebook/img_5.png",
@@ -202,10 +207,6 @@
     "Prototypes/src/main/java/nl/han/se/bewd/facade/PaypalFacade.java",
     "Prototypes/src/main/java/nl/han/se/bewd/facade/PaymentFacade.java",
     "Pasted image 20250404111758.png",
-    "Pasted image 20250404111138.png",
-    "Pasted image 20250404111115.png",
-    "Component diagram Adapter pattern Cas.png",
-    "opdracht-diagrammen/Domain/Domain Model.png",
     "software-guidebook/README.md",
     "opdracht-diagrammen/Ontwerpvraag/Cas/Design principes.md"
   ]
