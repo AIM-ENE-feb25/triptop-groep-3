@@ -1,0 +1,28 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Diagram – Hotel Search Flow
+
+' Actors
+Person(user, "Gebruiker", "Doet een zoekopdracht naar hotels")
+
+' Containers
+Container(hotelController, "HotelController", "Spring Boot Controller", "Ontvangt HTTP-request")
+Container(hotelService, "HotelService", "Service", "Bevat domeinlogica")
+Container(apiClient, "BookingApiClient", "Client", "Abstraheert communicatie met adapter")
+Container(adapter, "ExternalApiHotelAdapter", "Adapter", "Maakt API-aanroep en mapt response")
+Container(bookingApi, "Booking.com API", "Externe API", "Levert hotelgegevens")
+
+' Flow
+Rel(user, hotelController, "GET /hotels")
+Rel(hotelController, hotelService, "getHotels(latitude, longitude, amount)")
+Rel(hotelService, apiClient, "useHotelService(...)")
+Rel(apiClient, adapter, "fetchHotels(...)")
+Rel(adapter, bookingApi, "Externe API-aanroep (HTTP)")
+Rel(bookingApi, adapter, "JSON response")
+Rel(adapter, apiClient, "List<Map> (intern model)")
+Rel(apiClient, hotelService, "List<Map>")
+Rel(hotelService, hotelController, "List<Map>")
+Rel(hotelController, user, "HTTP response (List<Map>)")
+
+@enduml
