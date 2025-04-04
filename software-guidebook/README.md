@@ -666,6 +666,6 @@ latitude = latitude
 amount = aantal hotels uit reactie
 - Voer nieuwe reisdata in via de POST, verander de status van reisdata via de PUT haal alle reisdata op via de GET 
 http://localhost:8080/travelData
-- Betalenmethodes ophalen: (GET) http://localhost:8080/available-paymenttypes
+- Betaalmethodes ophalen: (GET) http://localhost:8080/available-paymenttypes
 - Betalen met Paypal: (POST) http://localhost:8080/pay?paymentType=PAYPAL body: {"amount": 49.99,"description": "Lidmaatschap"}
 - Betalen via Factuur: (POST)http://localhost:8080/pay?paymentType=INVOICE body: {"amount": 49.99,"description": "Lidmaatschap"}
