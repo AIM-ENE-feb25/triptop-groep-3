@@ -88,17 +88,17 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
 
+#### Encapsulate what varies
 Binnen de software wordt er regelmatig gebruik gemaakt van verschillende soorten reis data en activiteiten waarmee de gebruikers hun reis kunnen samen stellen. 
 Deze stukken reis data kunnen zich binnen het systeem in verschillende toestanden bevinden, met elke toestand ander gedrag en variabele die moeten worden opgeslagen. 
 Omdat deze toestanden later nog aangepast of uitgebreid kunnen worden is het volgens het design principe 'Encapsulate What Varies' van belang dat deze toestanden worden opgenomen 
 in een geïsoleerde omgeving van de rest van de software door gebruik van een interface die bij alle toestanden geïmplemteerd word.
+Verder wordt elke externe datastructuur ingekapseld in een aparte adapter, waardoor wijzigingen in de datastructuur van een externe service geen impact hebben op de rest van het systeem.
+De logica van het fetchen en mappen van de externe data is volledig losgekoppeld van de rest van de applicatie.
 
 ### Adapter pattern principles
 Voor het adapter pattern is er bewust gebruikgemaakt van meerdere design principles om de uitbreidbaarheid, 
 flexibiliteit en onderhoudbaarheid van het systeem te waarborgen.
-#### Encapsulate what varies
-Elke externe datastructuur wordt ingekapseld in een aparte adapter, waardoor wijzigingen in de datastructuur van een externe service geen impact hebben op de rest van het systeem.
-De logica van het fetchen en mappen van de externe data is volledig losgekoppeld van de rest van de applicatie. 
 
 #### Single Responsibility Principle
 De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klassen van de applicatie:
@@ -405,7 +405,7 @@ De adapter pattern was verreweg de beste keuze op basisvan het onderzoek wat ik 
 - Externe logica wordt netjes ingekapseld in één plek, wat onderhoud en uitbreiding vergemakkelijkt.
 - De extra laag (adapter) maakt de architectuur iets ingewikkelder.
 
-### 8.7. ADR-007 Externe api's met verouderde beveiligingsprotocollen
+# 8.7. ADR-007 Externe api's met verouderde beveiligingsprotocollen
 
 ## Status
 Rejected
@@ -445,7 +445,7 @@ Omdat alle opties geen veiligheid kunnen garanderen wanneer een externen api ver
 Dit betekend dat wanneer er verouderde api's zijn we deze niet kunnen gebruiken.
 
 
-### 8.8. ADR-008 Meerdere betaalsystemen
+# 8.8. ADR-008 Meerdere betaalsystemen
 
 ## Status
 Accepted
