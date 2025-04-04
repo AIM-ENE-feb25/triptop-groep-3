@@ -1,0 +1,25 @@
+@startuml C4_Dynamic
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+' Definieer de systeemcomponenten
+System_Boundary(TripTop, "TripTop") {
+    Component(AuthController, "AuthController", "Spring Boot Controller", "Verwerkt authenticatie aanvragen")
+    Component(AuthService, "AuthService", "Service Layer", "Verwerkt de logica van de authenticatie")
+    Component(MicrosoftAuthAdapter, "MicrosoftAuthAdapter", "Adapter", "Adapter voor Microsoft Authenticatie API")
+    Component(AuthRepository, "AuthRepository", "Repository", "Verantwoordelijk voor het opslaan van gebruikersdata")
+    Component(Database, "Database", "Couchbase", "Slaat de gebruikersdata op")
+}
+
+System_Ext(ExternalAPI, "ExternalAPI", "Microsoft Authentication API", "Externe service voor authenticatie")
+
+' Relaties en interacties
+AuthController -> AuthService : "Verstuurt authenticatieverzoek"
+AuthService -> MicrosoftAuthAdapter : "Roep MicrosoftAuthAdapter aan"
+MicrosoftAuthAdapter -down-> ExternalAPI : "Verstuurt request voor authenticatie"
+ExternalAPI --> MicrosoftAuthAdapter : "Ontvangt authenticatorespons"
+MicrosoftAuthAdapter --> AuthService : "Mapping van de response naar domeinmodel"
+AuthService -> AuthRepository : "Sla de gebruikersdata op"
+AuthRepository -> Database : "Schrijft gebruikersdata naar de database"
+AuthService --> AuthController : "Retourneert authenticatierespons"
+
+@enduml

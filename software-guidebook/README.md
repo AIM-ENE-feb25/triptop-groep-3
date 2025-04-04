@@ -10,12 +10,22 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ## 2. Context
 
 ![img_3.png](Images/C4/Context.png)
-> Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 
-Toelichting op de context van de software inclusief System Context Diagram:
-* Functionaliteit
-* Gebruikers
-* Externe systemen
+**Functionaliteit**
+TripTop is een webapplicatie die reizigers ondersteunt bij het plannen, boeken en beheren van reizen. De applicatie biedt een centrale interface waarmee gebruikers accommodaties, transport, activiteiten, autoverhuur en eetgelegenheden kunnen reserveren via integraties met externe systemen. Daarnaast biedt TripTop authenticatie via bekende loginproviders en ondersteuning voor reisagenten die reizigers helpen bij boekingen en wijzigingen.
+
+**Gebruikers**
+- **Reizigers**: Dit zijn de primaire gebruikers van TripTop. Zij kunnen via de webapplicatie hun reizen plannen, accommodaties en vervoer boeken, activiteiten toevoegen en restaurants reserveren.
+- **Reisagenten**: Ondersteunen reizigers bij het boeken en beheren van reizen. Zij hebben toegang tot de boekingsfunctionaliteiten en kunnen in opdracht van de reiziger wijzigingen aanbrengen.
+
+**Externe Systemen**
+TripTop communiceert met verschillende externe systemen om reisgerelateerde diensten aan te bieden:
+- **Booking.com / Airbnb API**: Voor het boeken van accommodaties.
+- **NS / Deutsche Bahn / KLM API**: Voor het reserveren van trein- en vliegreizen.
+- **Sixt / Hertz API**: Voor het huren van auto’s.
+- **Tripadvisor / GetYourGuide API**: Voor het boeken van activiteiten en excursies.
+- **Takeaway / Eet.nu API**: Voor het bestellen van eten en maken van restaurantreserveringen.
+- **Google / Microsoft / Airbnb loginprovider**: Voor gebruikersauthenticatie en login.
 
 ## 3. Functional Overview
 
@@ -53,18 +63,17 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ### 3.4 Domain Model
 
-![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
+![Domain Model.png](..%2Fopdracht-diagrammen%2FDomain%2FDomain%20Model.png)
 
+Binnen TripTop wordt data op verschillende manieren verwerkt en uitgewisseld tussen de applicatie, externe API's en de eindgebruiker. Sommige gegevens worden direct door de gebruiker ingevoerd, terwijl andere worden opgehaald uit externe systemen of doorgegeven aan API’s voor verdere verwerking. De onderstaande tabel geeft een overzicht van hoe belangrijke gegevensattributen binnen het systeem stromen, welke API’s erbij betrokken zijn en of deze gegevens in de applicatie moeten worden opgeslagen.
 
-| Class::attribuut                                                                        | Is input voor API+Endpoint | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie  |
-| --------------------------------------------------------------------------------------- | -------------------------- |---------------------------------| :-------------------------------: |:----------------------------------------:|
-| Trip                                                                                                  | JSON Saver (POST)         |                                 |                 x                 |                    x                    |
-| TriptopGebruiker::email                                                                 | Easy Authenticator (POST)  |                                 |                 x                 |                    x                     |
-| TriptopGebruiker::email                                                                 | Easy Authenticator (POST)  |                                 |                 x                 |                    x                     |
-| TriptopGebruiker::email                                                                 | Easy Authenticator (POST)  |                                 |                 x                 |                    x                     |
-| TriptopGebruiker::email | Sending an email <br/> /send-email (POST) |                                 | x |                    x                     |
-| Email::content | Sending an email <br/> /send-email (POST) | x                               | |                                          |
-| Email::subject | Sending an email <br/> /send-email (POST) | x                               | |                                          |
+| Class::attribuut        | Is input voor API+Endpoint                | Wordt gevuld door API+Eindpoint | Wordt geleverd door eindgebruiker | Moet worden opgeslagen in de applicatie |
+| ----------------------- | ----------------------------------------- | ------------------------------- | :-------------------------------: | :-------------------------------------: |
+| Trip                    | JSON Saver (POST)                         |                                 |                 x                 |                    x                    |
+| TriptopGebruiker::email | Easy Authenticator (POST)                 |                                 |                 x                 |                    x                    |
+| TriptopGebruiker::email | Sending an email <br/> /send-email (POST) |                                 |                 x                 |                    x                    |
+| Email::content          | Sending an email <br/> /send-email (POST) | x                               |                                   |                                         |
+| Email::subject          | Sending an email <br/> /send-email (POST) | x                               |                                   |                                         |
 
 ## 4. Quality Attributes
 
@@ -78,6 +87,9 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 5. Constraints
 
+> [!Important]
+> Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
+
 De software wordt opgesteld voor een webapplicatie, en zal dus nog geen rekening houden met een mobiele applicatie of dergelijke. 
 Communicatie met externe APIs wordt uitgevoerd door gebruik van JSON.
 De frontend zal worden opgesteld door gebruik van Javascript en React. De backend wordt gemaakt door gebruik van Java en Spring Boot.
@@ -87,6 +99,33 @@ Deze keuze is gemaakt omdat het projectteam al bekend is met deze talen en frame
 
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
+
+# Adapter pattern (Cas)
+
+In het adapter pattern dat ik heb toegepast, zorgt de MicrosoftAuthAdapter ervoor dat AuthService kan communiceren met de ExternalAPI zonder afhankelijk te zijn van de specifieke implementatie van die API. AuthService roept de adapter aan via de interface iAuthProviderAdapter, waardoor het mogelijk is om eenvoudig andere authenticatieproviders toe te voegen, zoals een GoogleAuthAdapter. Dit ontwerp volgt design principles zoals Single Responsibility, Open-Closed, Dependency Inversion, Encapsulate What Varies en Program to an Interface, wat de flexibiliteit en onderhoudbaarheid van de applicatie vergroot.
+
+## Single Responsibility Principle (SRP)
+De MicrosoftAuthAdapter heeft als enige verantwoordelijkheid het aanpassen van de interface van de ExternalAPI naar de interface die AuthService verwacht. Dit zorgt ervoor dat AuthController, AuthService en ExternalAPI hun eigen verantwoordelijkheden behouden zonder dat ze afhankelijk zijn van aanpassingen in de adapter.
+
+## Open-Closed Principle (OCP)
+Het Adapter Pattern respecteert het Open-Closed Principle doordat we nieuwe adapters kunnen toevoegen (zoals GoogleAuthAdapter in de toekomst) zonder AuthService te wijzigen. AuthService blijft werken zonder aanpassingen, ongeacht welke externe authenticatieservice wordt gebruikt.
+
+## Dependency Inversion Principle (DIP)
+
+De AuthService is niet direct afhankelijk van de MicrosoftAuthAdapter, maar van de interface iAuthProviderAdapter. Hierdoor kan AuthService werken met verschillende implementaties zonder afhankelijk te zijn van een specifieke externe authenticatiedienst. Dit maakt het systeem flexibeler en uitbreidbaar.
+
+## Encapsulate What Varies
+
+De variabiliteit in authenticatieproviders wordt verborgen achter de iAuthProviderAdapter interface. Hierdoor hoeft AuthService geen wijzigingen te ondergaan wanneer een nieuwe authenticatieprovider, zoals GoogleAuthAdapter, wordt toegevoegd. De implementatiedetails van de specifieke adapters blijven geïsoleerd binnen hun respectieve klassen, waardoor de rest van het systeem hier geen last van heeft.
+
+## Program to an Interface
+
+De AuthService werkt met iAuthProviderAdapter in plaats van met een specifieke implementatie zoals MicrosoftAuthAdapter. Dit betekent dat het systeem niet afhankelijk is van concrete klassen, maar van abstracties. Hierdoor kunnen nieuwe adapters eenvoudig worden toegevoegd zonder impact op de bestaande code.
+
+
+
+
+
 
 #### Encapsulate what varies
 Binnen de software wordt er regelmatig gebruik gemaakt van verschillende soorten reis data en activiteiten waarmee de gebruikers hun reis kunnen samen stellen. 
@@ -124,19 +163,21 @@ veel flexibeler en beter uitbreidbaar.
 
 ## 7. Software Architecture
 
-###     7.1. Containers
+### 7.1. Containers
 
-#### Statisch C4 container diagram:
+**Statisch container diagram**
 ![img_2.png](img_2.png)
 
-In bovenstaand diagram zijn alle relevante containers opgenomen voor het opbouwen van de software.
-Hierbij staat de verbinding tussen de backend en de verschillende externe APIs voor het ophalen van informatie centraal.
+Dit containerdiagram geeft een overzicht van het **TripTop** systeem en zijn interacties. **Reizigers** plannen en beheren hun reizen via de **Frontend** (React), terwijl **reisagenten** hen ondersteunen. De **Backend** (Spring Boot) verwerkt alle aanvragen en beheert de communicatie met externe systemen.
 
+Authenticatie verloopt via **Google, Microsoft en Airbnb Login API's**, en betalingen worden afgehandeld met **iDEAL**. De backend regelt ook boekingen bij **Booking.com, NS, KLM, Sixt, Tripadvisor, Takeaway** en andere externe diensten. Gegevens worden opgeslagen in een **Couchbase-database**.
 
-#### Dynamisch C4 diagram 'inloggen':
+Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de frontend soepel met zowel gebruikers als externe systemen kan communiceren.
+
+**Dynamisch diagram bij user story 'inloggen':**
 ![img_3.png](img_3.png)
 
-#### Dynamisch C4 diagram 'reis boeken':
+**Dynamisch C4 diagram 'reis boeken':**
 ![img_4.png](img_4.png)
 
 ###     7.2. Components
@@ -144,7 +185,41 @@ Hierbij staat de verbinding tussen de backend en de verschillende externe APIs v
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 
-###     7.3. Design & Code
+#### 7.2.1. Component diagram
+
+**Component diagram: Adapter pattern (Cas)**
+Dit diagram geeft een overzicht van de authenticatie- en gebruikersbeheercomponenten binnen de **TripTop Backend**.
+- **Frontend** (React) communiceert met de backend via **UserController** voor gebruikersbeheer en authenticatie.
+- **UserController** verwerkt gebruikersaanvragen en stuurt deze door naar **UserService**, die de gebruikerslogica beheert.
+- **UserService** slaat gebruikersgegevens op en haalt ze op via **UserRepository**, die communiceert met de **Couchbase Database**.
+- Voor authenticatie gebruikt **UserService** de **iAuthProviderAdapter**, een adapter die externe authenticatieproviders ondersteunt.
+- De **iAuthProviderAdapter** kan verschillende externe authenticatieservices aanspreken, zoals de **Google Login API** en **Microsoft Login API**, om gebruikers veilig te authenticeren.
+Dit ontwerp maakt gebruik van het **Adapter Pattern**, waardoor eenvoudig nieuwe authenticatieproviders kunnen worden toegevoegd zonder wijzigingen aan **UserService**.
+![[Component diagram Adapter pattern Cas.png]]
+
+**Dynamisch diagram: Adapter pattern (Cas)**
+In dit dynamisch componentdiagram wordt de interactie tussen de verschillende systeemcomponenten binnen de TripTop applicatie voor gebruikersauthenticatie weergegeven. Het diagram toont de communicatie van een authenticatieverzoek van de gebruiker via de AuthController naar de AuthService, die vervolgens de MicrosoftAuthAdapter gebruikt om te communiceren met de ExternalAPI voor het verifiëren van de gebruiker. Na ontvangst van de respons wordt de gegevens gemapt naar het interne domeinmodel en opgeslagen in de Database via de AuthRepository. Ten slotte wordt het resultaat van de authenticatie teruggestuurd naar de AuthController om de gebruiker te informeren over het succes of falen van het proces.
+![[Pasted image 20250404111758.png]]
+
+### 7.3. Design & Code
+
+**Class diagram: Adapter pattern (Cas)**
+Authenticatie binnen TripTop wordt afgehandeld via een gestructureerde laag van controllers, services en adapters. De AuthenticationController ontvangt verzoeken van de frontend en roept de AuthenticationService aan voor verdere verwerking. Deze service beheert gebruikersauthenticatie, waaronder het genereren en verifiëren van authenticatiesleutels.
+
+Om flexibiliteit te garanderen, maakt de applicatie gebruik van het Adapter Pattern. De AuthProviderAdapter fungeert als een abstracte interface voor externe authenticatiediensten, zoals Microsoft en Google. Hierdoor kan de applicatie eenvoudig uitbreiden met extra providers zonder wijzigingen in de kernlogica. Het onderstaande diagram toont de interacties tussen deze componenten.
+![[Pasted image 20250404111115.png]]
+
+**Sequence diagram: Adapter pattern (Cas)**
+Het authenticatieproces binnen TripTop verloopt via een gelaagde structuur waarin de AuthController aanvragen van de frontend verwerkt en deze doorstuurt naar de **AuthService**. Deze service bepaalt welke externe authenticatieprovider moet worden aangesproken en gebruikt de juiste adapter, zoals de MicrosoftAuthAdapter, om een verzoek naar de externe API te sturen.
+
+Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze om naar een domeinmodel dat de applicatie begrijpt. Vervolgens slaat de AuthService de gebruikersgegevens op via de AuthRepository, die deze data in de database vastlegt. Uiteindelijk keert de verwerkte authenticatierespons terug naar de controller, die deze doorstuurt naar de client. Het onderstaande sequence diagram toont dit proces stap voor stap.
+![[Pasted image 20250404111138.png]]
+
+
+
+
+
+
 Adapter Pattern Sequence Diagram 
 ![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
 
