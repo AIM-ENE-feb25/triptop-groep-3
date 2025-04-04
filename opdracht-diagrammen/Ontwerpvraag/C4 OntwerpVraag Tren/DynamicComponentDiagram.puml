@@ -9,9 +9,9 @@ Person(user, "Gebruiker", "Doet een zoekopdracht naar hotels")
 ' Containers
 Container(hotelController, "HotelController", "Spring Boot Controller", "Ontvangt HTTP-request")
 Container(hotelService, "HotelService", "Service", "Bevat domeinlogica")
-Container(apiClient, "BookingApiClient", "Client", "zorgt voor communicatie met adapter")
+Container(apiClient, "BookingApiClient", "Client", "Zorgt voor communicatie met adapter")
 Container(adapter, "ExternalApiHotelAdapter", "Adapter", "Maakt API-aanroep en mapt response")
-Container(bookingApi, "Booking.com API", "Externe API", "Levert hotelgegevens")
+System_Ext(bookingApi, "Booking.com API", "Externe API voor hotels")
 
 ' Interacties
 Rel(user, hotelController, "GET /hotels")

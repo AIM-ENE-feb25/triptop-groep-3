@@ -1,6 +1,6 @@
 @startuml
 skinparam classAttributeIconSize 0
-title Class Diagram – Adapter Pattern met opgesplitste mapping
+title Class Diagram – Adapter Pattern
 
 class HotelController {
     - hotelService: HotelService

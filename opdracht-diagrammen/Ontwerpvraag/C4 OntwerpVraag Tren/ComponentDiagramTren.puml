@@ -1,7 +1,9 @@
 @startuml C4_Components
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Component Diagram – TripTop HotelAdapter Prototype
+title Component Diagram – adapter pattern
+
+
 
 Container(Frontend, "Frontend", "React", "Single Page Application waar gebruikers hoteldata kunnen bekijken")
 

@@ -149,6 +149,12 @@ Hierbij staat de verbinding tussen de backend en de verschillende externe APIs v
 ![img_5.png](img_5.png)
 
 
+#### Component Diagram beschermen tegen externe API's
+
+#### Dynamic Diagram beschermen tegen externe API's
+
+#### Sequence Diagram beschermen tegen externe API's
+
 #### Component Diagram States
 ![img_6.png](img_6.png)
 
