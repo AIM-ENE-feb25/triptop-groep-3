@@ -15,6 +15,16 @@ System_Boundary(Backend, "TripTop Backend") {
     Component(TravelDataService, "TravelDataService", "Service Layer", "Verwerkt reisdata en activiteiten")
     Component(TravelDataRepository, "TravelDataRepository", "Spring Data Repository", "Leest/schrijft reisdata in database")
 
+    Component(PaymentController, "PaymentController", "Service Layer", "Verwerkt betaallogica")
+    Component(PaymentService, "PaymentService", "Service Layer", "Verwerkt betaallogica")
+    Component(BetaalFacade, "BetaalFacade", "interface", "Interactie met betaalservice")
+
+    Component(PaypalFacade, "PaypalFacade", "Facade", "Interactie met PayPal service")
+    Component(InvoiceFacade, "InvoiceFacade", "Facade", "Interactie met factuurservice")
+
+    Component(PaypalService, "PaypalService", "Service", "Afhandelen van PayPal-betalingen")
+    Component(InvoiceService, "InvoiceService", "Service", "Afhandelen van factuurbetalingen")
+
     Component(iAuthProviderAdapter, "iAuthProviderAdapter", "Service Layer", "Verzorgt authenticatie via externe providers")
     Component(iBookingProviderAdapter, "iBookingProviderAdapter", "Service Layer", "Verzorgt boekingen via externe systemen")
     ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
@@ -28,6 +38,7 @@ System_Ext(ActivitiesAPI, "Tripadvisor / GetYourGuide API", "Biedt activiteiten 
 System_Ext(FoodAPI, "Takeaway / Eet.nu API", "Eten bezorgen en restaurantboekingen")
 System_Ext(GoogleAuthAPI, "Google Login API", "Authenticatie via Google")
 System_Ext(MicrosoftAuthAPI, "Microsoft Login API", "Authenticatie via Microsoft")
+System_Ext(PaypalApi, "PayPal", "Verwerkt PayPal betalingen")
 
 ' Relaties
 BookingController -down-> BookingService : "Verwerkt boeking aanvragen"
@@ -48,7 +59,7 @@ iBookingProviderAdapter -left-> ActivitiesAPI : "Boekt activiteiten"
 iBookingProviderAdapter -left-> FoodAPI : "Regelt restaurantboekingen"
 
 BookingService -left-> iBookingProviderAdapter : "Communiceert met externe systemen voor boekingen"
-BookingRepository -[hidden]-> TravelDataRepository
+BookingRepository -[hidden]-> "TravelDataService"
 
 Frontend -down-> BookingController : "Boekingen beheren [HTTP/JSON]"
 Frontend -down-> UserController : "Gebruikersbeheer en authenticatie [HTTP/JSON]"
@@ -56,5 +67,14 @@ Frontend -down-> TravelDataController : "Boekingen beheren [HTTP/JSON]"
 UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
 UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
 UserService -right-> iAuthProviderAdapter : "Regelt authenticatie via externe providers"
+
+Frontend --> PaymentController : "Roept aan"
+PaymentController --> PaymentService : "Maakt gebruik van"
+PaymentService --> BetaalFacade : "Stuurt verzoeken naar"
+BetaalFacade <.. PaypalFacade : "Implementeert"
+BetaalFacade <.. InvoiceFacade : "Implementeert"
+PaypalFacade --> PaypalService : "Stuurt verzoeken naar"
+InvoiceFacade --> InvoiceService : "Stuurt verzoeken naar"
+PaypalService --> PaypalApi : "Vraagt betaling aan"
 
 @enduml
