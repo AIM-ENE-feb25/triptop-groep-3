@@ -1,0 +1,25 @@
+@startuml C4_Components
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(Frontend, "Frontend", "JavaScript/React", "Single Page Application die de gebruikersinterface levert")
+
+' Backend Componenten
+System_Boundary(Backend, "TripTop Backend") {
+    Component(TravelDataController, "TravelDataController", "Spring Boot REST Controller", "Behandelt reisdata en activiteiten")
+    Component(TravelDataService, "TravelDataService", "Service Layer", "Verwerkt reisdata en activiteiten")
+    Component(TravelDataRepository, "TravelDataRepository", "Spring Data Repository", "Leest/schrijft reisdata in database")
+    ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
+}
+
+' Stappen
+Frontend -down-> TravelDataController : "1 Verstuurd reisdata ID met nieuwe state"
+TravelDataController -down-> TravelDataService : "2 vraagt om reisdata met ID"
+TravelDataService -down-> TravelDataRepository : "3 verstuurd reisdata ID"
+TravelDataRepository -down-> Database : "4 haalt reisdata op met ID"
+Database -up-> TravelDataRepository : "5 Verstuurd reisdata met ID"
+TravelDataRepository -up-> TravelDataService : "6 levert reisdata aan"
+TravelDataService -down-> TravelDataService : "7 update state op basis van invoer"
+TravelDataService -down-> TravelDataRepository : "8 Geeft nieuwe state door"
+TravelDataRepository -down-> Database : "9 Slaat nieuwe state op"
+
+@enduml

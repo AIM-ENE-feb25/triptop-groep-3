@@ -48,18 +48,10 @@ public class PaypalService {
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        // Simulate response from SwaggerHub mock API
-        // In real life, you'd extract the payment ID from the response
         System.out.println("Payment created: " + response.getBody());
 
         JSONObject jsonResponse = new JSONObject(response.getBody());
-
-        // Extract the payment ID from the response
-        String paymentId = jsonResponse.getString("id");
-
-        System.out.println(paymentId);
-
-        return paymentId;  // Simulated payment ID from the mock response
+        return jsonResponse.getString("id");
     }
 
     private String getApprovalLink(String paymentId) {
@@ -69,18 +61,14 @@ public class PaypalService {
     private String executePayment(String paymentId) {
         String url = MOCK_API_URL + EXECUTE_PAYMENT_ENDPOINT;  // Correct URL with path variable
 
-        // Construct the request body for executing the payment
         String requestBody = String.format("{\"payer_id\": \"PAYER-123456\"}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-
-        // Pass the paymentId as a path variable in the URL
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class, paymentId);
 
-        // Simulate executing the payment (in real life, you'd handle the response here)
         System.out.println("Payment execution response: " + response.getBody());
         return "Payment successfully executed for payment ID: " + paymentId;
     }
