@@ -1,0 +1,21 @@
+@startuml C4_Components
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(Frontend, "Frontend", "JavaScript/React", "Single Page Application die de gebruikersinterface levert")
+
+' Backend Componenten
+System_Boundary(Backend, "TripTop Backend") {
+    Component(TravelDataController, "TravelDataController", "Spring Boot REST Controller", "Behandelt reisdata en activiteiten")
+    Component(TravelDataService, "TravelDataService", "Service Layer", "Verwerkt reisdata en activiteiten")
+    Component(TravelDataRepository, "TravelDataRepository", "Spring Data Repository", "Leest/schrijft reisdata in database")
+    ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
+}
+
+' Relaties
+TravelDataController -down-> TravelDataService : "Verwerkt reisdata en activiteiten"
+TravelDataService -down-> TravelDataRepository : "Ophalen en opslaan van reisdata"
+TravelDataRepository -down-> Database : "Leest/schrijft reisdata"
+
+Frontend -down-> TravelDataController : "Boekingen beheren [HTTP/JSON]"
+
+@enduml
