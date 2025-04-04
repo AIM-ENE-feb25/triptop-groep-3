@@ -14,6 +14,6 @@ public class DoneState implements TravelDataState {
     }
 
     public String getState() {
-        return "Done";
+        return "This state was done at " + dateDone;
     }
 }
