@@ -1,28 +1,32 @@
 @startuml C4_Components
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Component Diagram – BookingAdapter Prototype (TripTop)
+title Component Diagram – adapter pattern
 
-Container(Frontend, "Frontend", "React", "Laat hoteldata zien aan de gebruiker")
+
+
+Container(Frontend, "Frontend", "React", "Single Page Application waar gebruikers hoteldata kunnen bekijken")
 
 System_Boundary(Backend, "TripTop Backend") {
 
-  Component(HotelController, "HotelController", "Spring Boot REST Controller", "Verwerkt inkomende hotelverzoeken (HTTP)")
-  Component(HotelService, "HotelService", "Service Layer", "Verwerkt logica en coördineert hoteldata-opvraging")
-  Component(BookingApiClient, "BookingApiClient", "Client Layer", "Abstraheert API-aanroep via de adapter")
-  Component(ExternalApiHotelAdapter, "ExternalApiHotelAdapter", "Adapter Pattern", "Haalt externe JSON op en mapt naar intern formaat")
-  Component(IHotelService, "IHotelService", "Interface", "Maakt gebruik van afhankelijkheidsinjectie mogelijk")
+    Component(HotelController, "HotelController", "Spring Boot REST Controller", "Behandelt HTTP-verzoeken voor hoteldata")
+    Component(HotelService, "HotelService", "Service Layer", "Verwerkt logica voor ophalen van hotelinformatie")
+    Component(BookingApiClient, "BookingApiClient", "Client", "Vereenvoudigt logica voor het aanroepen van de adapter")
+    Component(ExternalApiHotelAdapter, "ExternalApiHotelAdapter", "Adapter", "Maakt API-call en mapt response naar intern formaat")
+    Component(IHotelService, "IHotelService", "Interface", "Maakt losse koppeling tussen client en adapter mogelijk")
+    Component(HotelDTO, "HotelDTO", "Domeinmodel", "Interne representatie van hotelinformatie")
 }
 
-System_Ext(BookingAPI, "Booking.com API", "Externe API voor hotels")
+System_Ext(BookingAPI, "Booking.com API", "Externe API voor accommodaties")
 
 ' Relaties
-Frontend -> HotelController : "GET /hotels?lat=... [HTTP]"
-HotelController -> HotelService : "getHotels(lat, long, amount)"
-HotelService -> BookingApiClient : "useHotelService(lat, long, amount)"
-BookingApiClient -> IHotelService : "via interface"
-ExternalApiHotelAdapter ..|> IHotelService : implementeert
-BookingApiClient -> ExternalApiHotelAdapter : gebruikt adapter
-ExternalApiHotelAdapter -> BookingAPI : "REST call + mapping (Adapter Pattern)"
+Frontend --> HotelController : "GET /hotels?lat=... [HTTP/JSON]"
+HotelController --> HotelService : "getHotels(lat, long, amount)"
+HotelService --> BookingApiClient : "useHotelService(lat, long, amount)"
+BookingApiClient --> IHotelService : "via interface"
+BookingApiClient --> ExternalApiHotelAdapter : gebruikt adapter
+ExternalApiHotelAdapter ..|> IHotelService : implementatie
+ExternalApiHotelAdapter --> BookingAPI : "Maakt HTTP-request"
+ExternalApiHotelAdapter --> HotelDTO : "Mapt JSON naar"
 
 @enduml

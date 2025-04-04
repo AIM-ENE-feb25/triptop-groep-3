@@ -21,7 +21,7 @@ System_Ext(CarRent, "Sixt / Hertz API", "Verzorgt autoverhuur")
 System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Biedt activiteiten en excursies")
 System_Ext(Food, "Takeaway / Eet.nu API", "Faciliteert maaltijdbezorging en restaurantreserveringen")
 System_Ext(IdProvider, "Google / Microsoft / Airbnb Login API", "Beheert gebruikersauthenticatie en login")
-System_Ext(IDeal, "iDEAL", "Verwerkt iDEAL betalingen")
+System_Ext(PayPal, "PayPal", "Verwerkt PayPal betalingen")
 
 ' Relaties
 Traveler -> Frontend : "Plant, boekt en beheert reizen"
@@ -32,7 +32,7 @@ Backend -> Transport : "Regelt vervoer"
 Backend -> CarRent : "Regelt autoverhuur"
 Backend -> Activities : "Boekt activiteiten en excursies"
 Backend -> Food : "Bestelt maaltijden en maakt reserveringen"
-Backend -> IDeal : "Verwerkt betalingen"
+Backend -> PayPal : "Vraagt betaling aan"
 Rel(Backend, Database, "Leest/Schrijft", "N1QL")
 Backend -> IdProvider : "Authenticatie en login"
 
@@ -45,6 +45,6 @@ Backend -[hidden]-> CarRent
 Backend -[hidden]-> Activities
 Backend -[hidden]-> Food
 Backend -[hidden]-> IdProvider
-Backend -[hidden]-> IDeal
+Backend -[hidden]-> PayPal
 
 @enduml

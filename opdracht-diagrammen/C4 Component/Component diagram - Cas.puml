@@ -1,21 +1,44 @@
 @startuml C4_Components
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
+title Component Diagram – TripTop met HotelAdapter en Betaalmodule
+
 Container(Frontend, "Frontend", "JavaScript/React", "Single Page Application die de gebruikersinterface levert")
 
-' Backend Componenten
 System_Boundary(Backend, "TripTop Backend") {
+
     Component(BookingController, "BookingController", "Spring Boot REST Controller", "Behandelt boekingsaanvragen")
     Component(BookingService, "BookingService", "Service Layer", "Verwerkt boekingslogica")
     Component(BookingRepository, "BookingRepository", "Spring Data Repository", "Leest/schrijft boekingsdata in database")
+
     Component(UserController, "UserController", "Spring Boot REST Controller", "Behandelt gebruikersaanvragen")
     Component(UserService, "UserService", "Service Layer", "Verwerkt gebruikerslogica")
     Component(UserRepository, "UserRepository", "Spring Data Repository", "Leest/schrijft gebruikersdata in database")
 
-    Component(iAuthProviderAdapter, "iAuthProviderAdapter", "Service Layer", "Verzorgt authenticatie via externe providers")
-    Component(iBookingProviderAdapter, "iBookingProviderAdapter", "Service Layer", "Verzorgt boekingen via externe systemen")
+    Component(TravelDataController, "TravelDataController", "Spring Boot REST Controller", "Behandelt reisdata en activiteiten")
+    Component(TravelDataService, "TravelDataService", "Service Layer", "Verwerkt reisdata en activiteiten")
+    Component(TravelDataRepository, "TravelDataRepository", "Spring Data Repository", "Leest/schrijft reisdata in database")
 
-    ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
+    Component(PaymentController, "PaymentController", "REST Controller", "Verwerkt betaalverzoeken")
+    Component(PaymentService, "PaymentService", "Service Layer", "Verwerkt betaallogica")
+    Component(BetaalFacade, "BetaalFacade", "Interface", "Definieert contract voor verschillende betaalproviders")
+    Component(PaypalFacade, "PaypalFacade", "Facade", "Interactie met PayPal service")
+    Component(InvoiceFacade, "InvoiceFacade", "Facade", "Interactie met factuurservice")
+    Component(PaypalService, "PaypalService", "Service", "Afhandelen van PayPal-betalingen")
+    Component(InvoiceService, "InvoiceService", "Service", "Afhandelen van factuurbetalingen")
+
+    Component(iAuthProviderAdapter, "iAuthProviderAdapter", "Adapter Interface", "Verzorgt authenticatie via externe providers")
+    Component(iBookingProviderAdapter, "iBookingProviderAdapter", "Adapter Interface", "Verzorgt boekingen via externe systemen")
+
+    ' JOUW HOTELADAPTER COMPONENTEN
+    Component(HotelController, "HotelController", "REST Controller", "Behandelt hotelzoekverzoeken vanuit frontend")
+    Component(HotelService, "HotelService", "Service Layer", "Verwerkt hotelzoeklogica")
+    Component(BookingApiClient, "BookingApiClient", "Client", "Stuurt verzoek door naar adapter via interface")
+    Component(ExternalApiHotelAdapter, "ExternalApiHotelAdapter", "Adapter", "Maakt HTTP-call en zet externe JSON om naar interne structuur")
+    Component(IHotelService, "IHotelService", "Interface", "Maakt losse koppeling tussen client en adapter mogelijk")
+    Component(HotelDTO, "HotelDTO", "Domeinmodel", "Interne representatie van hoteldata")
+
+    ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers-, boekings- en reisgegevens")
 }
 
 ' Externe systemen
@@ -26,28 +49,53 @@ System_Ext(ActivitiesAPI, "Tripadvisor / GetYourGuide API", "Biedt activiteiten 
 System_Ext(FoodAPI, "Takeaway / Eet.nu API", "Eten bezorgen en restaurantboekingen")
 System_Ext(GoogleAuthAPI, "Google Login API", "Authenticatie via Google")
 System_Ext(MicrosoftAuthAPI, "Microsoft Login API", "Authenticatie via Microsoft")
+System_Ext(PaypalApi, "PayPal", "Verwerkt PayPal betalingen")
 
-' Relaties
-BookingController -down-> BookingService : "Verwerkt boeking aanvragen"
-BookingService -down-> BookingRepository : "Ophalen en opslaan van boekingsdata"
-BookingRepository -down-> Database : "Leest/schrijft boekingsdata"
-UserService -down-> UserRepository : "Ophalen en opslaan van gebruikersdata"
+' Kernrelaties
+Frontend --> BookingController
+Frontend --> UserController
+Frontend --> TravelDataController
+Frontend --> HotelController : "Vraagt hoteldata op [HTTP/JSON]"
+Frontend --> PaymentController
 
-iAuthProviderAdapter -right-> GoogleAuthAPI : "Authenticatie via Google"
-iAuthProviderAdapter -right-> MicrosoftAuthAPI : "Authenticatie via Microsoft"
+BookingController --> BookingService
+BookingService --> BookingRepository
+BookingRepository --> Database
 
-iBookingProviderAdapter -left-> BookingAPI : "Boekt accommodaties"
-iBookingProviderAdapter -left-> TransportAPI : "Boekt transport"
-iBookingProviderAdapter -left-> CarRentAPI : "Boekt huurauto"
-iBookingProviderAdapter -left-> ActivitiesAPI : "Boekt activiteiten"
-iBookingProviderAdapter -left-> FoodAPI : "Regelt restaurantboekingen"
+UserController --> UserService
+UserService --> UserRepository
+UserRepository --> Database
 
-BookingService -left-> iBookingProviderAdapter : "Communiceert met externe systemen voor boekingen"
+TravelDataController --> TravelDataService
+TravelDataService --> TravelDataRepository
+TravelDataRepository --> Database
 
-Frontend -down-> BookingController : "Boekingen beheren [HTTP/JSON]"
-Frontend -down-> UserController : "Gebruikersbeheer en authenticatie [HTTP/JSON]"
-UserController -down-> UserService : "Verwerkt gebruikers aanvragen"
-UserRepository -down-> Database : "Leest/schrijft gebruikersdata"
-UserService -right-> iAuthProviderAdapter : "Regelt authenticatie via externe providers"
+UserService --> iAuthProviderAdapter
+iAuthProviderAdapter --> GoogleAuthAPI
+iAuthProviderAdapter --> MicrosoftAuthAPI
+
+BookingService --> iBookingProviderAdapter
+iBookingProviderAdapter --> BookingAPI
+iBookingProviderAdapter --> TransportAPI
+iBookingProviderAdapter --> CarRentAPI
+iBookingProviderAdapter --> ActivitiesAPI
+iBookingProviderAdapter --> FoodAPI
+
+' Betaalmodule
+PaymentController --> PaymentService
+PaymentService --> BetaalFacade
+BetaalFacade <.. PaypalFacade
+BetaalFacade <.. InvoiceFacade
+PaypalFacade --> PaypalService
+InvoiceFacade --> InvoiceService
+PaypalService --> PaypalApi
+
+' HotelAdapter-relaties
+HotelController --> HotelService
+HotelService --> BookingApiClient
+BookingApiClient --> IHotelService
+BookingApiClient --> ExternalApiHotelAdapter
+ExternalApiHotelAdapter --> BookingAPI : "HTTP request"
+ExternalApiHotelAdapter --> HotelDTO : "Mapt JSON naar domeinmodel"
 
 @enduml

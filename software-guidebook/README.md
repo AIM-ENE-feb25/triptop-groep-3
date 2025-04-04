@@ -158,7 +158,10 @@ Door te programmeren op een interface (IHotelService) in plaats van op concrete 
 testimplementaties zonder dat de rest van de code aangepast hoeft te worden. Dit maakt de architectuur
 veel flexibeler en beter uitbreidbaar.
 
-
+#### Interface Segregation Principle(ISP)
+Het Interface Segregation Principle (ISP) is een van de SOLID-principes en stelt dat een interface niet verplicht mag worden om methoden te implementeren die het niet nodig heeft.
+Dit zorgt ervoor dat klassen alleen afhankelijk zijn van methoden die ze daadwerkelijk gebruiken.
+Door dit toe te passen in de paymentFacade zorg ik ervoor dat je alle betaalServices kunt aanroepen met de betaal() functie.
 
 
 ## 7. Software Architecture
@@ -175,6 +178,7 @@ Authenticatie verloopt via **Google, Microsoft en Airbnb Login API's**, en betal
 Dankzij deze opzet fungeert de backend als centrale schakel, waardoor de frontend soepel met zowel gebruikers als externe systemen kan communiceren.
 
 **Dynamisch diagram bij user story 'inloggen':**
+#### Dynamisch C4 diagram 'inloggen':
 ![img_3.png](img_3.png)
 
 **Dynamisch C4 diagram 'reis boeken':**
@@ -220,22 +224,53 @@ Na verificatie ontvangt de adapter een reactie van de externe dienst en zet deze
 
 
 
+![img_5.png](img_5.png)
+
+
+#### Component Diagram beschermen tegen externe API's
+![AdapterPatternTrenComponentDiagram.png](AdapterPatternTrenComponentDiagram.png)
+
+Aan de achterkant zorgt de HotelService ervoor dat de logica wordt afgehandeld. Deze service schakelt de BookingApiClient in, die via de interface IHotelService communiceert met een adapter (ExternalApiHotelAdapter).
+
+De adapter maakt een HTTP-aanroep naar de externe Booking.com API en zet de response om naar een interne representatie (HotelDTO). Deze losgekoppelde structuur voorkomt dat wijzigingen in de externe API impact hebben op de rest van de applicatie.
+#### Dynamic Diagram beschermen tegen externe API's
+![AdapterPatternTrenDynamicComponentDiagram.png](AdapterPatternTrenDynamicComponentDiagram.png)
+Dit diagram toont de flow van een hotelzoekopdracht in de applicatie.
+1.	De gebruiker stuurt een HTTP GET-verzoek naar /hotels.
+2.	De HotelController stuurt de parameters door naar de HotelService.
+3.	De HotelService schakelt de BookingApiClient in voor communicatie met de adapter.
+4.	De BookingApiClient gebruikt de ExternalApiHotelAdapter om een API-aanroep te doen naar Booking.com.
+5.	De adapter haalt de externe JSON-response op en zet deze om naar een interne HotelDTO.
+6.	De lijst van HotelDTO’s wordt via de lagen teruggestuurd naar de gebruiker als JSON.
+
+
+
+#### Component Diagram States
+![img_6.png](img_6.png)
+
+Bovenstaand diagram toont de verschillende componenten die spelen bij het aanpassen en opslaan van een stuk reisdata. 
+Hierbij wordt de reisdata eerst opgehaald vanuit de database of vanuit de externe APIs waarmee andere onderdelen van de applicatie in contact staan.
+
+#### Dynamic Diagram States
+![img_7.png](img_7.png)
+
+Bovenstaand diagram toont de manier waarop verschillende componenten met elkaar communiceren om de toestand van een stuk reisdata of activiteit aan te passen. 
+Belangrijk aan deze volgorde is dat niet alle states zo maar mogen worden aangepast, wat de reden is voor het updaten van de state binnen de service. 
+Hier wordt gecontroleerd welke state de reisdata zich nu in bevindt, wat dus ook bepaald naar welke states die wel of niet mag transitioneren.
+
+###     7.3. Design & Code
 Adapter Pattern Sequence Diagram 
 ![AdapterPatternTrenSequenceDiagram.png](AdapterPatternTrenSequenceDiagram.png)
-
 
 Het sequentiediagram toont de volledige flow van een HTTP-aanvraag tot aan de gemapte hoteldata. De HotelController handelt de HTTP GET request af en gebruikt de HotelService voor domeinlogica. Die service schakelt via de BookingApiClient de ExternalApiHotelAdapter in.
 De adapter zorgt voor communicatie met de Booking.com API (callExternalApi) en zet de response om naar een bruikbare datastructuur (mapResponse).
 De mapping gebeurt binnen de adapter zelf, wat past bij het Single Responsibility Principle en het Adapter Pattern.
-
-
 
 Adapter Pattern Class Diagram 
 ![AdapterPatternTrenClassDiagram.png](AdapterPatternTrenClassDiagram.png)
 
 In dit klassendiagram wordt duidelijk hoe het Adapter Pattern is toegepast om externe JSON-data (Booking.com) te integreren in het systeem zonder afhankelijkheid van de externe structuur. De ExternalApiHotelAdapter is verantwoordelijk voor zowel de API-call (callExternalApi) als het omzetten van de externe response naar interne structuur (mapResponse), waarmee de principes van Encapsulation en Separation of Concerns worden gevolgd.
 De IHotelService interface zorgt voor loskoppeling, waardoor andere adapters eenvoudig toegevoegd kunnen worden in de toekomst.
-
 
 Travel data states class diagram. 
 ![img_1.png](img_1.png)
@@ -244,7 +279,7 @@ In bovenstaand diagram is weergegeven welke classes van belang zijn voor het beh
 Binnen dit diagram staat het interface 'TravelDataState' centraal met een abstracte methode die in elke toestand klasse word geïmplementeerd. 
 Op het moment dat de toestand van een 'TravelData' object is aangepast word daarmee ook de implementatie van de 'updateState' methode aangepast, 
 hierdoor veranderd het gedrag van het object waardoor de state design pattern word toegepast.
-Op deze manier wordt er ook gebruik gemaakt van het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
+Op deze manier wordt er ook rekening gehouden met het design principe 'Encapsulate What Varies', zoals besproken in hoofdstuk 6.
 
 Travel Data State Pattern state diagram.
 ![img.png](img.png)
@@ -300,15 +335,36 @@ Het wordt dus makkelijk gemaakt om snel data toe te voegen, of bestaande structu
 Ook is Couchbase makkelijker te leren
 
 
+# 8.2. ADR-003 design pattern beschermen tegen externe API's
+## Status
+Accepted
+## Context
+De applicatie TripTop communiceert met verschillende externe API’s (Booking.com, Sixt, NS, TripAdvisor, etc). Deze API’s hebben allemaal hun eigen datastructuur, die ook nog eens zouden kunnen veranderen. Een wijziging in hun structuur kan direct impact hebben op de werking van TripTop.
 
-# 8.2. ADR-002 Ontwerpvraag Tren
+Mijn ontwerpvraag is: “Hoe zorg je ervoor dat je bij een wijziging in de datastructuur van een externe service niet de hele applicatie hoeft aan te passen?”
 
+## Considered Options
+
+| Forces            | Adapter | Facade | State | Strategy | Factory | 
+|-------------------|---------|--------|-------|----------|---------|
+| Onderhoudbaarheid | ++      | ++     | -     | ++       | ++      |
+| Testbaarheid      | +       | -      | --    | ++       | -       |
+| Flexibiliteit     | ++      | 0      | -     | +        | 0       |
+
+## Decision
+Na het evalueren van verschillende design patterns is gekozen voor het Adapter Pattern. Dit biedt de beste balans tussen onderhoudbaarheid, flexibiliteit en testbaarheid, terwijl het eenvoudig maakt om nieuwe externe services toe te voegen zonder de interne logica te verstoren.
+
+## Consequences
+Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
+
+
+# 8.3. ADR-003 beschermen tegen externe API's
 
 ## Context
 
-In de applicatie **TripTop** communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
+In de applicatie TripTop communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
 
-We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **wijzigingen in de businesslogica of presentatie-laag** van onze applicatie. De oplossing moet:
+We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wijzigingen in de businesslogica of presentatie-laag van onze applicatie. De oplossing moet:
 
 •	Aanpasbaar zijn bij verandering van een specifieke API
 
@@ -326,15 +382,15 @@ We willen voorkomen dat een wijziging in een externe datastructuur leidt tot **w
 
 ## Decision
 
-In de applicatie TripTop communiceren we met meerdere externe services (zoals autoverhuur, hotels, activiteiten, vervoer en eetopties). Deze services leveren data met eigen, vaak veranderlijke datastructuren. Een wijziging in een response van zo’n externe service kan impact hebben op meerdere onderdelen van de applicatie.
+We kiezen voor het API Adapter pattern.
 
-We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wijzigingen in de businesslogica of presentatie-laag van onze applicatie. De oplossing moet:
+De keuze is gevallen op het Adapter Pattern.
 
-•	Aanpasbaar zijn bij verandering van een specifieke API
+De adapter pattern was verreweg de beste keuze op basis van het onderzoek wat ik gedaan heb. De andere opties hadden geen directe goede oplossingen voor isolatie van afhankelijkheid, en de aanpasbaarheid was ook minder sterk. Deze criteria wogen het zwaarst voor deze beslissing.
 
-•	De rest van het systeem onaangetast laten
-
-•	De code begrijpelijk en onderhoudbaar houden
+Hiervoor is gekozen omdat de aanpasbaarheid van de applicatie voor ons het belangrijkst is,
+omdat we met meerdere externe services werken die allemaal hun eigen datastructuren hebben.
+Dit kan leiden tot veel aanpassingen in de applicatie als we dit niet goed aanpakken.
 
 ## Consequences
 
@@ -347,26 +403,6 @@ We willen voorkomen dat een wijziging in een externe datastructuur leidt tot wij
 •	Door duidelijk onderscheid tussen domeinmodellen en externe modellen, blijft code begrijpelijk en testbaar
 
 
-# 8.3. ADR-003 Design pattern
-
-## Status
-Closed
-## Context
-Het systeem heeft verschillende externe services die via een gemeenschappelijk adapter moeten worden aangesproken. Dit maakt de implementatie van een schaalbare en onderhoudbare oplossing noodzakelijk, waarbij de interne logica niet hoeft te worden aangepast wanneer nieuwe externe services worden toegevoegd.
-
-## Considered Options
-
-| Forces            | Adapter | Facade | State | Strategy | Factory | 
-|-------------------|---------|--------|-------|----------|---------|
-| Onderhoudbaarheid | ++      | ++     | -     | ++       | ++      |
-| Testbaarheid      | +       | -      | --    | ++       | -       |
-| Flexibiliteit     | ++      | 0      | -     | +        | 0       |
-
-## Decision
-Na het evalueren van verschillende design patterns is gekozen voor het Adapter Pattern. Dit biedt de beste balans tussen onderhoudbaarheid, flexibiliteit en testbaarheid, terwijl het eenvoudig maakt om nieuwe externe services toe te voegen zonder de interne logica te verstoren.
-
-## Consequences
-Het gebruik van het Adapter Pattern maakt de code flexibel voor toekomstige uitbreidingen en vergemakkelijkt de testbaarheid door het mocken van externe services. Het zorgt ervoor dat de backend-architectuur robuust blijft, zelfs als de externe systemen veranderen of nieuwe systemen moeten worden geïntegreerd.
 
 
 # 8.4. ADR-004 API Falen 
@@ -447,38 +483,6 @@ Door te kiezen voor de state pattern:
 - Kunnen er regels toegevoegd worden aan toestanden om het gedrag ook te beperken 
 
 
-# 8.6. ADR-006  patterns Tren
-## Status
-accepted
-## Context
-
-De applicatie TripTop communiceert met verschillende externe API’s (Booking.com, Sixt, NS, TripAdvisor, etc). Deze API’s hebben allemaal hun eigen datastructuur, die ook nog eens zouden kunnen veranderen. Een wijziging in hun structuur kan direct impact hebben op de werking van TripTop.
-
-Mijn ontwerpvraag is: “Hoe zorg je ervoor dat je bij een wijziging in de datastructuur van een externe service niet de hele applicatie hoeft aan te passen?”
-
-Ik ben op zoek naar de best passende design pattern om deze vraag te beantwoorden.
-
-## Considered options
-
-| Design pattern | Adapter | Factory | Facade | State |
-| --- | --- | --- | --- | --- |
-| aanpasbaarheid | ++ | - | + | + |
-| Complexiteit | + | - | + | + |
-| Schaalbaarheid | + | 0 | 0 | + |
-| isolatie van afhankelijkheid | ++ | - | + | - |
-
-## Decision
-
-De keuze is gevallen op het Adapter Pattern.
-
-De adapter pattern was verreweg de beste keuze op basisvan het onderzoek wat ik gedaan heb. De andere opties hadden geen directe goede oplossingen voor isolatie van afhankelijkheid, en de aanpasbaarheid was ook minder sterk. Deze criteria wogen het zwaarst voor deze beslissing.
-
-## Consequences
-
-- Door adapters te gebruiken wordt de afhankelijkheid van externe services geisoleerd. Dit verhoogt de stabiliteit en onderhoudbaarheid van de code.
-- Bij wijzigingen in externe datastructuren hoeft alleen de adapter aangepast te worden. De rest van de applicatie blijft onaangetast.
-- Externe logica wordt netjes ingekapseld in één plek, wat onderhoud en uitbreiding vergemakkelijkt.
-- De extra laag (adapter) maakt de architectuur iets ingewikkelder.
 
 # 8.7. ADR-007 Externe api's met verouderde beveiligingsprotocollen
 

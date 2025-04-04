@@ -19,6 +19,7 @@ System_Ext(CarRent, "Sixt / Hertz API", "Verzorgt autoverhuur")
 System_Ext(Activities, "Tripadvisor / GetYourGuide API", "Boekt activiteiten en bezienswaardigheden")
 System_Ext(Food, "Takeaway / Eet.nu API", "Bestelt maaltijden en maakt restaurantreserveringen")
 System_Ext(IdProvider, "Google / Microsoft / Airbnb loginprovider", "Verzorgt authenticatie en gebruikerslogin")
+System_Ext(PayPal, "PayPal", "Verwerkt PayPal betalingen")
 
 ' Positionering
 Traveler -[hidden]-> TripTop
@@ -40,5 +41,6 @@ TripTop -down-> CarRent : "Regelt autoverhuur"
 TripTop -down-> Activities : "Boekt activiteiten en bezienswaardigheden"
 TripTop -down-> Food : "Bestelt maaltijden en maakt reserveringen"
 TripTop -down-> IdProvider : "Verzorgt login en authenticatie"
+TripTop -down-> PayPal : "Vraagt betaling aan"
 
 @enduml

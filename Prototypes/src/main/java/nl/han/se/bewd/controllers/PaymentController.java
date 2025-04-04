@@ -1,8 +1,8 @@
-package nl.han.se.solex.triptop.controllers;
+package nl.han.se.bewd.controllers;
 
-import nl.han.se.solex.triptop.domain.PaymentType;
-import nl.han.se.solex.triptop.domain.PaymentInfo;
-import nl.han.se.solex.triptop.service.PaymentService;
+import nl.han.se.bewd.domain.PaymentInfo;
+import nl.han.se.bewd.domain.PaymentType;
+import nl.han.se.bewd.service.PaymentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
