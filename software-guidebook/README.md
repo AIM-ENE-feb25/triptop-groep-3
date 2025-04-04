@@ -291,6 +291,9 @@ In De verantwoordelijkheden zijn duidelijk verdeeld over de verschillende klasse
 
 • De ExternalApiHotelAdapter is verantwoordelijk voor het ophalen én mappen van de externe response naar het interne formaat.
 Travel data states class diagram. 
+zie ADR-003 voor meer info over de keuze voor deze oplossing.
+
+
 =======
 **Travel data states class diagram**
 ![img_1.png](img_1.png)
