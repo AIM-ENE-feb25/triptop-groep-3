@@ -3,26 +3,26 @@
 
 title Dynamic Diagram – Hotel Search Flow
 
-' Actors
+' Actor
 Person(user, "Gebruiker", "Doet een zoekopdracht naar hotels")
 
 ' Containers
 Container(hotelController, "HotelController", "Spring Boot Controller", "Ontvangt HTTP-request")
 Container(hotelService, "HotelService", "Service", "Bevat domeinlogica")
-Container(apiClient, "BookingApiClient", "Client", "Abstraheert communicatie met adapter")
+Container(apiClient, "BookingApiClient", "Client", "zorgt voor communicatie met adapter")
 Container(adapter, "ExternalApiHotelAdapter", "Adapter", "Maakt API-aanroep en mapt response")
 Container(bookingApi, "Booking.com API", "Externe API", "Levert hotelgegevens")
 
-' Flow
+' Interacties
 Rel(user, hotelController, "GET /hotels")
 Rel(hotelController, hotelService, "getHotels(latitude, longitude, amount)")
 Rel(hotelService, apiClient, "useHotelService(...)")
 Rel(apiClient, adapter, "fetchHotels(...)")
-Rel(adapter, bookingApi, "Externe API-aanroep (HTTP)")
+Rel(adapter, bookingApi, "HTTP request")
 Rel(bookingApi, adapter, "JSON response")
-Rel(adapter, apiClient, "List<Map> (intern model)")
-Rel(apiClient, hotelService, "List<Map>")
-Rel(hotelService, hotelController, "List<Map>")
-Rel(hotelController, user, "HTTP response (List<Map>)")
+Rel(adapter, apiClient, "List<HotelDTO>")
+Rel(apiClient, hotelService, "List<HotelDTO>")
+Rel(hotelService, hotelController, "List<HotelDTO>")
+Rel(hotelController, user, "HTTP response (List<HotelDTO> als JSON)")
 
 @enduml

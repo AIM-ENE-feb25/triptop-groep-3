@@ -9,9 +9,10 @@ System_Boundary(Backend, "TripTop Backend") {
 
     Component(HotelController, "HotelController", "Spring Boot REST Controller", "Behandelt HTTP-verzoeken voor hoteldata")
     Component(HotelService, "HotelService", "Service Layer", "Verwerkt logica voor ophalen van hotelinformatie")
-    Component(BookingApiClient, "BookingApiClient", "Client", "Abstraheert logica voor het aanroepen van de adapter")
+    Component(BookingApiClient, "BookingApiClient", "Client", "Vereenvoudigt logica voor het aanroepen van de adapter")
     Component(ExternalApiHotelAdapter, "ExternalApiHotelAdapter", "Adapter", "Maakt API-call en mapt response naar intern formaat")
     Component(IHotelService, "IHotelService", "Interface", "Maakt losse koppeling tussen client en adapter mogelijk")
+    Component(HotelDTO, "HotelDTO", "Domeinmodel", "Interne representatie van hotelinformatie")
 }
 
 System_Ext(BookingAPI, "Booking.com API", "Externe API voor accommodaties")
@@ -21,8 +22,9 @@ Frontend --> HotelController : "GET /hotels?lat=... [HTTP/JSON]"
 HotelController --> HotelService : "getHotels(lat, long, amount)"
 HotelService --> BookingApiClient : "useHotelService(lat, long, amount)"
 BookingApiClient --> IHotelService : "via interface"
-ExternalApiHotelAdapter ..|> IHotelService : implementatie
 BookingApiClient --> ExternalApiHotelAdapter : gebruikt adapter
-ExternalApiHotelAdapter --> BookingAPI : "Maakt HTTP-request + mapt JSON"
+ExternalApiHotelAdapter ..|> IHotelService : implementatie
+ExternalApiHotelAdapter --> BookingAPI : "Maakt HTTP-request"
+ExternalApiHotelAdapter --> HotelDTO : "Mapt JSON naar"
 
 @enduml

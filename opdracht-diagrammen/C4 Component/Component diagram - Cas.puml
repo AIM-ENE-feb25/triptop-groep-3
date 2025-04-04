@@ -17,7 +17,6 @@ System_Boundary(Backend, "TripTop Backend") {
 
     Component(iAuthProviderAdapter, "iAuthProviderAdapter", "Service Layer", "Verzorgt authenticatie via externe providers")
     Component(iBookingProviderAdapter, "iBookingProviderAdapter", "Service Layer", "Verzorgt boekingen via externe systemen")
-
     ComponentDb(Database, "TripTop Database", "Couchbase", "Bewaart gebruikers- en reisgegevens")
 }
 

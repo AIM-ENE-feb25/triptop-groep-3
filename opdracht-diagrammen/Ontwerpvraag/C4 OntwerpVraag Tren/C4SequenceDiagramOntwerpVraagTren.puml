@@ -14,8 +14,8 @@ Adapter -> Adapter : callExternalApi(lat, long)
 Adapter -> API : HTTP GET Request
 API --> Adapter : JSON Response
 Adapter -> Adapter : mapResponse(json, amount)
-Adapter --> Client : List<Map>
-Client --> Service : List<Map>
-Service --> Controller : List<Map>
+Adapter --> Client : List<HotelDTO>
+Client --> Service : List<HotelDTO>
+Service --> Controller : List<HotelDTO>
 
 @enduml§
