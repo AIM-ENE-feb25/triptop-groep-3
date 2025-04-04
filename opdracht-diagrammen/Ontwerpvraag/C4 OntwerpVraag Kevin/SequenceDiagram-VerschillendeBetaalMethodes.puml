@@ -1,0 +1,33 @@
+@startuml
+
+actor User
+participant PaymentController
+participant PaymentService
+participant PaymentType
+participant PaypalFacade
+participant InvoiceFacade
+participant PaypalService
+participant InvoiceService
+participant ExternalPaypalPaymentApi
+
+User -> PaymentController : Initiate Payment PayPal
+PaymentController -> PaymentService : pay(paymentInfo, paymentType)
+PaymentService -> PaymentType : getFacade()
+PaymentService -> PaypalFacade : pay(paymentInfo)
+PaypalFacade -> PaypalService : createPayment(paymentInfo)
+PaypalService -> ExternalPaypalPaymentApi : getApprovalLink(paymentInfo)
+ExternalPaypalPaymentApi -> PaypalService : return approvalLink
+PaypalService -> ExternalPaypalPaymentApi : executePayment(approvalLink)
+ExternalPaypalPaymentApi -> PaypalService : return paymentExecutionStatus
+PaypalService -> PaypalFacade : return paymentExecutionStatus
+PaypalFacade -> PaymentService : return paymentExecutionStatus
+User -> PaymentController : Initiate Payment Factuur
+PaymentController -> PaymentService : pay(paymentInfo, paymentType)
+PaymentService -> InvoiceFacade : pay(paymentInfo)
+InvoiceFacade -> InvoiceService : pay(paymentInfo)
+InvoiceService -> InvoiceFacade : return invoiceInfo
+InvoiceFacade -> PaymentService : return invoiceInfo
+
+PaymentService -> PaymentController : return paymentResult
+
+@enduml

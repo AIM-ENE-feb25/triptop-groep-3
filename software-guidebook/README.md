@@ -223,6 +223,11 @@ Bovenstaand diagram toont de manier waarop verschillende componenten met elkaar 
 Belangrijk aan deze volgorde is dat niet alle states zo maar mogen worden aangepast, wat de reden is voor het updaten van de state binnen de service. 
 Hier wordt gecontroleerd welke state de reisdata zich nu in bevindt, wat dus ook bepaald naar welke states die wel of niet mag transitioneren.
 
+#### Component Diagram meerdere betaalmethodes
+![img_5.png](img_5.png)
+
+Bovenstaand diagram toont de verschillende componenten om de verschillende betaalmethoden aan te roepen.
+
 ###     7.3. Design & Code
 
 **Class diagram: Adapter pattern (Authenticatie)**
@@ -284,7 +289,11 @@ Er word hierbij vanuit gegaan dat de toestanden 'Arranged' en 'Paid' aan elkaar 
 Denk hierbij bijvoorbeeld aan een etentje of iets soortgelijks wat ter plekke betaald word maar wel gereserveerd kan worden.
 Zodra een stuk reisdata op 'done' staat kan deze niet meer worden aangepast.
 
+Sequence diagram meerdere betaalmethodes
+![img_8.png](img_8.png)
 
+Class diagram meerdere betaalmethodes
+![img_9.png](img_9.png)
 
 
 ## 8. Architectural Decision Records
